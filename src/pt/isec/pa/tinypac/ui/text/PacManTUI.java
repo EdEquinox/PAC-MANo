@@ -116,21 +116,8 @@ public class PacManTUI {
             case 4: {
                 fsm.changeDirection(PacmanData.Directions.LEFT);
             }
+            System.out.println("O Carlão está a ir para" + fsm.getCurrentDirection().toString());
         }
-//        fsm.changeDirection(PacmanData.Directions.UP);
-//        System.out.println(fsm.getState().toString());
-//        fsm.eatBigBall();
-//        System.out.println(fsm.getState().toString());
-//        fsm.pause();
-//        System.out.println(fsm.getState().toString());
-//        fsm.resume();
-//        System.out.println(fsm.getState().toString());
-//        fsm.timesUp();
-//        System.out.println(fsm.getState().toString());
-//        fsm.gg();
-//        System.out.println(fsm.getState().toString());
-//        fsm.saveScore();
-//        System.out.println(fsm.getState().toString());
         //começa a ui da maquina de estados
     }
 
