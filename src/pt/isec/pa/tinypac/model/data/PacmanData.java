@@ -1,6 +1,7 @@
 package pt.isec.pa.tinypac.model.data;
 
 public class PacmanData {
+
     public enum Directions{UP,DOWN,RIGHT,LEFT}
     int nLives;
     Directions currentDirection;

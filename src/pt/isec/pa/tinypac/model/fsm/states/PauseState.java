@@ -6,8 +6,10 @@ import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.model.fsm.PacmanStateAdapter;
 
 public class PauseState extends PacmanStateAdapter {
-    public PauseState(PacmanContext context, PacmanData data) {
+    PacmanState previousState;
+    public PauseState(PacmanContext context, PacmanData data, PacmanState state) {
         super(context, data);
+        previousState = state;
     }
 
     @Override
@@ -18,10 +20,9 @@ public class PauseState extends PacmanStateAdapter {
     @Override
     public boolean resume() {
         //terá que saber qual o estado que estava anteriormente
-        PacmanState state = null;
-        switch (state){
-            case MOVING -> {}
-            case LUNCH_TIME -> {}
+        switch (previousState){
+            case MOVING -> changeState(PacmanState.MOVING);
+            case LUNCH_TIME -> changeState(PacmanState.LUNCH_TIME);
         }
         return true;
     }

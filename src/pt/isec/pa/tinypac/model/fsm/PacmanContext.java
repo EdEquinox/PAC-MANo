@@ -25,8 +25,8 @@ public class PacmanContext {
     public boolean nextLevel(){
         return state.nextLevel();
     }
-    public boolean pause() {
-        return state.pause();
+    public boolean pause(PacmanState currentState) {
+        return state.pause(currentState);
     }
     public boolean resume(){
         return state.resume();
@@ -55,7 +55,9 @@ public class PacmanContext {
     public boolean saveScore(){
         return state.saveScore();
     }
-
+    public boolean ggwp() {
+        return state.ggwp();
+    }
     //getters
 
     public PacmanState getState() {
@@ -69,4 +71,6 @@ public class PacmanContext {
     public int getnLives() {
         return data.getnLives();
     }
+
+
 }

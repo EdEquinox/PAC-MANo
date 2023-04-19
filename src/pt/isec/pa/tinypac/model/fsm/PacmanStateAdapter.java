@@ -26,7 +26,7 @@ public abstract class PacmanStateAdapter implements IPacmanState{
         return false;
     }
 
-    public boolean pause() {
+    public boolean pause(PacmanState currentState) {
         return false;
     }
 
@@ -64,6 +64,9 @@ public abstract class PacmanStateAdapter implements IPacmanState{
     }
 
     public boolean saveScore() {
+        return false;
+    }
+    public boolean ggwp() {
         return false;
     }
 }

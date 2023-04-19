@@ -12,7 +12,7 @@ public enum PacmanState {
             case INIT_LEVEL -> new InitLevelState(context,data);
             case MOVING -> new MovingState(context,data);
             case LUNCH_TIME -> new LunchTime(context,data);
-            case PAUSE -> new PauseState(context,data);
+            case PAUSE -> new PauseState(context,data,context.getState());
             case ENDGAME -> new EndGameState(context,data);
         };
     }

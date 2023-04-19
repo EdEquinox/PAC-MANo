@@ -31,7 +31,7 @@ public class LunchTime extends PacmanStateAdapter {
     }
 
     @Override
-    public boolean pause() {
+    public boolean pause(PacmanState currentState) {
         changeState(PacmanState.PAUSE);
         return true;
     }

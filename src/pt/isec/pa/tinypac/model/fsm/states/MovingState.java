@@ -39,14 +39,22 @@ public class MovingState extends PacmanStateAdapter {
     }
 
     @Override
-    public boolean pause() {
+    public boolean pause(PacmanState currentState) {
         changeState(PacmanState.PAUSE);
         return true;
     }
 
     @Override
     public boolean gg() {
+        //perdeu
         //passa dados de jogo tipo pontos
+        changeState(PacmanState.ENDGAME);
+        return true;
+    }
+
+    @Override
+    public boolean ggwp() {
+        //ganhou
         changeState(PacmanState.ENDGAME);
         return true;
     }
