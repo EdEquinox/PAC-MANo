@@ -1,15 +1,17 @@
 package pt.isec.pa.tinypac.ui.text;
 
-import pt.isec.pa.tinypac.model.data.PacmanData;
+import pt.isec.pa.tinypac.model.data.EnvironmentManager;
+import pt.isec.pa.tinypac.model.data.elements.PacmanData;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
-import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.utils.PAInput;
 
 public class PacManTUI {
     PacmanContext fsm;
+    EnvironmentManager environmentManager;
 
-    public PacManTUI(PacmanContext fsm) {
+    public PacManTUI(PacmanContext fsm,EnvironmentManager environmentManager) {
         this.fsm = fsm;
+        this.environmentManager = environmentManager;
     }
 
     public void start() {
@@ -133,4 +135,16 @@ public class PacManTUI {
         }
         return false;
     }
+
+    public void show() {
+
+        char [][] env = environmentManager.getEnvironment();
+        System.out.println();
+        for(int y=0;y<env.length;y++) {
+            for(int x = 0; x< env[0].length;x++)
+                System.out.print(env[y][x]);
+            System.out.println();
+        }
+    }
+
 }

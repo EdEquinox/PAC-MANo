@@ -1,6 +1,6 @@
 package pt.isec.pa.tinypac.model.fsm;
 
-import pt.isec.pa.tinypac.model.data.PacmanData;
+import pt.isec.pa.tinypac.model.data.elements.PacmanData;
 
 public interface IPacmanState {
     PacmanState getState();

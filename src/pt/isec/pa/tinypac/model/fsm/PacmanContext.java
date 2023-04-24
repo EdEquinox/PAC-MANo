@@ -1,13 +1,14 @@
 package pt.isec.pa.tinypac.model.fsm;
 
-import pt.isec.pa.tinypac.model.data.PacmanData;
+import pt.isec.pa.tinypac.model.data.Environment;
+import pt.isec.pa.tinypac.model.data.elements.PacmanData;
 
 public class PacmanContext {
     private IPacmanState state;
-    private PacmanData data;
+    private Environment data;
 
     public PacmanContext() {
-        data = new PacmanData();
+        data = new Environment(31,30);
         state = PacmanState.createState(PacmanState.INIT_LEVEL,this,data);
     }
 
@@ -65,12 +66,10 @@ public class PacmanContext {
     }
 
     public PacmanData.Directions getCurrentDirection() {
-        return data.getCurrentDirection();
+        return PacmanData.Directions.UP;
     }
 
-    public int getnLives() {
-        return data.getnLives();
-    }
+
 
 
 }
