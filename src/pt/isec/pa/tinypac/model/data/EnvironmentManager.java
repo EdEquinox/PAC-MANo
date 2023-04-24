@@ -56,7 +56,7 @@ public class EnvironmentManager implements IGameEngineEvolve {
                         case Cave.SYMBOL -> new Cave(environment);
                         case Portal.SYMBOL -> new Portal(environment);
                         case Fruit.SYMBOL -> new Fruit(environment);
-                        default -> null;
+                        default -> throw new IllegalStateException("Unexpected value: " + c);
                     };
                     environment.addElement(element, y, x);
                 }

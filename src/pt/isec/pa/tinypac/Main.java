@@ -13,12 +13,7 @@ public class Main {
         EnvironmentManager environment = new EnvironmentManager();
         PacmanContext fsm = new PacmanContext();
         PacManTUI pacManTUI = new PacManTUI(fsm,environment);
-        //pacManTUI.start();
-        PacManLanternaUI pacManLanternaUI = new PacManLanternaUI(environment);
-        GameEngine gameEngine = new GameEngine();
-        gameEngine.registerClient(environment);
-        gameEngine.registerClient(pacManLanternaUI);
-        gameEngine.start(500);
-        gameEngine.waitForTheEnd();
+        pacManTUI.start();
+
     }
 }

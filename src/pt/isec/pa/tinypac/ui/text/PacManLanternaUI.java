@@ -35,13 +35,13 @@ public class PacManLanternaUI implements IGameEngineEvolve {
         for (int y = 0; y < env.length; y++) {
             for (int x = 0; x < env[0].length; x++) {
                 TextColor tc = switch(env[y][x]) {
-                    case Cave.SYMBOL -> TextColor.ANSI.YELLOW;
-                    case Coin.SYMBOL -> TextColor.ANSI.YELLOW;
-                    case Fruit.SYMBOL -> TextColor.ANSI.YELLOW;
-                    case PacmanData.SYMBOL -> TextColor.ANSI.YELLOW;
-                    case Portal.SYMBOL -> TextColor.ANSI.YELLOW;
-                    case Wall.SYMBOL -> TextColor.ANSI.YELLOW;
-                    case Warp.SYMBOL -> TextColor.ANSI.YELLOW;
+                    case Cave.SYMBOL -> TextColor.ANSI.BLACK;
+                    case Coin.SYMBOL -> TextColor.ANSI.BLACK;
+                    case Fruit.SYMBOL -> TextColor.ANSI.BLACK;
+                    case PacmanData.SYMBOL -> TextColor.ANSI.BLACK;
+                    case Portal.SYMBOL -> TextColor.ANSI.BLACK;
+                    case Wall.SYMBOL -> TextColor.ANSI.BLACK;
+                    case Warp.SYMBOL -> TextColor.ANSI.BLACK;
                     default -> TextColor.ANSI.BLACK;
                 };
                 TextColor bc = switch(env[y][x]) {

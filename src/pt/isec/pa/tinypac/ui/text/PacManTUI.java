@@ -1,9 +1,12 @@
 package pt.isec.pa.tinypac.ui.text;
 
+import pt.isec.pa.tinypac.gameengine.GameEngine;
 import pt.isec.pa.tinypac.model.data.EnvironmentManager;
 import pt.isec.pa.tinypac.model.data.elements.PacmanData;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.utils.PAInput;
+
+import java.io.IOException;
 
 public class PacManTUI {
     PacmanContext fsm;
@@ -14,7 +17,7 @@ public class PacManTUI {
         this.environmentManager = environmentManager;
     }
 
-    public void start() {
+    public void start() throws IOException {
         while (true) {
             System.out.println(" ");
             System.out.println("/DEIS-ISEC-IPC/      /LEI/      /Programação/" +
@@ -22,15 +25,26 @@ public class PacManTUI {
             System.out.println("____________________");
             System.out.println("--- MENU INICIAL ---");
             switch (PAInput.chooseOption("Escolha a opção! ",
-                    "Iniciar jogo!", "Top 5", "Sair")) {
+                    "Iniciar jogo!","Texto", "Lanterna", "Top 5", "Sair")) {
                 case 1 -> begin();
-                case 2 -> System.out.println("Top 5 não implementado");
-                case 3 -> {
+                case 2 -> show();
+                case 3 -> lanterna();
+                case 4 -> System.out.println("Top 5 não implementado");
+                case 5 -> {
                     if (sair()) return;
                 }
             }
        }
    }
+
+    private void lanterna() throws IOException {
+        PacManLanternaUI pacManLanternaUI = new PacManLanternaUI(environmentManager);
+        GameEngine gameEngine = new GameEngine();
+        gameEngine.registerClient(environmentManager);
+        gameEngine.registerClient(pacManLanternaUI);
+        gameEngine.start(500);
+        gameEngine.waitForTheEnd();
+    }
 
     private boolean finish = false;
     private void begin() {
@@ -120,7 +134,6 @@ public class PacManTUI {
             }
             System.out.println("O Carlão está a ir para" + fsm.getCurrentDirection().toString());
         }
-        //começa a ui da maquina de estados
     }
 
     private boolean sair() {
@@ -145,6 +158,18 @@ public class PacManTUI {
                 System.out.print(env[y][x]);
             System.out.println();
         }
+    }
+
+    public  void show2(){
+        //OrganismsLanternaUI ui = new OrganismsLanternaUI(environment);
+        //gameEngine.registerClient(environment);
+        //gameEngine.registerClient();
+        GameEngine gameEngine = new GameEngine();
+        // Lambda expression para implementar IGameEngineEvolve
+        gameEngine.registerClient(environmentManager::evolve);
+        gameEngine.registerClient((g,t) -> this.show());
+        gameEngine.start(2000);
+        gameEngine.waitForTheEnd();
     }
 
 }
