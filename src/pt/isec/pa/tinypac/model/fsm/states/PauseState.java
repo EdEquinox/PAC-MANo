@@ -1,13 +1,14 @@
 package pt.isec.pa.tinypac.model.fsm.states;
 
-import pt.isec.pa.tinypac.model.data.PacmanData;
+import pt.isec.pa.tinypac.model.data.Environment;
+import pt.isec.pa.tinypac.model.data.elements.PacmanData;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.model.fsm.PacmanStateAdapter;
 
 public class PauseState extends PacmanStateAdapter {
     PacmanState previousState;
-    public PauseState(PacmanContext context, PacmanData data, PacmanState state) {
+    public PauseState(PacmanContext context, Environment data, PacmanState state) {
         super(context, data);
         previousState = state;
     }

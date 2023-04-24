@@ -1,12 +1,13 @@
 package pt.isec.pa.tinypac.model.fsm;
 
-import pt.isec.pa.tinypac.model.data.PacmanData;
+import pt.isec.pa.tinypac.model.data.Environment;
+import pt.isec.pa.tinypac.model.data.elements.PacmanData;
 
 public abstract class PacmanStateAdapter implements IPacmanState{
     protected PacmanContext context;
-    protected PacmanData data;
+    protected Environment data;
 
-    protected PacmanStateAdapter (PacmanContext context, PacmanData data){
+    protected PacmanStateAdapter (PacmanContext context, Environment data){
         this.context = context;
         this.data = data;
     }
