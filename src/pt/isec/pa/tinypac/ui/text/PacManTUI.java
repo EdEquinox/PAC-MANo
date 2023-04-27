@@ -2,7 +2,7 @@ package pt.isec.pa.tinypac.ui.text;
 
 import pt.isec.pa.tinypac.gameengine.GameEngine;
 import pt.isec.pa.tinypac.model.data.EnvironmentManager;
-import pt.isec.pa.tinypac.model.data.elements.PacmanData;
+import pt.isec.pa.tinypac.model.data.elements.Pacman;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.utils.PAInput;
 
@@ -19,6 +19,7 @@ public class PacManTUI {
 
     public void start() throws IOException {
         while (true) {
+
             System.out.println(" ");
             System.out.println("/DEIS-ISEC-IPC/      /LEI/      /Programação/" +
                     "      /2022-2023/      /José Marques - 2018019295/");
@@ -27,7 +28,7 @@ public class PacManTUI {
             switch (PAInput.chooseOption("Escolha a opção! ",
                     "Iniciar jogo!","Texto", "Lanterna", "Top 5", "Sair")) {
                 case 1 -> begin();
-                case 2 -> show();
+                case 2 -> show2();
                 case 3 -> lanterna();
                 case 4 -> System.out.println("Top 5 não implementado");
                 case 5 -> {
@@ -38,7 +39,7 @@ public class PacManTUI {
    }
 
     private void lanterna() throws IOException {
-        PacManLanternaUI pacManLanternaUI = new PacManLanternaUI(environmentManager);
+        PacManLanternaUI pacManLanternaUI = new PacManLanternaUI(fsm,environmentManager);
         GameEngine gameEngine = new GameEngine();
         gameEngine.registerClient(environmentManager);
         gameEngine.registerClient(pacManLanternaUI);
@@ -86,25 +87,25 @@ public class PacManTUI {
     }
 
     private void moving() {
+        System.out.println("O Carlão está a ir para " + environmentManager.getDirection().toString());
         switch (PAInput.chooseOption(" AÇÕES ",
                 "MOVER", "MORRER", "PASSAR NIVEL", "PAUSA", "GANHAR", "PERDER", "FICAR SUPER")){
             case 1 ->{
                 switch (PAInput.chooseOption(" MOVER ",
                         "UP", "DOWN", "RIGHT", "LEFT")) {
-                    case 1: {
-                        fsm.changeDirection(PacmanData.Directions.UP);
+                    case 1 ->  {
+                        environmentManager.changeDirection(Pacman.Directions.UP);
                     }
-                    case 2: {
-                        fsm.changeDirection(PacmanData.Directions.DOWN);
+                    case 2 ->  {
+                        environmentManager.changeDirection(Pacman.Directions.DOWN);
                     }
-                    case 3: {
-                        fsm.changeDirection(PacmanData.Directions.RIGHT);
+                    case 3 ->  {
+                        environmentManager.changeDirection(Pacman.Directions.RIGHT);
                     }
-                    case 4: {
-                        fsm.changeDirection(PacmanData.Directions.LEFT);
+                    case 4 ->  {
+                        environmentManager.changeDirection(Pacman.Directions.LEFT);
                     }
                 }
-                System.out.println("O Carlão está a ir para" + fsm.getCurrentDirection().toString());
             }
             case 2-> fsm.died();
             case 3-> fsm.nextLevel();
@@ -118,21 +119,25 @@ public class PacManTUI {
 
     private void initGame() {
         fsm.initGame();
+        System.out.println("O Carlão está a ir para " + environmentManager.getDirection().toString());
         switch (PAInput.chooseOption(" MOVER ",
                 "UP", "DOWN", "RIGHT", "LEFT")) {
-            case 1: {
-                fsm.changeDirection(PacmanData.Directions.UP);
+            case 1 ->  {
+                environmentManager.changeDirection(Pacman.Directions.UP);
+                fsm.changeDirection();
             }
-            case 2: {
-                fsm.changeDirection(PacmanData.Directions.DOWN);
+            case 2 -> {
+                environmentManager.changeDirection(Pacman.Directions.DOWN);
+                fsm.changeDirection();
             }
-            case 3: {
-                fsm.changeDirection(PacmanData.Directions.RIGHT);
+            case 3 -> {
+                environmentManager.changeDirection(Pacman.Directions.RIGHT);
+                fsm.changeDirection();
             }
-            case 4: {
-                fsm.changeDirection(PacmanData.Directions.LEFT);
+            case 4 -> {
+                environmentManager.changeDirection(Pacman.Directions.LEFT);
+                fsm.changeDirection();
             }
-            System.out.println("O Carlão está a ir para" + fsm.getCurrentDirection().toString());
         }
     }
 

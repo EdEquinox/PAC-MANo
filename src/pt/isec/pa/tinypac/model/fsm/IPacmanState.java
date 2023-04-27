@@ -1,11 +1,11 @@
 package pt.isec.pa.tinypac.model.fsm;
 
-import pt.isec.pa.tinypac.model.data.elements.PacmanData;
+import pt.isec.pa.tinypac.model.data.elements.Pacman;
 
 public interface IPacmanState {
     PacmanState getState();
     boolean died();             //carlão morre e perde uma vida
-    boolean changeDirection(PacmanData.Directions currentDirection);  //muda direção
+    boolean changeDirection();  //muda direção
     boolean nextLevel();        //passa de nivel e muda o mapa
     boolean pause(PacmanState currentState);            //manda para pausa
     boolean resume();           //volta ao jogo
@@ -18,4 +18,5 @@ public interface IPacmanState {
     boolean initGame();         //inicia o jogo, entra no fsm
     boolean saveScore();        //finaliza o jogo, guarda ou nao o score e sai do fsm
     boolean ggwp();
+    Pacman.Directions getCurrentDirection();
 }

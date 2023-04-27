@@ -2,7 +2,6 @@ package pt.isec.pa.tinypac.model.fsm;
 
 
 import pt.isec.pa.tinypac.model.data.Environment;
-import pt.isec.pa.tinypac.model.data.elements.PacmanData;
 import pt.isec.pa.tinypac.model.fsm.states.*;
 
 public enum PacmanState {

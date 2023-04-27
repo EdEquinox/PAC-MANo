@@ -1,7 +1,7 @@
 package pt.isec.pa.tinypac.model.fsm.states;
 
 import pt.isec.pa.tinypac.model.data.Environment;
-import pt.isec.pa.tinypac.model.data.elements.PacmanData;
+import pt.isec.pa.tinypac.model.data.elements.Pacman;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.model.fsm.PacmanStateAdapter;
@@ -17,8 +17,7 @@ public class InitLevelState extends PacmanStateAdapter {
     }
 
     @Override
-    public boolean changeDirection(PacmanData.Directions currentDirection) {
-        //muda a direção tipo usar estados, por exemplo
+    public boolean changeDirection() {
         changeState(PacmanState.MOVING);
         return true;
     }

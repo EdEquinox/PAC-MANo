@@ -1,5 +1,8 @@
 package pt.isec.pa.tinypac.model.data;
 
+import pt.isec.pa.tinypac.model.data.elements.Pacman;
+import pt.isec.pa.tinypac.model.data.elements.Portal;
+import pt.isec.pa.tinypac.model.data.elements.Wall;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Ghost;
 
 import java.util.ArrayList;
@@ -7,8 +10,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Environment {
+
+
     public record Position(int y, int x){}
 
+    int time=0;
     int height, width;
     Maze maze;
 
@@ -22,10 +28,17 @@ public class Environment {
         maze.set(y,x,ghost);
     }
 
-    public Ghost getOrganism(int y,int x) {
+    public MazeElement getElement(int y,int x) {
         IMazeElement element = maze.get(y,x);
-        if (element instanceof Ghost ghost)
-            return ghost;
+        if (element instanceof MazeElement mazeElement)
+            return mazeElement;
+        return null;
+    }
+    public Pacman getPacman() {
+        for(int y = 0; y < height;y++)
+            for(int x = 0;x < width; x++)
+                if (maze.get(y,x) instanceof Pacman pacman)
+                    return pacman;
         return null;
     }
 
@@ -51,7 +64,28 @@ public class Environment {
         }
         return lst;
     }
+    public boolean canMove(int y, int x, MazeElement.Directions directions){
+        int newRow = y;
+        int newCol = x;
 
+        switch (directions) {
+            case UP -> newRow--;
+            case DOWN -> newRow++;
+            case LEFT -> newCol--;
+            case RIGHT -> newCol++;
+        }
+
+        if (newRow < 0 || newRow >= maze.getMaze().length || newCol < 0 || newCol >= maze.getMaze()[0].length) {
+            return false;
+        }
+        else if (this.getElement(newRow,newCol) instanceof Wall) {
+            return false;
+        }
+        else if (this.getElement(newRow,newCol) instanceof Portal) {
+            return false;
+        }else return true;
+
+    }
     public List<Position> getAdjacentEmptyCells(int yo, int xo) {
         List<Position> lst = new ArrayList<>();
         for (int y = Math.max(0,yo-1); y <= Math.min(height-1,yo+1); y++)
@@ -62,24 +96,33 @@ public class Environment {
     }
 
     public boolean evolve() {
-        int nr_evolvers = 0,nr_virus = 0;
-
-        List<Ghost> lst = new ArrayList<>();
+        time++;
+        List<MazeElement> lst = new ArrayList<>();
         for(int y = 0; y < height;y++)
             for(int x = 0;x < width; x++)
-                if (maze.get(y,x) instanceof Ghost ghost) {
-                    lst.add(ghost);
+                if (maze.get(y,x) instanceof MazeElement element) {
+                    lst.add(element);
                 }
-        if (nr_evolvers==0 || nr_virus == 0)
-            return false;
 
-        Collections.shuffle(lst);
-        for(var organism : lst)
+        for(var organism : lst){
             organism.evolve();
+        }
         return true;
     }
 
     public char [][] getEnvironment() {
         return maze.getMaze();
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public Maze getMaze() {
+        return maze;
     }
 }

@@ -3,32 +3,23 @@ package pt.isec.pa.tinypac.model.data;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.elements.*;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Blinky;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Clyde;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Inky;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
 
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 
 public class EnvironmentManager implements IGameEngineEvolve {
     public static final String FILE = "files/Level01.txt";
-//    public static final String LOGFILE = "files/logs.txt";
-
     private int h = 0,w = 0;
+    private int numGhosts = 0;
     Environment environment;
 
     public EnvironmentManager() {
         this.environment = readFile(FILE);
         if (environment!=null) return;
-
-        this.environment = new Environment(10,10);
-        for(int i = 0;i<10;i++) {
-            int y = (int)(Math.random()*10);
-            int x = (int)(Math.random()*10);
-            environment.addElement(new Wall(environment),y,x);
-        }
-        for(int i = 0;i<10;i++) {
-            int y = (int)(Math.random()*10);
-            int x = (int)(Math.random()*10);
-            environment.addElement(new Warp(environment),y,x);
-        }
     }
 
     private Environment readFile(String filePath) {
@@ -48,12 +39,12 @@ public class EnvironmentManager implements IGameEngineEvolve {
                 for (x = 0; x < chars.length; x++) {
                     char c = chars[x];
                     IMazeElement element = switch (c) {
-                        case PacmanData.SYMBOL -> new PacmanData(environment);
+                        case Pacman.SYMBOL -> new Pacman(environment);
                         case Wall.SYMBOL -> new Wall(environment);
                         case Coin.SYMBOL -> new Coin(environment);
                         case SuperCoin.SYMBOL -> new SuperCoin(environment);
                         case Warp.SYMBOL -> new Warp(environment);
-                        case Cave.SYMBOL -> new Cave(environment);
+                        case Cave.SYMBOL -> caverna(environment);
                         case Portal.SYMBOL -> new Portal(environment);
                         case Fruit.SYMBOL -> new Fruit(environment);
                         default -> throw new IllegalStateException("Unexpected value: " + c);
@@ -76,8 +67,40 @@ public class EnvironmentManager implements IGameEngineEvolve {
         return environment;
     }
 
+    private IMazeElement caverna(Environment environment) {
+        if (numGhosts<4) {
+            switch (numGhosts){
+                case 0 -> {
+                    numGhosts ++;
+                    return new Blinky(environment);
+                }
+                case 1 -> {
+                    numGhosts ++;
+                    return new Clyde(environment);
+                }
+                case 2 -> {
+                    numGhosts ++;
+                    return new Inky(environment);
+                }
+                case 3 -> {
+                    numGhosts ++;
+                    return new Pinky(environment);
+                }
+            }
+        }
+        numGhosts ++;
+        return new Cave(environment);
+    }
+
     public char[][] getEnvironment() {
         return environment.getEnvironment();
+    }
+
+    public void changeDirection(MazeElement.Directions directions){
+        environment.getPacman().setCurrentDirection(directions);
+    }
+    public Pacman.Directions getDirection(){
+       return environment.getPacman().getCurrentDirection();
     }
 
     @Override

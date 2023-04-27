@@ -1,7 +1,7 @@
 package pt.isec.pa.tinypac.model.fsm;
 
 import pt.isec.pa.tinypac.model.data.Environment;
-import pt.isec.pa.tinypac.model.data.elements.PacmanData;
+import pt.isec.pa.tinypac.model.data.elements.Pacman;
 
 public abstract class PacmanStateAdapter implements IPacmanState{
     protected PacmanContext context;
@@ -19,7 +19,7 @@ public abstract class PacmanStateAdapter implements IPacmanState{
         return false;
     }
 
-    public boolean changeDirection(PacmanData.Directions currentDirection) {
+    public boolean changeDirection() {
         return false;
     }
 
@@ -69,5 +69,8 @@ public abstract class PacmanStateAdapter implements IPacmanState{
     }
     public boolean ggwp() {
         return false;
+    }
+    public Pacman.Directions getCurrentDirection() {
+        return Pacman.Directions.UP;
     }
 }
