@@ -7,10 +7,16 @@ import java.util.List;
 
 public class Environment {
 
+    public void die() {
+        nLives--;
+    }
+
     public record Position(int y, int x){}
 
-    int time=0;
-    private final int TIME_UP = 5;
+    int timeSuper =0;
+    int timeGhost=0;
+    private static final int TIME_UP = 20;
+    private static final int TIME_UP_GHOST=5;
     private int nLives=3;
     int height, width;
     Maze maze;
@@ -25,7 +31,7 @@ public class Environment {
         this.height = height;
         this.width = width;
         this.maze = new Maze(height,width);
-        nLives = 3;
+        this.nLives = 3;
     }
 
     public void addElement(IMazeElement element, int y, int x) {
@@ -107,6 +113,7 @@ public class Environment {
     }
 
     public boolean evolve() {
+        System.out.println("vidas:"+nLives);
         List<MazeElement> lst = new ArrayList<>();
         for(int y = 0; y < height;y++)
             for(int x = 0;x < width; x++)
@@ -117,12 +124,13 @@ public class Environment {
         for(var organism : lst){
             organism.evolve();
         }
+        if (getPacman().getCurrentDirection()!= MazeElement.Directions.NADA){
+            timeGhost++;}
         return true;
     }
     public void superChange() {
         isSuper = !isSuper;
     }
-
     public void addGhost() {
         numGhosts++;
     }
@@ -130,12 +138,18 @@ public class Environment {
         score++;
     }
     public boolean timesUp() {
-        time++;
-        System.out.println("tempo super: "+this.time);
-        if (time > TIME_UP && isSuper){
+        timeSuper++;
+        System.out.println("tempo super: "+this.timeSuper);
+        if (timeSuper > TIME_UP && isSuper){
             superChange();
-            time=0;
+            timeSuper =0;
             return true;
+        }
+        return false;
+    }
+    public boolean timeGhost(){
+        if (getPacman().getCurrentDirection()!= MazeElement.Directions.NADA){
+            return timeGhost > TIME_UP_GHOST;
         }
         return false;
     }
@@ -167,8 +181,8 @@ public class Environment {
         return isSuper;
     }
 
-    public int getTime() {
-        return time;
+    public int getTimeSuper() {
+        return timeSuper;
     }
 
     public boolean ghostsBusted() {

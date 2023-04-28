@@ -20,6 +20,10 @@ public class Pinky extends Ghost{
     }
 
     @Override
-    public void evolve() {}
+    public void evolve() {
+        if (environment.timeGhost()) {
+            //movimenta
+        }
+    }
 
 }

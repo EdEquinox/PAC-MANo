@@ -134,9 +134,12 @@ public class EnvironmentManager implements IGameEngineEvolve {
     public boolean timesUp() {
         return environment.timesUp();
     }
+    public boolean timeGhost(){
+        return environment.timeGhost();
+    }
 
     public int getTime() {
-        return environment.getTime();
+        return environment.getTimeSuper();
     }
 
     public boolean ghostsBusted() {
@@ -148,7 +151,6 @@ public class EnvironmentManager implements IGameEngineEvolve {
     }
 
     public boolean nextLevel() {
-
         this.environment = readFile(FILE);
         return true;
     }
@@ -159,5 +161,8 @@ public class EnvironmentManager implements IGameEngineEvolve {
 
     public boolean bigLose() {
         return environment.bigLose();
+    }
+    public <T extends IMazeElement> ArrayList<IMazeElement> getListElement(Class<T> type){
+        return environment.getListElement(type);
     }
 }

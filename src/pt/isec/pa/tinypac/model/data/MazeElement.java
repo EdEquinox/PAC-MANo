@@ -1,5 +1,7 @@
 package pt.isec.pa.tinypac.model.data;
 
+import pt.isec.pa.tinypac.model.data.elements.EmptyCell;
+
 public abstract class MazeElement implements IMazeElement{
     protected Environment environment;
 
@@ -34,7 +36,9 @@ public abstract class MazeElement implements IMazeElement{
         environment.addElement(mazeElement, myPos.y(), myPos.x());
     }
 
-    protected void moveTo(int y, int x){
-
+    protected void moveTo(int y, int x, Environment.Position myPos){
+        MazeElement element = environment.getElement(myPos.y(), myPos.x());
+        environment.addElement(new EmptyCell(environment), myPos.y(), myPos.x());
+        environment.addElement(element,y,x);
     }
 }
