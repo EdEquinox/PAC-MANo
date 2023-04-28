@@ -1,31 +1,35 @@
 package pt.isec.pa.tinypac.model.data;
 
-import pt.isec.pa.tinypac.model.data.elements.Pacman;
-import pt.isec.pa.tinypac.model.data.elements.Portal;
-import pt.isec.pa.tinypac.model.data.elements.Wall;
-import pt.isec.pa.tinypac.model.data.elements.ghosts.Ghost;
+import pt.isec.pa.tinypac.model.data.elements.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Environment {
 
-
     public record Position(int y, int x){}
 
     int time=0;
+    private final int TIME_UP = 5;
+    private int nLives=3;
     int height, width;
     Maze maze;
+    int level=0;
+    int nCoins;
+    public static final String FILE = "files/Level01.txt";
+    private int numGhosts = 0;
+    private int score;
+    private boolean isSuper = false;
 
     public Environment(int height, int width) {
         this.height = height;
         this.width = width;
         this.maze = new Maze(height,width);
+        nLives = 3;
     }
 
-    public void addElement(IMazeElement ghost, int y, int x) {
-        maze.set(y,x,ghost);
+    public void addElement(IMazeElement element, int y, int x) {
+        maze.set(y,x,element);
     }
 
     public MazeElement getElement(int y,int x) {
@@ -41,15 +45,15 @@ public class Environment {
                     return pacman;
         return null;
     }
-
-    public Position getPositionOf(IMazeElement element) {
+    public <T extends IMazeElement> ArrayList<IMazeElement> getListElement(Class<T> type){
+        ArrayList<IMazeElement> list = new ArrayList<>();
         for(int y = 0; y < height;y++)
             for(int x = 0;x < width; x++)
-                if (maze.get(y,x) == element)
-                    return new Position(y,x);
-        return null;
+                if (x != 0 || y != 0) {
+                var element = (IMazeElement) maze.get(y,x);
+                list.add(element);}
+        return list;
     }
-
     public <T extends IMazeElement> List<Position> getElementNeighbors(int y, int x, Class<T> type) {
         List<Position> lst = new ArrayList<>();
         for (int yd = -1; yd <= 1; yd++) {
@@ -63,6 +67,13 @@ public class Environment {
             }
         }
         return lst;
+    }
+    public Position getPositionOf(IMazeElement element) {
+        for(int y = 0; y < height;y++)
+            for(int x = 0;x < width; x++)
+                if (maze.get(y,x) == element)
+                    return new Position(y,x);
+        return null;
     }
     public boolean canMove(int y, int x, MazeElement.Directions directions){
         int newRow = y;
@@ -96,7 +107,6 @@ public class Environment {
     }
 
     public boolean evolve() {
-        time++;
         List<MazeElement> lst = new ArrayList<>();
         for(int y = 0; y < height;y++)
             for(int x = 0;x < width; x++)
@@ -109,8 +119,28 @@ public class Environment {
         }
         return true;
     }
+    public void superChange() {
+        isSuper = !isSuper;
+    }
 
-    public char [][] getEnvironment() {
+    public void addGhost() {
+        numGhosts++;
+    }
+    public void scoreUp(){
+        score++;
+    }
+    public boolean timesUp() {
+        time++;
+        System.out.println("tempo super: "+this.time);
+        if (time > TIME_UP && isSuper){
+            superChange();
+            time=0;
+            return true;
+        }
+        return false;
+    }
+
+    public char [][] getMaze() {
         return maze.getMaze();
     }
 
@@ -121,8 +151,47 @@ public class Environment {
     public int getWidth() {
         return width;
     }
-
-    public Maze getMaze() {
-        return maze;
+    public String getFilename() {
+        return FILE;
     }
+
+    public int getNumGhosts() {
+        return numGhosts;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public boolean getSuper() {
+        return isSuper;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public boolean ghostsBusted() {
+        return numGhosts == 0;
+    }
+
+    public boolean win() {
+        return nCoins == 0 && level > 20;
+    }
+
+    public boolean died() {
+        //tratar colisao
+        nLives--;
+        return true;
+    }
+
+    public boolean bigLose() {
+        if (nLives==0) return true;
+        return false;
+    }
+
+//    public boolean nextLevel() {
+//        Environment newEnv = this.
+//        return true;
+//    }
 }

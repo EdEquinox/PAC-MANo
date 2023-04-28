@@ -2,7 +2,6 @@ package pt.isec.pa.tinypac.ui.text;
 
 import pt.isec.pa.tinypac.gameengine.GameEngine;
 import pt.isec.pa.tinypac.model.data.EnvironmentManager;
-import pt.isec.pa.tinypac.model.data.elements.Pacman;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.utils.PAInput;
 
@@ -19,126 +18,29 @@ public class PacManTUI {
 
     public void start() throws IOException {
         while (true) {
-
             System.out.println(" ");
             System.out.println("/DEIS-ISEC-IPC/      /LEI/      /Programação/" +
                     "      /2022-2023/      /José Marques - 2018019295/");
             System.out.println("____________________");
             System.out.println("--- MENU INICIAL ---");
             switch (PAInput.chooseOption("Escolha a opção! ",
-                    "Iniciar jogo!","Texto", "Lanterna", "Top 5", "Sair")) {
+                    "Iniciar jogo!", "Top 5", "Sair")) {
                 case 1 -> begin();
-                case 2 -> show2();
-                case 3 -> lanterna();
-                case 4 -> System.out.println("Top 5 não implementado");
-                case 5 -> {
+                case 2 -> System.out.println("Top 5 não implementado");
+                case 3 -> {
                     if (sair()) return;
                 }
             }
        }
    }
 
-    private void lanterna() throws IOException {
+    private void begin() throws IOException {
         PacManLanternaUI pacManLanternaUI = new PacManLanternaUI(fsm,environmentManager);
         GameEngine gameEngine = new GameEngine();
         gameEngine.registerClient(environmentManager);
         gameEngine.registerClient(pacManLanternaUI);
         gameEngine.start(500);
         gameEngine.waitForTheEnd();
-    }
-
-    private boolean finish = false;
-    private void begin() {
-        finish = false;
-        while (!finish){
-            System.out.println("O Carlão está no estado " + fsm.getState().toString());
-            switch (fsm.getState()){
-                case INIT_LEVEL -> initGame();
-                case MOVING -> moving();
-                case PAUSE -> pause();
-                case LUNCH_TIME -> lunchTime();
-                case ENDGAME -> endgame();
-            }
-        }
-    }
-
-    private void pause() {
-        switch (PAInput.chooseOption(" AÇÕES ",
-                "VOLTAR", "GUARDAR SCORE", "ABANDONAR JOGO")){
-            case 1 ->fsm.resume();
-            case 2-> fsm.saveGame();
-            case 3-> fsm.leaveGame();
-        }
-
-    }
-    private void endgame() {
-        System.out.println("O teu score é " + Math.random());
-        fsm.saveScore();
-        finish = true;
-    }
-
-    private void lunchTime() {
-        switch (PAInput.chooseOption(" AÇÕES ",
-                "PAUSA", "ACABOU O TEMPO", "TUDO COMIDO")){
-            case 1 ->fsm.pause(fsm.getState());
-            case 2-> fsm.timesUp();
-            case 3-> fsm.ghostsBusted();
-        }
-    }
-
-    private void moving() {
-        System.out.println("O Carlão está a ir para " + environmentManager.getDirection().toString());
-        switch (PAInput.chooseOption(" AÇÕES ",
-                "MOVER", "MORRER", "PASSAR NIVEL", "PAUSA", "GANHAR", "PERDER", "FICAR SUPER")){
-            case 1 ->{
-                switch (PAInput.chooseOption(" MOVER ",
-                        "UP", "DOWN", "RIGHT", "LEFT")) {
-                    case 1 ->  {
-                        environmentManager.changeDirection(Pacman.Directions.UP);
-                    }
-                    case 2 ->  {
-                        environmentManager.changeDirection(Pacman.Directions.DOWN);
-                    }
-                    case 3 ->  {
-                        environmentManager.changeDirection(Pacman.Directions.RIGHT);
-                    }
-                    case 4 ->  {
-                        environmentManager.changeDirection(Pacman.Directions.LEFT);
-                    }
-                }
-            }
-            case 2-> fsm.died();
-            case 3-> fsm.nextLevel();
-            case 4 -> fsm.pause(fsm.getState());
-            case 5 -> fsm.ggwp();
-            case 6 -> fsm.gg();
-            case 7 -> fsm.eatBigBall();
-        }
-    }
-
-
-    private void initGame() {
-        fsm.initGame();
-        System.out.println("O Carlão está a ir para " + environmentManager.getDirection().toString());
-        switch (PAInput.chooseOption(" MOVER ",
-                "UP", "DOWN", "RIGHT", "LEFT")) {
-            case 1 ->  {
-                environmentManager.changeDirection(Pacman.Directions.UP);
-                fsm.changeDirection();
-            }
-            case 2 -> {
-                environmentManager.changeDirection(Pacman.Directions.DOWN);
-                fsm.changeDirection();
-            }
-            case 3 -> {
-                environmentManager.changeDirection(Pacman.Directions.RIGHT);
-                fsm.changeDirection();
-            }
-            case 4 -> {
-                environmentManager.changeDirection(Pacman.Directions.LEFT);
-                fsm.changeDirection();
-            }
-        }
     }
 
     private boolean sair() {
@@ -153,28 +55,4 @@ public class PacManTUI {
         }
         return false;
     }
-
-    public void show() {
-
-        char [][] env = environmentManager.getEnvironment();
-        System.out.println();
-        for(int y=0;y<env.length;y++) {
-            for(int x = 0; x< env[0].length;x++)
-                System.out.print(env[y][x]);
-            System.out.println();
-        }
-    }
-
-    public  void show2(){
-        //OrganismsLanternaUI ui = new OrganismsLanternaUI(environment);
-        //gameEngine.registerClient(environment);
-        //gameEngine.registerClient();
-        GameEngine gameEngine = new GameEngine();
-        // Lambda expression para implementar IGameEngineEvolve
-        gameEngine.registerClient(environmentManager::evolve);
-        gameEngine.registerClient((g,t) -> this.show());
-        gameEngine.start(2000);
-        gameEngine.waitForTheEnd();
-    }
-
 }

@@ -65,11 +65,5 @@ public class PacmanContext {
         return state.getState();
     }
 
-    public Pacman.Directions getCurrentDirection() {
-        return state.getCurrentDirection();
-    }
-
-
-
 
 }

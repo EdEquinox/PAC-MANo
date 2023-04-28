@@ -3,7 +3,7 @@ package pt.isec.pa.tinypac.model.data;
 public abstract class MazeElement implements IMazeElement{
     protected Environment environment;
 
-    public enum Directions{UP,DOWN,RIGHT,LEFT}
+    public enum Directions{UP,DOWN,RIGHT,LEFT,NADA}
     public MazeElement(Environment environment) {
         this.environment = environment;
     }
@@ -32,5 +32,9 @@ public abstract class MazeElement implements IMazeElement{
         environment.addElement(null, myPos.y(), myPos.x());
         environment.addElement(this, myPos.y(), myPos.x() + 1);
         environment.addElement(mazeElement, myPos.y(), myPos.x());
+    }
+
+    protected void moveTo(int y, int x){
+
     }
 }

@@ -13,9 +13,8 @@ import java.util.*;
 
 public class EnvironmentManager implements IGameEngineEvolve {
     public static final String FILE = "files/Level01.txt";
-    private int h = 0,w = 0;
-    private int numGhosts = 0;
     Environment environment;
+    private int h = 0,w = 0;
 
     public EnvironmentManager() {
         this.environment = readFile(FILE);
@@ -47,6 +46,7 @@ public class EnvironmentManager implements IGameEngineEvolve {
                         case Cave.SYMBOL -> caverna(environment);
                         case Portal.SYMBOL -> new Portal(environment);
                         case Fruit.SYMBOL -> new Fruit(environment);
+                        case EmptyCell.SYMBOL -> new EmptyCell(environment);
                         default -> throw new IllegalStateException("Unexpected value: " + c);
                     };
                     environment.addElement(element, y, x);
@@ -68,32 +68,32 @@ public class EnvironmentManager implements IGameEngineEvolve {
     }
 
     private IMazeElement caverna(Environment environment) {
-        if (numGhosts<4) {
-            switch (numGhosts){
+        if (environment.getNumGhosts()<4) {
+            switch (environment.getNumGhosts()){
                 case 0 -> {
-                    numGhosts ++;
+                    environment.addGhost();
                     return new Blinky(environment);
                 }
                 case 1 -> {
-                    numGhosts ++;
+                    environment.addGhost();
                     return new Clyde(environment);
                 }
                 case 2 -> {
-                    numGhosts ++;
+                    environment.addGhost();
                     return new Inky(environment);
                 }
                 case 3 -> {
-                    numGhosts ++;
+                    environment.addGhost();
                     return new Pinky(environment);
                 }
             }
         }
-        numGhosts ++;
+        environment.addGhost();
         return new Cave(environment);
     }
 
-    public char[][] getEnvironment() {
-        return environment.getEnvironment();
+    public char[][] getMaze() {
+        return environment.getMaze();
     }
 
     public void changeDirection(MazeElement.Directions directions){
@@ -117,5 +117,47 @@ public class EnvironmentManager implements IGameEngineEvolve {
             this.w = Math.max(this.w, columns.length);
         }
         scanner.close();
+    }
+
+    public int getScore() {
+        return environment.getScore();
+    }
+
+    public void superChange() {
+        environment.superChange();
+    }
+
+    public boolean getSuper() {
+        return environment.getSuper();
+    }
+
+    public boolean timesUp() {
+        return environment.timesUp();
+    }
+
+    public int getTime() {
+        return environment.getTime();
+    }
+
+    public boolean ghostsBusted() {
+        return environment.ghostsBusted();
+    }
+
+    public boolean win() {
+        return environment.win();
+    }
+
+    public boolean nextLevel() {
+
+        this.environment = readFile(FILE);
+        return true;
+    }
+
+    public boolean died() {
+        return environment.died();
+    }
+
+    public boolean bigLose() {
+        return environment.bigLose();
     }
 }
