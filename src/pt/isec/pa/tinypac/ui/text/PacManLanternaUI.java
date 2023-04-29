@@ -12,15 +12,16 @@ import com.googlecode.lanterna.terminal.Terminal;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.EnvironmentManager;
-import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.*;
-import pt.isec.pa.tinypac.model.data.elements.ghosts.*;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Blinky;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Clyde;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Inky;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.utils.PAInput;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class PacManLanternaUI implements IGameEngineEvolve {
     Screen screen;
@@ -149,6 +150,7 @@ public class PacManLanternaUI implements IGameEngineEvolve {
         move(key);
         pause(key,gameEngine);
         eatBigBall();
+
 
 //        win(gameEngine);
 //        nextLevel(gameEngine);
