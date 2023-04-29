@@ -69,6 +69,9 @@ public class PacManLanternaUI implements IGameEngineEvolve {
                 gameEngine.stop();
                 screen.close();
             }
+            if ((key != null &&key.getKeyType() == KeyType.Character && key.getCharacter().equals('/'))){
+                nextLevel(gameEngine);
+            }
             System.out.println("score: "+environmentManager.getScore());
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,21 +82,7 @@ public class PacManLanternaUI implements IGameEngineEvolve {
     private void superMaze(char[][] env){
         for (int y = 0; y < env.length; y++) {
             for (int x = 0; x < env[0].length; x++) {
-                TextColor tc = switch(env[y][x]) {
-                    case Cave.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Coin.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Fruit.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Pacman.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Portal.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Wall.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Warp.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Blinky.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Clyde.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Inky.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Pinky.SYMBOL -> TextColor.ANSI.BLACK;
-                    case EmptyCell.SYMBOL -> TextColor.ANSI.BLACK;
-                    default -> TextColor.ANSI.BLACK;
-                };
+                TextColor tc = TextColor.ANSI.BLACK;
                 TextColor bc = switch(env[y][x]) {
                     case Cave.SYMBOL -> TextColor.ANSI.BLUE;
                     case Coin.SYMBOL -> TextColor.ANSI.YELLOW;
@@ -116,21 +105,7 @@ public class PacManLanternaUI implements IGameEngineEvolve {
     private void normalMaze(char[][] env){
         for (int y = 0; y < env.length; y++) {
             for (int x = 0; x < env[0].length; x++) {
-                TextColor tc = switch(env[y][x]) {
-                    case Cave.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Coin.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Fruit.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Pacman.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Portal.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Wall.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Warp.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Blinky.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Clyde.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Inky.SYMBOL -> TextColor.ANSI.BLACK;
-                    case Pinky.SYMBOL -> TextColor.ANSI.BLACK;
-                    case EmptyCell.SYMBOL -> TextColor.ANSI.BLACK;
-                    default -> TextColor.ANSI.BLACK;
-                };
+                TextColor tc = TextColor.ANSI.BLACK;
                 TextColor bc = switch(env[y][x]) {
                     case Cave.SYMBOL -> TextColor.ANSI.BLUE;
                     case Coin.SYMBOL -> TextColor.ANSI.YELLOW;
@@ -211,12 +186,6 @@ public class PacManLanternaUI implements IGameEngineEvolve {
     private void nextLevel(IGameEngine gameEngine) throws IOException {
         if (environmentManager.nextLevel()){
                 fsm.nextLevel();
-                gameEngine.stop();
-                screen.close();
-                char[][] env = environmentManager.getMaze();
-                screen.startScreen();
-                normalMaze(env);
-                screen.refresh();
         }
     }
     private void win(IGameEngine gameEngine) throws IOException {

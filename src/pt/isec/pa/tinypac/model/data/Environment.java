@@ -7,31 +7,25 @@ import java.util.List;
 
 public class Environment {
 
-    public void die() {
-        nLives--;
-    }
-
-    public record Position(int y, int x){}
-
-    int timeSuper =0;
-    int timeGhost=0;
     private static final int TIME_UP = 20;
     private static final int TIME_UP_GHOST=5;
-    private int nLives=3;
-    int height, width;
-    Maze maze;
-    int level=0;
-    int nCoins;
-    public static final String FILE = "files/Level01.txt";
+    private final int height, width;
+    private final Maze maze;
+    public record Position(int y, int x){}
+    private int timeSuper = 0;
+    private int timeGhost = 0;
+    private int nLives = 3;
+    private String level = String.valueOf(01);
+    public final String FILE = "files/Level"+level+".txt";
+    private int nCoins = 0;
     private int numGhosts = 0;
-    private int score;
+    private int score = 0;
     private boolean isSuper = false;
 
     public Environment(int height, int width) {
         this.height = height;
         this.width = width;
         this.maze = new Maze(height,width);
-        this.nLives = 3;
     }
 
     public void addElement(IMazeElement element, int y, int x) {
@@ -53,13 +47,19 @@ public class Environment {
     }
     public <T extends IMazeElement> ArrayList<IMazeElement> getListElement(Class<T> type){
         ArrayList<IMazeElement> list = new ArrayList<>();
-        for(int y = 0; y < height;y++)
-            for(int x = 0;x < width; x++)
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 if (x != 0 || y != 0) {
-                var element = (IMazeElement) maze.get(y,x);
-                list.add(element);}
+                    IMazeElement element = maze.get(y, x);
+                    if (element != null && element.getClass() == type) {
+                        list.add(element);
+                    }
+                }
+            }
+        }
         return list;
     }
+
     public <T extends IMazeElement> List<Position> getElementNeighbors(int y, int x, Class<T> type) {
         List<Position> lst = new ArrayList<>();
         for (int yd = -1; yd <= 1; yd++) {
@@ -74,6 +74,11 @@ public class Environment {
         }
         return lst;
     }
+
+    public void die() {
+        nLives--;
+    }
+
     public Position getPositionOf(IMazeElement element) {
         for(int y = 0; y < height;y++)
             for(int x = 0;x < width; x++)
@@ -190,7 +195,7 @@ public class Environment {
     }
 
     public boolean win() {
-        return nCoins == 0 && level > 20;
+        return nCoins == 0 && Integer.parseInt(level) > 20;
     }
 
     public boolean died() {
@@ -198,14 +203,25 @@ public class Environment {
         nLives--;
         return true;
     }
-
-    public boolean bigLose() {
-        if (nLives==0) return true;
-        return false;
+    public boolean hpUP(){
+        nLives++;
+        return true;
     }
 
-//    public boolean nextLevel() {
-//        Environment newEnv = this.
-//        return true;
-//    }
+    public boolean bigLose() {
+        return nLives == 0;
+    }
+
+    public String nextLevel(){
+        if (nCoins == 0){
+            int i = (Integer.parseInt(level));
+            System.out.println(i);
+            level = "0" + (i+1);
+            System.out.println(level);
+            return level;
+        }
+        return null;
+    }
+
+
 }

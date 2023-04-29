@@ -6,7 +6,6 @@ import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Ghost;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Pacman extends MazeElement {
 
@@ -64,46 +63,6 @@ public static final char SYMBOL = 'M';
         return SYMBOL;
     }
 
-    protected void warp(Environment.Position myPos, Directions directions){
-        switch (directions){
-            case LEFT -> {
-                if (environment.getElement(myPos.y(), myPos.x()-1) instanceof Warp) {
-                    System.out.println("warpl");
-                    Warp thisWarp = (Warp) environment.getElement(myPos.y(), myPos.x()-1);
-                    ArrayList<IMazeElement> list = environment.getListElement(Warp.class);
-                    if (!(list.get(0).equals(thisWarp))){
-                        Warp thatWarp = (Warp) list.get(1);
-                        Environment.Position position = environment.getPositionOf(thatWarp);
-                        moveTo(position.y(), position.x(), myPos);
-                    }
-                    else {
-                        Environment.Position position = environment.getPositionOf(this);
-                        moveTo(position.y(), position.x(), myPos);
-                    }
-                }
-            }
-            case RIGHT -> {
-                System.out.println(environment.getElement(myPos.y(), myPos.x()+1) instanceof Warp);
-                if (environment.getElement(myPos.y(), myPos.x()+1) instanceof Warp) {
-                    System.out.println("warpr");
-                    Warp thisWarp = (Warp) environment.getElement(myPos.y(), myPos.x()+1);
-                    System.out.println("warpdfdsgfdsg");
-                    ArrayList<IMazeElement> list = environment.getListElement(Warp.class);
-                    System.out.println("warp1: "+list.get(0).toString());
-                    System.out.println("warp2: "+list.get(1).toString());
-                    if (!(list.get(0).equals(thisWarp))){
-                        Warp thatWarp = (Warp) list.get(1);
-                        Environment.Position position = environment.getPositionOf(thatWarp);
-                        moveTo(position.y(), position.x(), myPos);
-                    }
-                    else {
-                        Environment.Position position = environment.getPositionOf(this);
-                        moveTo(position.y(), position.x(), myPos);
-                    }
-                }
-            }
-        }
-    }
     protected void superChange(Environment.Position myPos){
         if (environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin){
             environment.superChange();
@@ -112,6 +71,11 @@ public static final char SYMBOL = 'M';
     protected void scoreUp(Environment.Position myPos){
         if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin){
             environment.scoreUp();
+        }
+    }
+    protected void hpUp(Environment.Position myPos){
+        if (environment.getElement(myPos.y(), myPos.x()) instanceof Fruit){
+            environment.hpUP();
         }
     }
 
@@ -125,32 +89,33 @@ public static final char SYMBOL = 'M';
         super.moveDown(myPos);
         superChange(myPos);
         scoreUp(myPos);
+        hpUp(myPos);
         die(myPos);
-        if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin){
+        if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin || environment.getElement(myPos.y(), myPos.x()) instanceof Fruit){
             environment.addElement(new EmptyCell(environment), myPos.y(), myPos.x());
         }
     }
 
     @Override
     protected void moveLeft(Environment.Position myPos) {
-        warp(myPos,Directions.LEFT);
         super.moveLeft(myPos);
         superChange(myPos);
         scoreUp(myPos);
+        hpUp(myPos);
         die(myPos);
-        if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin){
+        if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin || environment.getElement(myPos.y(), myPos.x()) instanceof Fruit){
             environment.addElement(new EmptyCell(environment), myPos.y(), myPos.x());
         }
     }
 
     @Override
     protected void moveRight(Environment.Position myPos) {
-        warp(myPos,Directions.RIGHT);
         super.moveRight(myPos);
         superChange(myPos);
         scoreUp(myPos);
+        hpUp(myPos);
         die(myPos);
-        if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin){
+        if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin || environment.getElement(myPos.y(), myPos.x()) instanceof Fruit){
             environment.addElement(new EmptyCell(environment), myPos.y(), myPos.x());
         }
     }
@@ -160,8 +125,9 @@ public static final char SYMBOL = 'M';
         super.moveUp(myPos);
         superChange(myPos);
         scoreUp(myPos);
+        hpUp(myPos);
         die(myPos);
-        if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin){
+        if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin || environment.getElement(myPos.y(), myPos.x()) instanceof Fruit){
             environment.addElement(new EmptyCell(environment), myPos.y(), myPos.x());
         }
     }

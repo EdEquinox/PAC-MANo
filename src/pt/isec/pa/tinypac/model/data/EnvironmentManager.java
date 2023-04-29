@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.*;
 
 public class EnvironmentManager implements IGameEngineEvolve {
-    public static final String FILE = "files/Level01.txt";
+    public String FILE = "files/Level01.txt";
     Environment environment;
     private int h = 0,w = 0;
 
@@ -53,9 +53,13 @@ public class EnvironmentManager implements IGameEngineEvolve {
                 }
                 y++;
             }
-        } catch (Exception e){
+        } catch (FileNotFoundException e) {
+            System.out.println("Ficheiro não encontrado, a carregar o nivel 1");
+            readFile(FILE);
+
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally {
+        }finally{
             if (fr!=null){
                 try {
                     fr.close();
@@ -64,6 +68,7 @@ public class EnvironmentManager implements IGameEngineEvolve {
                 }
             }
         }
+
         return environment;
     }
 
@@ -151,7 +156,8 @@ public class EnvironmentManager implements IGameEngineEvolve {
     }
 
     public boolean nextLevel() {
-        this.environment = readFile(FILE);
+        FILE = environment.nextLevel();
+        new EnvironmentManager();
         return true;
     }
 
