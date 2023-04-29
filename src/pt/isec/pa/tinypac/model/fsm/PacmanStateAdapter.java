@@ -51,10 +51,6 @@ public abstract class PacmanStateAdapter implements IPacmanState{
         return false;
     }
 
-    public boolean ghostsBusted() {
-        return false;
-    }
-
     public boolean gg() {
         return false;
     }

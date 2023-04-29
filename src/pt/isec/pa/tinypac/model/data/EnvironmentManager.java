@@ -18,7 +18,6 @@ public class EnvironmentManager implements IGameEngineEvolve {
 
     public EnvironmentManager() {
         this.environment = readFile(FILE);
-        if (environment!=null) return;
     }
 
     private Environment readFile(String filePath) {
@@ -30,7 +29,7 @@ public class EnvironmentManager implements IGameEngineEvolve {
             fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             count(file);
-            int x=0,y=0;
+            int x,y=0;
             environment = new Environment(h,w);
             String line;
             while (y < h && (line = br.readLine()) != null) {
@@ -63,8 +62,8 @@ public class EnvironmentManager implements IGameEngineEvolve {
             if (fr!=null){
                 try {
                     fr.close();
-                } catch (IOException ignored){
-                    ignored.printStackTrace();
+                } catch (IOException exception){
+                    exception.printStackTrace();
                 }
             }
         }
@@ -147,10 +146,6 @@ public class EnvironmentManager implements IGameEngineEvolve {
         return environment.getTimeSuper();
     }
 
-    public boolean ghostsBusted() {
-        return environment.ghostsBusted();
-    }
-
     public boolean win() {
         return environment.win();
     }
@@ -160,11 +155,6 @@ public class EnvironmentManager implements IGameEngineEvolve {
         new EnvironmentManager();
         return true;
     }
-
-    public boolean died() {
-        return environment.died();
-    }
-
     public boolean bigLose() {
         return environment.bigLose();
     }

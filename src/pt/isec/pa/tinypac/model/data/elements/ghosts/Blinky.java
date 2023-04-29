@@ -2,6 +2,8 @@ package pt.isec.pa.tinypac.model.data.elements.ghosts;
 
 import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.data.MazeElement;
+import pt.isec.pa.tinypac.model.data.elements.Cave;
+import pt.isec.pa.tinypac.model.data.elements.Portal;
 
 import java.util.Random;
 
@@ -23,8 +25,15 @@ public class Blinky extends Ghost{
     @Override
     public void evolve() {
         if (environment.timeGhost()){
-            Environment.Position myPos = environment.getPositionOf((Blinky) this);
+            Environment.Position myPos = environment.getPositionOf(this);
             if (myPos == null) return;
+            if (environment.getTimeGhost() == 6){
+                Portal portal = (Portal) environment.getElement(Portal.class);
+                Environment.Position portalPos = environment.getPositionOf(portal);
+                environment.addElement(new Cave(environment), myPos.y(), myPos.x());
+                environment.addElement(this, portalPos.y()-1, portalPos.x());
+                myPos = environment.getPositionOf(this);
+            }
             int randomNum = new Random().nextInt(2);
             switch (currentDirection){
                 case LEFT -> {

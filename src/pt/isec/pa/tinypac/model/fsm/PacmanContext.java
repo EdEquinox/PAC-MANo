@@ -44,9 +44,6 @@ public class PacmanContext {
     public boolean timesUp(){
         return state.timesUp();
     }
-    public boolean ghostsBusted(){
-        return state.ghostsBusted();
-    }
     public boolean gg(){
         return state.gg();
     }

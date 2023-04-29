@@ -92,7 +92,6 @@ public class PacManTUI {
                 "PAUSA", "ACABOU O TEMPO", "TUDO COMIDO")){
             case 1 ->fsm.pause(fsm.getState());
             case 2-> fsm.timesUp();
-            case 3-> fsm.ghostsBusted();
         }
     }
 

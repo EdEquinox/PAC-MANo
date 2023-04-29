@@ -22,14 +22,6 @@ public class LunchTime extends PacmanStateAdapter {
         changeState(PacmanState.MOVING);
         return true;
     }
-
-    @Override
-    public boolean ghostsBusted() {
-        //pensar melhor o que é preciso fazer
-        changeState(PacmanState.MOVING);
-        return true;
-    }
-
     @Override
     public boolean pause(PacmanState currentState) {
         changeState(PacmanState.PAUSE);

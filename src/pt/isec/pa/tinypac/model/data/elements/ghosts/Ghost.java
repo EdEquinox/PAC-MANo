@@ -1,7 +1,6 @@
 package pt.isec.pa.tinypac.model.data.elements.ghosts;
 
 import pt.isec.pa.tinypac.model.data.Environment;
-import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 
 public abstract class Ghost extends MazeElement {
@@ -11,6 +10,7 @@ public abstract class Ghost extends MazeElement {
         super(environment);
     }
 
+//    abstract public void getOut();
 
     abstract public void evolve();
 }

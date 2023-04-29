@@ -74,7 +74,7 @@ public final class GameEngine  implements IGameEngine {
     public void waitForTheEnd() {
         try {
             controlThread.join();
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException ignored) {}
     }
     private class GameEngineThread extends Thread {
         long interval;

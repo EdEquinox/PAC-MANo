@@ -1,6 +1,8 @@
 package pt.isec.pa.tinypac.model.data;
 
-import pt.isec.pa.tinypac.model.data.elements.*;
+import pt.isec.pa.tinypac.model.data.elements.Pacman;
+import pt.isec.pa.tinypac.model.data.elements.Portal;
+import pt.isec.pa.tinypac.model.data.elements.Wall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,8 @@ public class Environment {
     private static final int TIME_UP_GHOST=5;
     private final int height, width;
     private final Maze maze;
+
+
     public record Position(int y, int x){}
     private int timeSuper = 0;
     private int timeGhost = 0;
@@ -59,6 +63,20 @@ public class Environment {
         }
         return list;
     }
+    public <T extends IMazeElement> IMazeElement getElement(Class<T> type){
+        IMazeElement element;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (x != 0 || y != 0) {
+                    element = maze.get(y, x);
+                    if (element != null && element.getClass() == type) {
+                       return element;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     public <T extends IMazeElement> List<Position> getElementNeighbors(int y, int x, Class<T> type) {
         List<Position> lst = new ArrayList<>();
@@ -75,10 +93,6 @@ public class Environment {
         return lst;
     }
 
-    public void die() {
-        nLives--;
-    }
-
     public Position getPositionOf(IMazeElement element) {
         for(int y = 0; y < height;y++)
             for(int x = 0;x < width; x++)
@@ -86,6 +100,7 @@ public class Environment {
                     return new Position(y,x);
         return null;
     }
+
     public boolean canMove(int y, int x, MazeElement.Directions directions){
         int newRow = y;
         int newCol = x;
@@ -190,19 +205,11 @@ public class Environment {
         return timeSuper;
     }
 
-    public boolean ghostsBusted() {
-        return numGhosts == 0;
-    }
 
     public boolean win() {
         return nCoins == 0 && Integer.parseInt(level) > 20;
     }
 
-    public boolean died() {
-        //tratar colisao
-        nLives--;
-        return true;
-    }
     public boolean hpUP(){
         nLives++;
         return true;
@@ -222,6 +229,20 @@ public class Environment {
         }
         return null;
     }
+
+    public int getTimeGhost() {
+        return timeGhost;
+    }
+
+    public void resetTimeGhost() {
+        timeGhost = 0;
+    }
+
+    public void loseLife() {
+        nLives--;
+    }
+
+
 
 
 }

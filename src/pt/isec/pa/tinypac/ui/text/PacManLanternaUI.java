@@ -144,18 +144,14 @@ public class PacManLanternaUI implements IGameEngineEvolve {
         move(key);
         pause(key,gameEngine);
         timesUp();
-        ghostsBusted();
     }
     private void movingState(KeyStroke key, IGameEngine gameEngine) throws IOException {
         move(key);
         pause(key,gameEngine);
         eatBigBall();
-
-
-//        win(gameEngine);
-//        nextLevel(gameEngine);
-//        bigLose();
-//        died();
+        bigLose();
+        win(gameEngine);
+        nextLevel(gameEngine);
     }
     private void pauseState(IGameEngine gameEngine) throws IOException {
         gameEngine.pause();
@@ -175,11 +171,6 @@ public class PacManLanternaUI implements IGameEngineEvolve {
     }
     //________________________
     //TRANSITIONS
-    private void died() {
-        if (environmentManager.died()){
-            fsm.died();
-        }
-    }
     private void bigLose() {
         if (environmentManager.bigLose()){
             fsm.gg();
@@ -222,20 +213,10 @@ public class PacManLanternaUI implements IGameEngineEvolve {
             environmentManager.changeDirection(Pacman.Directions.RIGHT);
         }
     }
-    private void ghostsBusted() throws IOException {
-        if (environmentManager.ghostsBusted() ){
-            fsm.ghostsBusted();
-            show(0);
-        }
-    }
     private void timesUp() throws IOException {
         if (environmentManager.timesUp()){
             fsm.timesUp();
             show(0);
-        }
-    }
-    private void timeGhost(){
-        if (environmentManager.timeGhost()){
         }
     }
     //___________________________
