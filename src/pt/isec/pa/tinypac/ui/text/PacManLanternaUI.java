@@ -149,9 +149,9 @@ public class PacManLanternaUI implements IGameEngineEvolve {
         move(key);
         pause(key,gameEngine);
         eatBigBall();
-        bigLose();
-        win(gameEngine);
-        nextLevel(gameEngine);
+        //bigLose();
+        //win(gameEngine);
+        //nextLevel(gameEngine);
     }
     private void pauseState(IGameEngine gameEngine) throws IOException {
         gameEngine.pause();

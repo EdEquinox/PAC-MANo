@@ -109,30 +109,31 @@ public static final char SYMBOL = 'M';
                     environment.addElement(null, myPos.y(), myPos.x());
                     environment.addElement(pinky.get(0), cavePos.y(), cavePos.x());
                 }
+            } else {
+                System.out.println(myPos);
+                environment.loseLife();
+                ArrayList<IMazeElement> blinky = environment.getListElement(Blinky.class);
+                ArrayList<IMazeElement> clyde = environment.getListElement(Clyde.class);
+                ArrayList<IMazeElement> inky = environment.getListElement(Inky.class);
+                ArrayList<IMazeElement> pinky = environment.getListElement(Pinky.class);
+                ArrayList<IMazeElement> list = new ArrayList<>();
+                list.add(blinky.get(0));
+                list.add(clyde.get(0));
+                list.add(inky.get(0));
+                list.add(pinky.get(0));
+                ArrayList<IMazeElement> listCave = environment.getListElement(Cave.class);
+                for (int i=0; i<list.size();i++){
+                    Environment.Position cavePos = environment.getPositionOf(listCave.get(i));
+                    Environment.Position pacPos = environment.getPositionOf(list.get(i));
+                    environment.addElement(null, pacPos.y(), pacPos.x());
+                    environment.addElement(list.get(i), cavePos.y(), cavePos.x());
+                    environment.addElement(null, pacPos.y(), pacPos.x());
+                }
+                Environment.Position pac = environment.getPositionOf(this);
+                environment.addElement(this, this.getInitialPosition().y(), getInitialPosition().x());
+                environment.addElement(null, pac.y(), pac.x());
+                environment.resetTimeGhost();
             }
-            System.out.println(myPos);
-            environment.loseLife();
-            ArrayList<IMazeElement> blinky = environment.getListElement(Blinky.class);
-            ArrayList<IMazeElement> clyde = environment.getListElement(Clyde.class);
-            ArrayList<IMazeElement> inky = environment.getListElement(Inky.class);
-            ArrayList<IMazeElement> pinky = environment.getListElement(Pinky.class);
-            ArrayList<IMazeElement> list = new ArrayList<>();
-            list.add(blinky.get(0));
-            list.add(clyde.get(0));
-            list.add(inky.get(0));
-            list.add(pinky.get(0));
-            ArrayList<IMazeElement> listCave = environment.getListElement(Cave.class);
-            for (int i=0; i<list.size();i++){
-                Environment.Position cavePos = environment.getPositionOf(listCave.get(i));
-                Environment.Position pacPos = environment.getPositionOf(list.get(i));
-                environment.addElement(null, pacPos.y(), pacPos.x());
-                environment.addElement(list.get(i), cavePos.y(), cavePos.x());
-                environment.addElement(null, pacPos.y(), pacPos.x());
-            }
-            Environment.Position pac = environment.getPositionOf(this);
-            environment.addElement(this, this.getInitialPosition().y(), getInitialPosition().x());
-            environment.addElement(null, pac.y(), pac.x());
-            environment.resetTimeGhost();
         }
     }
     @Override

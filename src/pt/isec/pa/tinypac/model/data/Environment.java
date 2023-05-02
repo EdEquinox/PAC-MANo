@@ -13,8 +13,6 @@ public class Environment {
     private static final int TIME_UP_GHOST=5;
     private final int height, width;
     private final Maze maze;
-
-
     public record Position(int y, int x){}
     private int timeSuper = 0;
     private int timeGhost = 0;
@@ -229,20 +227,13 @@ public class Environment {
         }
         return null;
     }
-
     public int getTimeGhost() {
         return timeGhost;
     }
-
     public void resetTimeGhost() {
         timeGhost = 0;
     }
-
     public void loseLife() {
         nLives--;
     }
-
-
-
-
 }
