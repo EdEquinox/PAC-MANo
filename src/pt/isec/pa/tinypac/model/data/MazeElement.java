@@ -1,11 +1,12 @@
 package pt.isec.pa.tinypac.model.data;
 
 import pt.isec.pa.tinypac.model.data.elements.Warp;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Ghost;
+
 import java.util.ArrayList;
 
 public abstract class MazeElement implements IMazeElement{
     protected Environment environment;
-
     public enum Directions{UP,DOWN,RIGHT,LEFT,NADA}
     public MazeElement(Environment environment) {
         this.environment = environment;
@@ -33,7 +34,8 @@ public abstract class MazeElement implements IMazeElement{
         } else {
             environment.addElement(null, myPos.y(), myPos.x());
             environment.addElement(this, myPos.y() - 1, myPos.x());
-            environment.addElement(mazeElement, myPos.y(), myPos.x());
+            //if (!(mazeElement instanceof Ghost))
+                environment.addElement(mazeElement, myPos.y(), myPos.x());
         }
     }
     protected void moveDown(Environment.Position myPos){
@@ -57,7 +59,8 @@ public abstract class MazeElement implements IMazeElement{
         } else {
             environment.addElement(null, myPos.y(), myPos.x());
             environment.addElement(this, myPos.y() + 1, myPos.x());
-            environment.addElement(mazeElement, myPos.y(), myPos.x());
+            //if (!(mazeElement instanceof Ghost))
+                environment.addElement(mazeElement, myPos.y(), myPos.x());
         }
     }
     protected void moveLeft(Environment.Position myPos){
@@ -81,7 +84,8 @@ public abstract class MazeElement implements IMazeElement{
         } else {
         environment.addElement(null, myPos.y(), myPos.x());
         environment.addElement(this, myPos.y(), myPos.x() - 1);
-        environment.addElement(mazeElement, myPos.y(), myPos.x());
+        //if (!(mazeElement instanceof Ghost))
+            environment.addElement(mazeElement, myPos.y(), myPos.x());
         }
     }
     protected void moveRight(Environment.Position myPos){
@@ -105,7 +109,8 @@ public abstract class MazeElement implements IMazeElement{
         } else {
         environment.addElement(null, myPos.y(), myPos.x());
         environment.addElement(this, myPos.y(), myPos.x() + 1);
-        environment.addElement(mazeElement, myPos.y(), myPos.x());
+        //if (!(mazeElement instanceof Ghost))
+            environment.addElement(mazeElement, myPos.y(), myPos.x());
         }
     }
 }

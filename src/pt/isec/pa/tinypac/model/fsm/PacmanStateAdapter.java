@@ -1,9 +1,10 @@
 package pt.isec.pa.tinypac.model.fsm;
 
+import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.data.elements.Pacman;
 
-public abstract class PacmanStateAdapter implements IPacmanState{
+public abstract class PacmanStateAdapter implements IPacmanState, IGameEngineEvolve {
     protected PacmanContext context;
     protected Environment data;
 
@@ -64,6 +65,9 @@ public abstract class PacmanStateAdapter implements IPacmanState{
         return false;
     }
     public boolean ggwp() {
+        return false;
+    }
+    public boolean evolve(){
         return false;
     }
     public Pacman.Directions getCurrentDirection() {

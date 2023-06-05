@@ -1,19 +1,16 @@
 package pt.isec.pa.tinypac.ui.text;
 
 import pt.isec.pa.tinypac.gameengine.GameEngine;
-import pt.isec.pa.tinypac.model.data.EnvironmentManager;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
-import pt.isec.pa.tinypac.utils.PAInput;
+import pt.isec.pa.tinypac.ui.text.utils.PAInput;
 
 import java.io.IOException;
 
 public class PacManTUI {
     PacmanContext fsm;
-    EnvironmentManager environmentManager;
 
-    public PacManTUI(PacmanContext fsm,EnvironmentManager environmentManager) {
+    public PacManTUI(PacmanContext fsm) {
         this.fsm = fsm;
-        this.environmentManager = environmentManager;
     }
 
     public void start() throws IOException {
@@ -35,9 +32,9 @@ public class PacManTUI {
        }
     }
     private void begin() throws IOException {
-        PacManLanternaUI pacManLanternaUI = new PacManLanternaUI(fsm,environmentManager);
+        PacManLanternaUI pacManLanternaUI = new PacManLanternaUI(fsm);
         GameEngine gameEngine = new GameEngine();
-        gameEngine.registerClient(environmentManager);
+        gameEngine.registerClient(fsm);
         gameEngine.registerClient(pacManLanternaUI);
         gameEngine.start(500);
         gameEngine.waitForTheEnd();
@@ -83,7 +80,6 @@ public class PacManTUI {
     }
     private void endgame() {
         System.out.println("O teu score é " + Math.random());
-        fsm.saveScore();
         finish = true;
     }
 
@@ -91,7 +87,7 @@ public class PacManTUI {
         switch (PAInput.chooseOption(" AÇÕES ",
                 "PAUSA", "ACABOU O TEMPO", "TUDO COMIDO")){
             case 1 ->fsm.pause(fsm.getState());
-            case 2-> fsm.timesUp();
+
         }
     }
 
@@ -115,18 +111,14 @@ public class PacManTUI {
                     }
                 }
             }
-            case 2-> fsm.died();
-            case 3-> fsm.nextLevel();
+
             case 4 -> fsm.pause(fsm.getState());
-            case 5 -> fsm.ggwp();
-            case 6 -> fsm.gg();
-            case 7 -> fsm.eatBigBall();
+
         }
     }
 
 
     private void initGame() {
-        fsm.initGame();
         switch (PAInput.chooseOption(" MOVER ",
                 "UP", "DOWN", "RIGHT", "LEFT")) {
             case 1: {

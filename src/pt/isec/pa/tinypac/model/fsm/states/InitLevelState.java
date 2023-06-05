@@ -1,5 +1,6 @@
 package pt.isec.pa.tinypac.model.fsm.states;
 
+import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
@@ -19,5 +20,10 @@ public class InitLevelState extends PacmanStateAdapter {
     public boolean changeDirection() {
         changeState(PacmanState.MOVING);
         return true;
+    }
+
+    @Override
+    public void evolve(IGameEngine gameEngine, long currentTime) {
+
     }
 }

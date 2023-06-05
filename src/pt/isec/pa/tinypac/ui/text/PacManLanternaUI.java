@@ -11,7 +11,6 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
-import pt.isec.pa.tinypac.model.data.EnvironmentManager;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.*;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Blinky;
@@ -19,18 +18,16 @@ import pt.isec.pa.tinypac.model.data.elements.ghosts.Clyde;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Inky;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
-import pt.isec.pa.tinypac.utils.PAInput;
+import pt.isec.pa.tinypac.ui.text.utils.PAInput;
 
 import java.io.IOException;
 
 public class PacManLanternaUI implements IGameEngineEvolve {
     Screen screen;
     PacmanContext fsm;
-    EnvironmentManager environmentManager;
 
-    public PacManLanternaUI(PacmanContext fsm,EnvironmentManager environmentManager) throws IOException {
+    public PacManLanternaUI(PacmanContext fsm) throws IOException {
         this.fsm = fsm;
-        this.environmentManager = environmentManager;
         Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(
                 new TerminalSize(60,40)).createTerminal();
         this.screen = new TerminalScreen(terminal);
@@ -39,7 +36,7 @@ public class PacManLanternaUI implements IGameEngineEvolve {
     }
 
     private void show(int i) throws IOException {
-        char[][] env = environmentManager.getMaze();
+        char[][] env = fsm.getMaze();
         screen.startScreen();
         if (i == 0){
             normalMaze(env);
@@ -70,10 +67,8 @@ public class PacManLanternaUI implements IGameEngineEvolve {
                 gameEngine.stop();
                 screen.close();
             }
-            if ((key != null &&key.getKeyType() == KeyType.Character && key.getCharacter().equals('/'))){
-                nextLevel(gameEngine);
-            }
-            System.out.println("score: "+environmentManager.getScore());
+
+            System.out.println("score: "+fsm.getScore());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Erro a criar o maze");
@@ -129,27 +124,23 @@ public class PacManLanternaUI implements IGameEngineEvolve {
     //_______________________
     //STATES
     private void initGameState(KeyStroke key){
-        if (!(environmentManager.getDirection() == MazeElement.Directions.NADA)){
+        if (!(fsm.getDirection() == MazeElement.Directions.NADA)){
             fsm.changeDirection();
         }
         move(key);
     }
     private void endgameState(IGameEngine gameEngine) throws IOException {
-        System.out.println("O teu score foi " + environmentManager.getScore());
-        fsm.saveScore();
+        System.out.println("O teu score foi " + fsm.getScore());
         gameEngine.stop();
         screen.close();
     }
     private void lunchTimeState(KeyStroke key, IGameEngine gameEngine) throws IOException {
         move(key);
         pause(key,gameEngine);
-        timesUp();
     }
     private void movingState(KeyStroke key, IGameEngine gameEngine) throws IOException {
         move(key);
         pause(key,gameEngine);
-        eatBigBall();
-        //bigLose();
         //win(gameEngine);
         //nextLevel(gameEngine);
     }
@@ -171,28 +162,7 @@ public class PacManLanternaUI implements IGameEngineEvolve {
     }
     //________________________
     //TRANSITIONS
-    private void bigLose() {
-        if (environmentManager.bigLose()){
-            fsm.gg();
-        }
-    }
-    private void nextLevel(IGameEngine gameEngine) throws IOException {
-        if (environmentManager.nextLevel()){
-                fsm.nextLevel();
-        }
-    }
-    private void win(IGameEngine gameEngine) throws IOException {
-        if (environmentManager.win()){
-            fsm.ggwp();
-            gameEngine.stop();
-            screen.close();
-        }
-    }
-    private void eatBigBall()  {
-        if (environmentManager.getSuper()){
-            fsm.eatBigBall();
-        }
-    }
+
     private void pause(KeyStroke key, IGameEngine gameEngine) throws IOException {
         if (key != null && ((key.getKeyType() == KeyType.Character && key.getCharacter().equals('p')))){
             fsm.pause(fsm.getState());
@@ -201,23 +171,18 @@ public class PacManLanternaUI implements IGameEngineEvolve {
     }
     private void move(KeyStroke key) {
         if (key != null && (key.getKeyType() == KeyType.ArrowUp)){
-            environmentManager.changeDirection(Pacman.Directions.UP);
+            fsm.changeDirection(Pacman.Directions.UP);
         }
         if (key != null && (key.getKeyType() == KeyType.ArrowDown)){
-            environmentManager.changeDirection(Pacman.Directions.DOWN);
+            fsm.changeDirection(Pacman.Directions.DOWN);
         }
         if (key != null && (key.getKeyType() == KeyType.ArrowLeft)){
-            environmentManager.changeDirection(Pacman.Directions.LEFT);
+            fsm.changeDirection(Pacman.Directions.LEFT);
         }
         if (key != null && (key.getKeyType() == KeyType.ArrowRight)){
-            environmentManager.changeDirection(Pacman.Directions.RIGHT);
+            fsm.changeDirection(Pacman.Directions.RIGHT);
         }
     }
-    private void timesUp() throws IOException {
-        if (environmentManager.timesUp()){
-            fsm.timesUp();
-            show(0);
-        }
-    }
+
     //___________________________
 }

@@ -131,7 +131,6 @@ public class Environment {
     }
 
     public boolean evolve() {
-        System.out.println("vidas:"+nLives);
         List<MazeElement> lst = new ArrayList<>();
         for(int y = 0; y < height;y++)
             for(int x = 0;x < width; x++)
@@ -145,6 +144,7 @@ public class Environment {
         if (getPacman().getCurrentDirection()!= MazeElement.Directions.NADA){
             timeGhost++;}
         return true;
+
     }
     public void superChange() {
         isSuper = !isSuper;
@@ -235,5 +235,32 @@ public class Environment {
     }
     public void loseLife() {
         nLives--;
+    }
+
+    public int getnLives() {
+        return nLives;
+    }
+
+    //transitions conditions
+
+    public boolean eatSuperBall() {
+        return getPacman().superChange();
+    }
+
+    public boolean die() {
+        return getPacman().die();
+    }
+
+    public boolean nextLvl() {
+
+        return false;
+    }
+
+    public boolean gameLost() {
+        return false;
+    }
+
+    public boolean gameWin() {
+        return false;
     }
 }
