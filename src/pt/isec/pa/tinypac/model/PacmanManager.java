@@ -56,6 +56,7 @@ public class PacmanManager implements IGameEngineEvolve{
 
     public void pause() {
         fsm.pause(getState());
+        pcs.firePropertyChange(null,null,null);
     }
 
 

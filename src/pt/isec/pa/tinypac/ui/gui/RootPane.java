@@ -1,5 +1,6 @@
 package pt.isec.pa.tinypac.ui.gui;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -54,7 +55,7 @@ public class RootPane extends BorderPane {
 
    private void registerHandlers() {
 
-       //manager.addPropertyChangeListener(evt -> update());
+       manager.addPropertyChangeListener(evt -> Platform.runLater(this::update));
 
        btnStart.setOnAction(actionEvent -> {
            this.setCenter(new GameUI(manager));

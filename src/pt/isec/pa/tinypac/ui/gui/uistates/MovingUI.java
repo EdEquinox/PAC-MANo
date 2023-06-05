@@ -68,6 +68,8 @@ public class MovingUI extends BorderPane {
                 manager.changeDirection(MazeElement.Directions.RIGHT);
             }else if (event.getCode() == KeyCode.S) {
                 manager.changeDirection(MazeElement.Directions.DOWN);
+            } else if (event.getCode() == KeyCode.P) {
+                manager.pause();
             }
         });
     }
