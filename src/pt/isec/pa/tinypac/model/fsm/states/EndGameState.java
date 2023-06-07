@@ -18,13 +18,8 @@ public class EndGameState extends PacmanStateAdapter {
 
     @Override
     public boolean saveScore() {
-        changeState(PacmanState.INIT_LEVEL);
-        //sai da maquina de estados
+
         return true;
     }
 
-    @Override
-    public void evolve(IGameEngine gameEngine, long currentTime) {
-
-    }
 }

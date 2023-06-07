@@ -36,12 +36,9 @@ public class PauseState extends PacmanStateAdapter {
 
     @Override
     public boolean leaveGame() {
-        changeState(PacmanState.ENDGAME);
+
         return true;
     }
 
-    @Override
-    public void evolve(IGameEngine gameEngine, long currentTime) {
 
-    }
 }

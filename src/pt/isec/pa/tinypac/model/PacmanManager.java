@@ -24,11 +24,6 @@ public class PacmanManager implements IGameEngineEvolve{
         pcs.addPropertyChangeListener(listener);
     }
 
-    public void changeDirection(){
-        fsm.changeDirection();
-        pcs.firePropertyChange(null,null,null);
-    }
-
     public void changeDirection(MazeElement.Directions directions){
         fsm.changeDirection(directions);
         pcs.firePropertyChange(null,null,null);
@@ -60,4 +55,18 @@ public class PacmanManager implements IGameEngineEvolve{
     }
 
 
+    public void exit() {
+        fsm.leaveGame();
+        pcs.firePropertyChange(null,null,null);
+    }
+
+    public void save() {
+    }
+
+    public void resume() {
+    }
+
+    public void saveScore() {
+        fsm.saveScore();
+    }
 }

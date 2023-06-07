@@ -9,6 +9,8 @@ import pt.isec.pa.tinypac.model.fsm.PacmanStateAdapter;
 public class InitLevelState extends PacmanStateAdapter {
     public InitLevelState(PacmanContext context, Environment data) {
         super(context, data);
+        data.revive();
+        data.setCoin();
     }
 
     @Override
@@ -22,8 +24,5 @@ public class InitLevelState extends PacmanStateAdapter {
         return true;
     }
 
-    @Override
-    public void evolve(IGameEngine gameEngine, long currentTime) {
 
-    }
 }

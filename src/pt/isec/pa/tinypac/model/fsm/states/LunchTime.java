@@ -17,20 +17,10 @@ public class LunchTime extends PacmanStateAdapter {
     }
 
     @Override
-    public boolean timesUp() {
-        //pensar melhor o que é preciso fazer
-
-        changeState(PacmanState.MOVING);
-        return true;
-    }
-    @Override
     public boolean pause(PacmanState currentState) {
         changeState(PacmanState.PAUSE);
         return true;
     }
 
-    @Override
-    public void evolve(IGameEngine gameEngine, long currentTime) {
-
-    }
+   
 }

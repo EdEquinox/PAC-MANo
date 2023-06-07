@@ -106,7 +106,7 @@ public class LunchTimeUI extends BorderPane {
                         cell = new ImageView(ImageManager.getImage("super-coin.png"));
                     }
                     case Blinky.SYMBOL, Pinky.SYMBOL, Inky.SYMBOL, Clyde.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("ghost_chasing.png"));
+                        cell = new ImageView(ImageManager.getImage("ghost.png"));
                     }
                     case EmptyCell.SYMBOL -> {
                         cell = new ImageView(ImageManager.getImage("empty.png"));

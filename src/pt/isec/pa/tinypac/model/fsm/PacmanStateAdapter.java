@@ -2,9 +2,10 @@ package pt.isec.pa.tinypac.model.fsm;
 
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Environment;
+import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.Pacman;
 
-public abstract class PacmanStateAdapter implements IPacmanState, IGameEngineEvolve {
+public abstract class PacmanStateAdapter implements IPacmanState {
     protected PacmanContext context;
     protected Environment data;
 
@@ -16,15 +17,8 @@ public abstract class PacmanStateAdapter implements IPacmanState, IGameEngineEvo
     protected void changeState(PacmanState newState){
         context.changeState(PacmanState.createState(newState,context,data));
     }
-    public boolean died() {
-        return false;
-    }
 
     public boolean changeDirection() {
-        return false;
-    }
-
-    public boolean nextLevel() {
         return false;
     }
 
@@ -44,33 +38,13 @@ public abstract class PacmanStateAdapter implements IPacmanState, IGameEngineEvo
         return false;
     }
 
-    public boolean eatBigBall() {
-        return false;
-    }
-
-    public boolean timesUp() {
-        return false;
-    }
-
-    public boolean gg() {
-        return false;
-    }
-
-    public boolean initGame() {
-        changeState(PacmanState.INIT_LEVEL);
-        return false;
-    }
-
     public boolean saveScore() {
-        return false;
-    }
-    public boolean ggwp() {
         return false;
     }
     public boolean evolve(){
         return false;
     }
     public Pacman.Directions getCurrentDirection() {
-        return Pacman.Directions.UP;
+        return Pacman.Directions.NADA;
     }
 }

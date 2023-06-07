@@ -125,7 +125,7 @@ public class PacManLanternaUI implements IGameEngineEvolve {
     //STATES
     private void initGameState(KeyStroke key){
         if (!(fsm.getDirection() == MazeElement.Directions.NADA)){
-            fsm.changeDirection();
+            //fsm.changeDirection();
         }
         move(key);
     }
@@ -154,7 +154,7 @@ public class PacManLanternaUI implements IGameEngineEvolve {
             }
             case 2-> fsm.saveGame();
             case 3-> {
-                fsm.leaveGame();
+                //fsm.leaveGame();
                 gameEngine.stop();
                 screen.close();
             }

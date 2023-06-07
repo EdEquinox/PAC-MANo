@@ -1,6 +1,7 @@
 package pt.isec.pa.tinypac.ui.text;
 
 import pt.isec.pa.tinypac.gameengine.GameEngine;
+import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.ui.text.utils.PAInput;
 
@@ -98,16 +99,16 @@ public class PacManTUI {
                 switch (PAInput.chooseOption(" MOVER ",
                         "UP", "DOWN", "RIGHT", "LEFT")) {
                     case 1: {
-                        fsm.changeDirection();
+                        fsm.changeDirection(MazeElement.Directions.UP);
                     }
                     case 2: {
-                        fsm.changeDirection();
+                        fsm.changeDirection(MazeElement.Directions.DOWN);
                     }
                     case 3: {
-                        fsm.changeDirection();
+                        fsm.changeDirection(MazeElement.Directions.RIGHT);
                     }
                     case 4: {
-                        fsm.changeDirection();
+                        fsm.changeDirection(MazeElement.Directions.LEFT);
                     }
                 }
             }
@@ -122,16 +123,16 @@ public class PacManTUI {
         switch (PAInput.chooseOption(" MOVER ",
                 "UP", "DOWN", "RIGHT", "LEFT")) {
             case 1: {
-                fsm.changeDirection();
+                fsm.changeDirection(MazeElement.Directions.UP);
             }
             case 2: {
-                fsm.changeDirection();
+                fsm.changeDirection(MazeElement.Directions.DOWN);
             }
             case 3: {
-                fsm.changeDirection();
+                fsm.changeDirection(MazeElement.Directions.RIGHT);
             }
             case 4: {
-                fsm.changeDirection();
+                fsm.changeDirection(MazeElement.Directions.LEFT);
             }
         }
     }

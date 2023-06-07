@@ -11,12 +11,7 @@ public interface IPacmanState {
     boolean resume();           //volta ao jogo
     boolean saveGame();         //guarda jogo(quem diria)
     boolean leaveGame();        //vai para o menu de final
-    //boolean eatBigBall();       //quando como a bola grande e passa para super
-    //boolean timesUp();          //acaba o tempo de comer
-    //boolean gg();               //ganhou ou perdeu, talvez sejam preciso 2
-    //boolean initGame();         //inicia o jogo, entra no fsm
-    //boolean saveScore();        //finaliza o jogo, guarda ou nao o score e sai do fsm
-    //boolean ggwp();
+    boolean saveScore();        //finaliza o jogo, guarda ou nao o score e sai do fsm
     boolean evolve();
     Pacman.Directions getCurrentDirection();
 }

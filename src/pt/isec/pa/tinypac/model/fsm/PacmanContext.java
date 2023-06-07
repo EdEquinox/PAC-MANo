@@ -29,41 +29,60 @@ public class PacmanContext implements IGameEngineEvolve {
     void changeState(IPacmanState newState) {
         state = newState;
     }
-    public boolean changeDirection(){
-        return state.changeDirection();
-    }
-    public boolean evolve(){
-        return state.evolve();
-    }
-    public boolean pause(PacmanState currentState) {
-        return state.pause(currentState);
-    }
-    public boolean resume(){
-        return state.resume();
-    }
-    public boolean saveGame(){
-        return state.saveGame();
-    }
-    public boolean leaveGame(){
-        return state.leaveGame();
-    }
 
-    //getters
-
-    public PacmanState getState() {
-        return state.getState();
-    }
-
+    //region TRANSITIONS
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
         if (data == null) return;
         data.evolve();
-        evolve();
+        state.evolve();
     }
     public void changeDirection(MazeElement.Directions directions){
-        changeDirection();
+        state.changeDirection();
         data.getPacman().setCurrentDirection(directions);
     }
+    public void leaveGame(){
+        state.leaveGame();
+    }
+
+    public void pause(PacmanState currentState) {
+        state.pause(currentState);
+    }
+    public void resume(){
+        state.resume();
+    }
+    public void saveGame(){
+        state.saveGame();
+        data.saveGame();
+    }
+    public void saveScore(){
+        state.saveScore();
+        data.saveScore();
+    }
+
+    //endregion
+    //region GETTERS
+    public PacmanState getState() {
+        return state.getState();
+    }
+    public int getScore() {
+        return data.getScore();
+    }
+    public char[][] getMaze() {
+        return data.getMaze();
+    }
+    public boolean getSuper() {
+        return data.getSuper();
+    }
+    public int getNLives(){
+        return data.getnLives();
+    }
+    public Pacman.Directions getDirection(){
+        return data.getPacman().getCurrentDirection();
+    }
+
+    //endregion
+    //region FUNCTIONS
     private Environment readFile(String filePath) {
         Environment environment = null;
         FileReader fr = null;
@@ -114,7 +133,6 @@ public class PacmanContext implements IGameEngineEvolve {
 
         return environment;
     }
-
     public void count(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         while (scanner.hasNext()){
@@ -124,7 +142,6 @@ public class PacmanContext implements IGameEngineEvolve {
         }
         scanner.close();
     }
-
     private IMazeElement caverna(Environment environment) {
         if (environment.getNumGhosts()<4) {
             switch (environment.getNumGhosts()){
@@ -150,26 +167,14 @@ public class PacmanContext implements IGameEngineEvolve {
         return new Cave(environment);
     }
 
-    public char[][] getMaze() {
-        return data.getMaze();
-    }
+    //endregion
+    //region SETTERS
+//    public void superChange() {
+//        data.superChange();
+//        data.getPacman().superChange();
+//    }
 
-    public Pacman.Directions getDirection(){
-        return data.getPacman().getCurrentDirection();
-    }
 
-    public int getScore() {
-        return data.getScore();
-    }
-
-    public void superChange() {
-        data.superChange();
-        data.getPacman().superChange();
-    }
-
-    public boolean getSuper() {
-        return data.getSuper();
-    }
 
     public boolean timesIsUp() {
         return data.timesUp();
@@ -187,7 +192,10 @@ public class PacmanContext implements IGameEngineEvolve {
     }
 
     public boolean newLevel() {
-        FILE = data.nextLevel();
+        FILE = "Level20.txt";
+        System.out.println("mudou de nome");
+        this.data = readFile(FILE);
+        System.out.println("leu");
         return true;
     }
     public boolean bigLose() {
@@ -196,7 +204,6 @@ public class PacmanContext implements IGameEngineEvolve {
     public <T extends IMazeElement> ArrayList<IMazeElement> getListElement(Class<T> type){
         return data.getListElement(type);
     }
-    public int getNLives(){
-        return data.getnLives();
-    }
+
+
 }

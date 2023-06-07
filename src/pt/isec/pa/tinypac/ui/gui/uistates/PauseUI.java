@@ -1,15 +1,23 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.GameUI;
+import pt.isec.pa.tinypac.ui.gui.MainJFX;
+import pt.isec.pa.tinypac.ui.gui.RootPane;
 import pt.isec.pa.tinypac.ui.gui.Top5UI;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
+import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
 
 public class PauseUI extends BorderPane {
     PacmanManager manager;
@@ -56,15 +64,24 @@ public class PauseUI extends BorderPane {
         manager.addPropertyChangeListener(evt -> Platform.runLater(this::update));
 
         btnResume.setOnAction(actionEvent -> {
-            System.out.println("resume");
+            manager.resume();
         });
 
         btnSave.setOnAction(actionEvent -> {
-            System.out.println("save");
+            manager.save();
+            ToastMessage.show(getScene().getWindow(),"Game Saved!");
         });
 
         btnExit.setOnAction( event -> {
-            System.out.println("exit");
+            Stage stage = (Stage) this.getScene().getWindow();
+            RootPane root = new RootPane(new PacmanManager());
+            Scene scene = new Scene(root,1000,1000);
+            stage.setScene(scene);
+            stage.getIcons().addAll(ImageManager.getImage("pacman_open.png"));
+            stage.setTitle("Pacman");
+            stage.setMinWidth(700);
+            stage.setMinHeight(400);
+            stage.show();
         });
 
     }

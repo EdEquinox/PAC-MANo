@@ -76,6 +76,7 @@ public class RootPane extends BorderPane {
     }
 
     private void sair() {
+       Platform.exit();
     }
 
     private void btnConfig(Button btn){

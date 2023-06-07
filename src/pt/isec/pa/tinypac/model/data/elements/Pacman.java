@@ -67,10 +67,12 @@ public static final char SYMBOL = 'M';
         return SYMBOL;
     }
 
-    public boolean superChange(){
-        Environment.Position myPos = environment.getPositionOf(this);
+    public boolean superChange(Environment.Position myPos){
+        //Environment.Position myPos = environment.getPositionOf(this);
+        System.out.println("!vwe");
         if (environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin){
             environment.superChange();
+            System.out.println("ver");
             return true;
         }
         return false;
@@ -86,8 +88,8 @@ public static final char SYMBOL = 'M';
         }
     }
 
-    public boolean die(){
-        Environment.Position myPos = environment.getPositionOf(this);
+    public boolean die(Environment.Position myPos){
+        //Environment.Position myPos = environment.getPositionOf(this);
         if (environment.getElement(myPos.y(), myPos.x()) instanceof Ghost){
             if (environment.getSuper()){
                 environment.scoreUp();
@@ -116,6 +118,7 @@ public static final char SYMBOL = 'M';
             } else {
                 System.out.println(myPos);
                 environment.loseLife();
+                environment.die();
                 ArrayList<IMazeElement> blinky = environment.getListElement(Blinky.class);
                 ArrayList<IMazeElement> clyde = environment.getListElement(Clyde.class);
                 ArrayList<IMazeElement> inky = environment.getListElement(Inky.class);
@@ -145,10 +148,10 @@ public static final char SYMBOL = 'M';
     @Override
     protected void moveDown(Environment.Position myPos) {
         super.moveDown(myPos);
-        //superChange();
+        superChange(myPos);
         scoreUp(myPos);
         hpUp(myPos);
-        //die();
+        die(myPos);
         if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin || environment.getElement(myPos.y(), myPos.x()) instanceof Fruit){
             environment.addElement(new EmptyCell(environment), myPos.y(), myPos.x());
         }
@@ -157,10 +160,10 @@ public static final char SYMBOL = 'M';
     @Override
     protected void moveLeft(Environment.Position myPos) {
         super.moveLeft(myPos);
-        //superChange(myPos);
+        superChange(myPos);
         scoreUp(myPos);
         hpUp(myPos);
-        //die();
+        die(myPos);
         if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin || environment.getElement(myPos.y(), myPos.x()) instanceof Fruit){
             environment.addElement(new EmptyCell(environment), myPos.y(), myPos.x());
         }
@@ -169,10 +172,10 @@ public static final char SYMBOL = 'M';
     @Override
     protected void moveRight(Environment.Position myPos) {
         super.moveRight(myPos);
-        //superChange(myPos);
+        superChange(myPos);
         scoreUp(myPos);
         hpUp(myPos);
-        //die();
+        die(myPos);
         if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin || environment.getElement(myPos.y(), myPos.x()) instanceof Fruit){
             environment.addElement(new EmptyCell(environment), myPos.y(), myPos.x());
         }
@@ -181,10 +184,10 @@ public static final char SYMBOL = 'M';
     @Override
     protected void moveUp(Environment.Position myPos) {
         super.moveUp(myPos);
-        //superChange(myPos);
+        superChange(myPos);
         scoreUp(myPos);
         hpUp(myPos);
-        //die();
+        die(myPos);
         if (environment.getElement(myPos.y(), myPos.x()) instanceof Coin || environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin || environment.getElement(myPos.y(), myPos.x()) instanceof Fruit){
             environment.addElement(new EmptyCell(environment), myPos.y(), myPos.x());
         }
