@@ -1,8 +1,10 @@
 package pt.isec.pa.tinypac.model.data.elements.ghosts;
 
 import pt.isec.pa.tinypac.model.data.Environment;
+import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.Cave;
+import pt.isec.pa.tinypac.model.data.elements.EmptyCell;
 import pt.isec.pa.tinypac.model.data.elements.Portal;
 
 import java.util.Random;
@@ -11,10 +13,12 @@ public class Blinky extends Ghost{
 
     public static final char SYMBOL = 'b';
     private MazeElement.Directions currentDirection;
+    private MazeElement temp;
     public Blinky(Environment environment) {
         super(environment);
         this.environment = environment;
         currentDirection = Directions.UP;
+        temp = new EmptyCell(environment);
     }
 
     @Override
@@ -37,6 +41,8 @@ public class Blinky extends Ghost{
             int randomNum = new Random().nextInt(2);
             switch (currentDirection){
                 case LEFT -> {
+//                    environment.addElement(temp,myPos.y(), myPos.x()+1);
+//                    temp = environment.getElement(myPos.y(), myPos.x()-1);
                     if(environment.canMove(myPos.y(), myPos.x(), MazeElement.Directions.LEFT)){
                         moveLeft(myPos);
                         currentDirection = Directions.LEFT;
@@ -52,6 +58,8 @@ public class Blinky extends Ghost{
                     }
                 }
                 case UP -> {
+//                    environment.addElement(temp,myPos.y()-1, myPos.x());
+//                    temp = environment.getElement(myPos.y()+1, myPos.x());
                     if(environment.canMove(myPos.y(), myPos.x(), MazeElement.Directions.UP)){
                         moveUp(myPos);
                         currentDirection = Directions.UP;
@@ -67,6 +75,8 @@ public class Blinky extends Ghost{
                     }
                 }
                 case DOWN -> {
+//                    environment.addElement(temp,myPos.y()+1, myPos.x());
+//                    temp = environment.getElement(myPos.y()-1, myPos.x());
                     if(environment.canMove(myPos.y(), myPos.x(), MazeElement.Directions.DOWN)){
                         moveDown(myPos);
                         currentDirection = Directions.DOWN;
@@ -82,6 +92,8 @@ public class Blinky extends Ghost{
                     }
                 }
                 case RIGHT -> {
+//                    environment.addElement(temp,myPos.y(), myPos.x()-1);
+//                    temp = environment.getElement(myPos.y(), myPos.x()+1);
                     if(environment.canMove(myPos.y(), myPos.x(), MazeElement.Directions.RIGHT)){
                         moveRight(myPos);
                         currentDirection = Directions.RIGHT;

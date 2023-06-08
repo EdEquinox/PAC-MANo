@@ -19,13 +19,11 @@ public class MovingState extends PacmanStateAdapter {
     @Override
     public boolean changeDirection() {
         changeState(PacmanState.MOVING);
-        System.out.println("mudou");
         return true;
     }
 
     @Override
     public boolean pause(PacmanState currentState) {
-        System.out.println("pausou");
         changeState(PacmanState.PAUSE);
         return true;
     }
@@ -41,9 +39,6 @@ public class MovingState extends PacmanStateAdapter {
         } else if (data.nextLvl()) {
             changeState(PacmanState.INIT_LEVEL);
             context.newLevel();
-            return true;
-        } else if (data.gameLost()) {
-            changeState(PacmanState.ENDGAME);
             return true;
         } else if (data.gameWin()) {
             changeState(PacmanState.ENDGAME);

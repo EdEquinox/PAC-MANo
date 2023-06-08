@@ -22,5 +22,25 @@ public class LunchTime extends PacmanStateAdapter {
         return true;
     }
 
-   
+    @Override
+    public boolean evolve() {
+        if (data.timesUp()){
+            changeState(PacmanState.MOVING);
+            return true;
+        } else if (data.ghostsBusted()){
+            changeState(PacmanState.MOVING);
+            return true;
+        } else if (data.nextLvl()) {
+            changeState(PacmanState.INIT_LEVEL);
+            context.newLevel();
+            return true;
+        } else if (data.gameLost()) {
+            changeState(PacmanState.ENDGAME);
+            return true;
+        } else if (data.gameWin()) {
+            changeState(PacmanState.ENDGAME);
+            return true;
+        }
+        return false;
+    }
 }

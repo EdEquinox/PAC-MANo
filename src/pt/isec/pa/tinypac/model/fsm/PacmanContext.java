@@ -1,5 +1,6 @@
 package pt.isec.pa.tinypac.model.fsm;
 
+import pt.isec.pa.tinypac.gameengine.GameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Environment;
@@ -17,6 +18,7 @@ import java.util.Scanner;
 
 public class PacmanContext implements IGameEngineEvolve {
     private IPacmanState state;
+    IGameEngine gameEngine;
     private Environment data;
     public String FILE = "files/Level01.txt";
     private int h = 0,w = 0;
@@ -24,6 +26,11 @@ public class PacmanContext implements IGameEngineEvolve {
     public PacmanContext() {
         data = readFile(FILE);
         state = PacmanState.createState(PacmanState.INIT_LEVEL,this,data);
+    }
+
+    public PacmanContext(Environment environment) {
+        data = environment;
+        state = PacmanState.createState(PacmanState.MOVING,this,data);
     }
 
     void changeState(IPacmanState newState) {
@@ -34,6 +41,8 @@ public class PacmanContext implements IGameEngineEvolve {
     @Override
     public void evolve(IGameEngine gameEngine, long currentTime) {
         if (data == null) return;
+        if (this.gameEngine == null)
+            this.gameEngine = gameEngine;
         data.evolve();
         state.evolve();
     }
@@ -47,9 +56,11 @@ public class PacmanContext implements IGameEngineEvolve {
 
     public void pause(PacmanState currentState) {
         state.pause(currentState);
+        gameEngine.pause();
     }
     public void resume(){
         state.resume();
+        gameEngine.resume();
     }
     public void saveGame(){
         state.saveGame();
@@ -206,4 +217,15 @@ public class PacmanContext implements IGameEngineEvolve {
     }
 
 
+    public void save() {
+        try(FileOutputStream fs = new FileOutputStream("files/game.bin");
+            ObjectOutputStream os = new ObjectOutputStream(fs)){
+            os.writeObject(data);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("erro a gravar");
+        }
+    }
 }

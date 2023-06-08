@@ -2,6 +2,7 @@ package pt.isec.pa.tinypac.model;
 
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
+import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.fsm.IPacmanState;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
@@ -9,6 +10,9 @@ import pt.isec.pa.tinypac.model.fsm.PacmanState;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class PacmanManager implements IGameEngineEvolve{
 
@@ -17,6 +21,11 @@ public class PacmanManager implements IGameEngineEvolve{
 
     public PacmanManager() {
         this.fsm = new PacmanContext();
+        this.pcs = new PropertyChangeSupport(this);
+    }
+
+    public PacmanManager(Environment environment) {
+        this.fsm = new PacmanContext(environment);
         this.pcs = new PropertyChangeSupport(this);
     }
 
@@ -61,12 +70,16 @@ public class PacmanManager implements IGameEngineEvolve{
     }
 
     public void save() {
+        fsm.save();
     }
 
     public void resume() {
+        fsm.resume();
+        pcs.firePropertyChange(null,null,null);
     }
 
     public void saveScore() {
         fsm.saveScore();
+        pcs.firePropertyChange(null,null,null);
     }
 }

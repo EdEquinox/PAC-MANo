@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Pacman extends MazeElement {
 
-public static final char SYMBOL = 'M';
+    public static final char SYMBOL = 'M';
     private Environment.Position initialPosition;
 
     private MazeElement.Directions currentDirection;
@@ -69,10 +69,8 @@ public static final char SYMBOL = 'M';
 
     public boolean superChange(Environment.Position myPos){
         //Environment.Position myPos = environment.getPositionOf(this);
-        System.out.println("!vwe");
         if (environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin){
             environment.superChange();
-            System.out.println("ver");
             return true;
         }
         return false;

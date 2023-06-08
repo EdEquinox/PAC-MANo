@@ -5,13 +5,19 @@ import pt.isec.pa.tinypac.model.data.elements.Pacman;
 import pt.isec.pa.tinypac.model.data.elements.Portal;
 import pt.isec.pa.tinypac.model.data.elements.Wall;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Environment {
+public class Environment implements Serializable {
 
     private static final int TIME_UP = 20;
     private static final int TIME_UP_GHOST = 5;
+    @Serial
+    private static final long serialVersionUID = 1L;
     private final int height, width;
     private final Maze maze;
     private boolean isDead;
@@ -21,7 +27,11 @@ public class Environment {
         isEmpty = false;
     }
 
-    public record Position(int y, int x) {
+    public boolean ghostsBusted() {
+        return true;
+    }
+
+    public record Position(int y, int x) implements Serializable{
     }
 
     private int timeSuper = 0;
@@ -262,6 +272,13 @@ public class Environment {
     }
 
     public void saveScore() {
+        String score = ""+getScore()+","+"ze";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/scores.txt",true))){
+            writer.write(score);
+            writer.newLine();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     //

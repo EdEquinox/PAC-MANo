@@ -74,7 +74,7 @@ public class PacManTUI {
         switch (PAInput.chooseOption(" AÇÕES ",
                 "VOLTAR", "GUARDAR SCORE", "ABANDONAR JOGO")){
             case 1 ->fsm.resume();
-            case 2-> fsm.saveGame();
+            //case 2-> fsm.saveGame();
             case 3-> fsm.leaveGame();
         }
 

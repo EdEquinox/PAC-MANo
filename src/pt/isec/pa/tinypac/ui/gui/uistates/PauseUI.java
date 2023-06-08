@@ -73,6 +73,7 @@ public class PauseUI extends BorderPane {
         });
 
         btnExit.setOnAction( event -> {
+            manager.saveScore();
             Stage stage = (Stage) this.getScene().getWindow();
             RootPane root = new RootPane(new PacmanManager());
             Scene scene = new Scene(root,1000,1000);
