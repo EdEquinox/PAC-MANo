@@ -17,6 +17,10 @@ public class Clyde extends Ghost{
         currentDirection = Directions.RIGHT;
     }
 
+    public Directions getCurrentDirection() {
+        return currentDirection;
+    }
+
     @Override
     public char getSymbol() {
         return SYMBOL;

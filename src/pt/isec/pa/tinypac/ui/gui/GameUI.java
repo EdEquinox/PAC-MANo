@@ -17,7 +17,7 @@ public class GameUI extends BorderPane {
 
         GameEngine gameEngine = new GameEngine();
         gameEngine.registerClient(manager);
-        gameEngine.start(1000);
+        gameEngine.start(500);
 
 
         createViews();

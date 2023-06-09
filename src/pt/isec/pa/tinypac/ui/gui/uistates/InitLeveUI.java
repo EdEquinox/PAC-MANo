@@ -101,7 +101,7 @@ public class InitLeveUI extends BorderPane{
                         cell = new ImageView(ImageManager.getImage("fruit.png"));
                     }
                     case Pacman.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("pacman_open.png"));
+                        cell = new ImageView(ImageManager.getImage("pacman_right.png"));
                     }
                     case SuperCoin.SYMBOL -> {
                         cell = new ImageView(ImageManager.getImage("super-coin.png"));
@@ -116,16 +116,16 @@ public class InitLeveUI extends BorderPane{
                         cell = new ImageView(ImageManager.getImage("warp.png"));
                     }
                     case Blinky.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("red.png"));
+                        cell = new ImageView(ImageManager.getImage("red_right.png"));
                     }
                     case Clyde.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("blue.png"));
+                        cell = new ImageView(ImageManager.getImage("blue_right.png"));
                     }
                     case Inky.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("yellow.png"));
+                        cell = new ImageView(ImageManager.getImage("yellow_left.png"));
                     }
                     case Pinky.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("pink.png"));
+                        cell = new ImageView(ImageManager.getImage("pink_left.png"));
                     }
                     case EmptyCell.SYMBOL -> {
                         cell = new ImageView(ImageManager.getImage("empty.png"));

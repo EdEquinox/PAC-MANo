@@ -58,6 +58,10 @@ public class PacmanManager implements IGameEngineEvolve{
         return fsm.getMaze();
     }
 
+    public PacmanContext getFsm() {
+        return fsm;
+    }
+
     public void pause() {
         fsm.pause(getState());
         pcs.firePropertyChange(null,null,null);

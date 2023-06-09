@@ -21,6 +21,10 @@ public class Inky extends Ghost{
         return SYMBOL;
     }
 
+    public Directions getCurrentDirection() {
+        return currentDirection;
+    }
+
     @Override
     public void evolve() {
 

@@ -26,6 +26,10 @@ public class Blinky extends Ghost{
         return SYMBOL;
     }
 
+    public Directions getCurrentDirection() {
+        return currentDirection;
+    }
+
     @Override
     public void evolve() {
         if (environment.timeGhost()){

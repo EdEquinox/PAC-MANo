@@ -78,7 +78,7 @@ public class PauseUI extends BorderPane {
             RootPane root = new RootPane(new PacmanManager());
             Scene scene = new Scene(root,1000,1000);
             stage.setScene(scene);
-            stage.getIcons().addAll(ImageManager.getImage("pacman_open.png"));
+            stage.getIcons().addAll(ImageManager.getImage("pacman_right.png"));
             stage.setTitle("Pacman");
             stage.setMinWidth(700);
             stage.setMinHeight(400);

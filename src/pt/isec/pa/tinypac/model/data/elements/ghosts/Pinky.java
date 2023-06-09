@@ -99,4 +99,7 @@ public class Pinky extends Ghost{
         }
     }
 
+    public Directions getCurrentDirection() {
+        return currentDirection;
+    }
 }

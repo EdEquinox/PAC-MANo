@@ -146,7 +146,7 @@ public class RootPane extends BorderPane {
         popUp.setScene(scene);
         popUp.setMinWidth(300);
         popUp.setMinHeight(200);
-        popUp.getIcons().addAll(ImageManager.getImage("pacman_open.png"));
+        popUp.getIcons().addAll(ImageManager.getImage("pacman_right.png"));
         popUp.show();
     }
 

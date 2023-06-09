@@ -1,5 +1,7 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,7 +10,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.util.Duration;
 import pt.isec.pa.tinypac.model.PacmanManager;
+import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.*;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Blinky;
@@ -19,9 +23,14 @@ import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
+import java.util.ArrayList;
+
 public class LunchTimeUI extends BorderPane {
     PacmanManager manager;
     GridPane grid;
+    private ImageView imageView;
+    private Image[] images;
+    private int index;
     public LunchTimeUI(PacmanManager manager) {
         this.manager = manager;
 
@@ -57,9 +66,11 @@ public class LunchTimeUI extends BorderPane {
             } else if (event.getCode() == KeyCode.A) {
                 manager.changeDirection(MazeElement.Directions.LEFT);
             }else if (event.getCode() == KeyCode.D) {
-                manager.changeDirection(MazeElement.Directions.LEFT);
+                manager.changeDirection(MazeElement.Directions.RIGHT);
             }else if (event.getCode() == KeyCode.S) {
                 manager.changeDirection(MazeElement.Directions.DOWN);
+            }else if (event.getCode() == KeyCode.P) {
+                manager.pause();
             }
         });
     }
@@ -78,7 +89,7 @@ public class LunchTimeUI extends BorderPane {
         for(int i=0; i<manager.getMaze().length;i++){
             for(int j=0; j<manager.getMaze()[i].length;j++){
                 char a = manager.getMaze()[i][j];
-                ImageView cell;
+                ImageView cell=null;
                 switch (a){
                     case Cave.SYMBOL -> {
                         cell = new ImageView(ImageManager.getImage(""));
@@ -91,7 +102,22 @@ public class LunchTimeUI extends BorderPane {
                         cell = new ImageView(ImageManager.getImage("fruit.png"));
                     }
                     case Pacman.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("pacman_open.png"));
+                        ArrayList<IMazeElement> element = manager.getFsm().getListElement(Pacman.class);
+                        Pacman pacman = (Pacman) element.get(0);
+                        switch (pacman.getCurrentDirection()){
+                            case UP -> {
+                                cell = pacmanMovement(ImageManager.getImage("pacman_up.png"),ImageManager.getImage("pacman_close.png"));
+                            }
+                            case DOWN -> {
+                                cell = pacmanMovement(ImageManager.getImage("pacman_down.png"),ImageManager.getImage("pacman_close.png"));
+                            }
+                            case RIGHT, NADA -> {
+                                cell = pacmanMovement(ImageManager.getImage("pacman_right.png"),ImageManager.getImage("pacman_close.png"));
+                            }
+                            case LEFT -> {
+                                cell = pacmanMovement(ImageManager.getImage("pacman_left.png"),ImageManager.getImage("pacman_close.png"));
+                            }
+                        }
                     }
                     case Portal.SYMBOL -> {
                         cell = new ImageView(ImageManager.getImage("portal.png"));
@@ -121,5 +147,20 @@ public class LunchTimeUI extends BorderPane {
             }
         }
     }
+    private ImageView pacmanMovement(Image img1, Image img2){
 
+        imageView = new ImageView();;
+        images = new Image[]{img1, img2};
+
+        index = 0;
+        imageView.setImage(images[index]);
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
+            index = (index + 1) % images.length;
+            imageView.setImage(images[index]);
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+        return imageView;
+    }
 }

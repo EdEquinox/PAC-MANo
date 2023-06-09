@@ -13,4 +13,5 @@ public abstract class Ghost extends MazeElement {
 //    abstract public void getOut();
 
     abstract public void evolve();
+
 }
