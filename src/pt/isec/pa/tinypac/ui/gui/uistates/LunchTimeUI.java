@@ -106,16 +106,16 @@ public class LunchTimeUI extends BorderPane {
                         Pacman pacman = (Pacman) element.get(0);
                         switch (pacman.getCurrentDirection()){
                             case UP -> {
-                                cell = pacmanMovement(ImageManager.getImage("pacman_up.png"),ImageManager.getImage("pacman_close.png"));
+                                cell = new ImageView(ImageManager.getImage("pacman_up.gif"));
                             }
                             case DOWN -> {
-                                cell = pacmanMovement(ImageManager.getImage("pacman_down.png"),ImageManager.getImage("pacman_close.png"));
+                                cell = new ImageView(ImageManager.getImage("pacman_down.gif"));
                             }
                             case RIGHT, NADA -> {
-                                cell = pacmanMovement(ImageManager.getImage("pacman_right.png"),ImageManager.getImage("pacman_close.png"));
+                                cell = new ImageView(ImageManager.getImage("pacman_right.gif"));
                             }
                             case LEFT -> {
-                                cell = pacmanMovement(ImageManager.getImage("pacman_left.png"),ImageManager.getImage("pacman_close.png"));
+                                cell = new ImageView(ImageManager.getImage("pacman_left.gif"));
                             }
                         }
                     }
@@ -146,21 +146,5 @@ public class LunchTimeUI extends BorderPane {
                 GridPane.setRowIndex(cell, i);
             }
         }
-    }
-    private ImageView pacmanMovement(Image img1, Image img2){
-
-        imageView = new ImageView();;
-        images = new Image[]{img1, img2};
-
-        index = 0;
-        imageView.setImage(images[index]);
-
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
-            index = (index + 1) % images.length;
-            imageView.setImage(images[index]);
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-        return imageView;
     }
 }
