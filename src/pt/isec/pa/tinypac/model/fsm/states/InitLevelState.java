@@ -1,7 +1,7 @@
 package pt.isec.pa.tinypac.model.fsm.states;
 
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.model.data.Environment;
+import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.model.fsm.PacmanStateAdapter;
@@ -10,7 +10,7 @@ public class InitLevelState extends PacmanStateAdapter {
     public InitLevelState(PacmanContext context, Environment data) {
         super(context, data);
         data.revive();
-        data.setCoin();
+        data.resetCoins();
     }
 
     @Override
@@ -19,10 +19,8 @@ public class InitLevelState extends PacmanStateAdapter {
     }
 
     @Override
-    public boolean changeDirection() {
+    public boolean changeDirection(MazeElement.Directions directions) {
         changeState(PacmanState.MOVING);
         return true;
     }
-
-
 }

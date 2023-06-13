@@ -1,6 +1,5 @@
 package pt.isec.pa.tinypac.model.fsm;
 
-import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.Pacman;
@@ -18,7 +17,7 @@ public abstract class PacmanStateAdapter implements IPacmanState {
         context.changeState(PacmanState.createState(newState,context,data));
     }
 
-    public boolean changeDirection() {
+    public boolean changeDirection(MazeElement.Directions directions) {
         return false;
     }
 
@@ -30,15 +29,11 @@ public abstract class PacmanStateAdapter implements IPacmanState {
         return false;
     }
 
-    public boolean saveGame() {
-        return false;
-    }
 
     public boolean leaveGame() {
         return false;
     }
-
-    public boolean saveScore() {
+    public boolean saveScore(String username) {
         return false;
     }
     public boolean evolve(){

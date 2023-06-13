@@ -28,14 +28,8 @@ public class PauseState extends PacmanStateAdapter {
     }
 
     @Override
-    public boolean saveGame() {
-        //logica de guardar jogo
-        return true;
-    }
-
-    @Override
     public boolean leaveGame() {
-
+        changeState(PacmanState.ENDGAME);
         return true;
     }
 

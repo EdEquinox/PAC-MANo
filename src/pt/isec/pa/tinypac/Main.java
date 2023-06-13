@@ -9,11 +9,8 @@ import java.io.IOException;
 public class Main {
 
     public static PacmanManager manager;
-
-    static {
-        manager = new PacmanManager();
-    }
     public static void main(String[] args) throws IOException {
+        manager = new PacmanManager();
         Application.launch(MainJFX.class,args);
     }
 }

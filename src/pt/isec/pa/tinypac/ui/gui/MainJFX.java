@@ -2,11 +2,9 @@ package pt.isec.pa.tinypac.ui.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import pt.isec.pa.tinypac.Main;
 import pt.isec.pa.tinypac.model.PacmanManager;
-import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
 public class MainJFX extends Application {

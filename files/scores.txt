@@ -5,3 +5,7 @@
 5,sdt
 90,yhtgf
 14,jose
+8,ola
+4,sda
+3,loureçoi
+11,asdsa

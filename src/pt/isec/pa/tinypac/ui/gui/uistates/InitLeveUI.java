@@ -11,8 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
-import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.data.MazeElement;

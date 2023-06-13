@@ -1,7 +1,7 @@
 package pt.isec.pa.tinypac.model.fsm.states;
 
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.model.data.Environment;
+import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.model.fsm.PacmanStateAdapter;
@@ -17,8 +17,8 @@ public class MovingState extends PacmanStateAdapter {
     }
     
     @Override
-    public boolean changeDirection() {
-        //context.continueGE();
+    public boolean changeDirection(MazeElement.Directions directions) {
+        data.changeDirection(directions);
         changeState(PacmanState.MOVING);
         return true;
     }
@@ -31,25 +31,21 @@ public class MovingState extends PacmanStateAdapter {
 
     @Override
     public boolean evolve() {
-        if (data.eatSuperBall()){
+        data.evolve();
+        if (data.isSuper()){                   //comeu a bola?
             changeState(PacmanState.LUNCH_TIME);
-            data.superChange();
             return true;
-        } else if (data.isDead()){
-            if (data.gameLost()) {
+        } else if (data.isDead()){//morreu?
+            if (data.gameLost()) {//ultima vida?
                 changeState(PacmanState.ENDGAME);
                 return true;}
             changeState(PacmanState.INIT_LEVEL);
-            context.died();
             return true;
-        } else if (data.nextLvl()) {
+        } else if (data.nextLvl()) {//acabou as moedas?
             changeState(PacmanState.INIT_LEVEL);
-            context.newLevel();
             return true;
         } else if (data.gameWin()) {
-            changeState(PacmanState.ENDGAME);
-            return true;
-        }else if (data.gameLost()) {
+            System.out.println("ola");
             changeState(PacmanState.ENDGAME);
             return true;
         }

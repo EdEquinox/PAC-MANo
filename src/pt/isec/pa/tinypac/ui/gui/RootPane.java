@@ -21,8 +21,7 @@ public class RootPane extends BorderPane {
 
     PacmanManager manager;
     boolean start;
-    Button btnStart, btnExit, btnYes,btnNo,btnTop5;
-    Label lblGameLoad;
+    Button btnStart, btnExit,btnTop5;
    public RootPane(PacmanManager manager) {
        this.manager = manager;
        start = false;
@@ -45,11 +44,8 @@ public class RootPane extends BorderPane {
        );
 
        btnStart = new Button("COMEÇAR JOGO");
-       //btnConfig(btnStart);
        btnTop5 = new Button("TOP 5");
-       //btnConfig(btnTop5);
        btnExit = new Button("SAIR");
-       //btnConfig(btnExit);
 
        VBox vBox = new VBox(btnStart,btnTop5,btnExit);
        vBox.setAlignment(Pos.CENTER);
@@ -70,16 +66,17 @@ public class RootPane extends BorderPane {
                this.setCenter(new GameUI(manager));
            }
            else {
-               newOrLoad(file);
+               ContinueGameDialog continueGameDialog = new ContinueGameDialog(manager,file,this::continueGame);
+               this.setCenter(continueGameDialog);
            }
        });
 
        btnTop5.setOnAction(actionEvent -> {
-           this.setCenter(new Top5UI(manager));
+           this.setCenter(new Top5UI());
        });
 
        btnExit.setOnAction( event -> {
-           sair();
+           new LeaveGameDialog();
        });
 
    }
@@ -88,101 +85,12 @@ public class RootPane extends BorderPane {
 
     }
 
-    private void sair() {
-        lblGameLoad = new Label("Queres mesmo sair?");
-        btnYes = new Button("SIM");
-        btnNo = new Button("NÃO");
-
-        HBox hBox = new HBox(btnYes, btnNo);
-        VBox vBox = new VBox(lblGameLoad,hBox);
-        Stage popUp = new Stage();
-        Scene scene = new Scene(vBox,100,100);
-
-        vBox.setSpacing(20);
-        hBox.setSpacing(40);
-        hBox.setPadding(new Insets(10));
-        btnYes.setPadding(new Insets(5));
-        btnNo.setPadding(new Insets(5));
-        btnYes.setMinWidth(100);
-        btnNo.setMinWidth(100);
-
-        vBox.setAlignment(Pos.CENTER);
-        hBox.setAlignment(Pos.CENTER);
-
-        btnNo.setOnAction(actionEvent -> {
-            popUp.close();
-
-        });
-        btnYes.setOnAction(actionEvent -> {
-            Platform.exit();
-        });
-
-
-        //popUp.initModality(Modality.APPLICATION_MODAL);
-        popUp.setTitle("Load");
-        popUp.setScene(scene);
-        popUp.setMinWidth(300);
-        popUp.setMinHeight(200);
-        popUp.getIcons().addAll(ImageManager.getImage("pacman_right.png"));
-        popUp.show();
-    }
-
-
-    private void newOrLoad(File file) {
-
-        lblGameLoad = new Label("Queres continuar o jogo anterior?");
-        btnYes = new Button("SIM");
-        btnNo = new Button("NÃO");
-
-        HBox hBox = new HBox(btnYes, btnNo);
-        VBox vBox = new VBox(lblGameLoad,hBox);
-        Stage popUp = new Stage();
-        Scene scene = new Scene(vBox,100,100);
-
-        vBox.setSpacing(20);
-        hBox.setSpacing(40);
-        hBox.setPadding(new Insets(10));
-        btnYes.setPadding(new Insets(5));
-        btnNo.setPadding(new Insets(5));
-        btnYes.setMinWidth(100);
-        btnNo.setMinWidth(100);
-
-        vBox.setAlignment(Pos.CENTER);
-        hBox.setAlignment(Pos.CENTER);
-
-        btnNo.setOnAction(actionEvent -> {
-            popUp.close();
+    public void continueGame(boolean continueGame) {
+        File file = new File("files/game.bin");
+        if (continueGame){
             this.setCenter(new GameUI(manager));
-        });
-        btnYes.setOnAction(actionEvent -> {
-            load(file);
-            popUp.close();
-        });
-
-
-        popUp.initModality(Modality.APPLICATION_MODAL);
-        popUp.setTitle("Load");
-        popUp.setScene(scene);
-        popUp.setMinWidth(300);
-        popUp.setMinHeight(200);
-        popUp.getIcons().addAll(ImageManager.getImage("pacman_right.png"));
-        popUp.show();
-    }
-
-    public void load(File file){
-        try(FileInputStream fs = new FileInputStream(file);
-            ObjectInputStream ds = new ObjectInputStream(fs);){
-
-            Environment environment = (Environment) ds.readObject();
-            this.setCenter(new GameUI(new PacmanManager(environment)));
-
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("erro a loadar"
-                    + "A criar um jogo novo");
-            this.setCenter(new GameUI(manager));
-        } finally {
-            file.delete();
+        }else {
+            this.setCenter(new GameUI(new PacmanManager(manager.load(file))));
         }
     }
 }

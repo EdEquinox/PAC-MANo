@@ -1,7 +1,5 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
-import javafx.util.Duration;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeElement;
@@ -19,7 +16,6 @@ import pt.isec.pa.tinypac.model.data.elements.ghosts.Blinky;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Clyde;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Inky;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
-import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
@@ -83,6 +79,7 @@ public class LunchTimeUI extends BorderPane {
     }
 
     private void maze(){
+        grid.getChildren().clear();
         for(int i=0; i<manager.getMaze().length;i++){
             for(int j=0; j<manager.getMaze()[i].length;j++){
                 char a = manager.getMaze()[i][j];

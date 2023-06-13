@@ -1,7 +1,7 @@
 package pt.isec.pa.tinypac.model.fsm.states;
 
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.model.data.Environment;
+import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.model.fsm.PacmanStateAdapter;
@@ -21,9 +21,15 @@ public class LunchTime extends PacmanStateAdapter {
         changeState(PacmanState.PAUSE);
         return true;
     }
+    public boolean changeDirection(MazeElement.Directions directions) {
+        data.changeDirection(directions);
+        changeState(PacmanState.LUNCH_TIME);
+        return true;
+    }
 
     @Override
     public boolean evolve() {
+        data.evolve();
         if (data.timesUp()){
             changeState(PacmanState.MOVING);
             return true;
@@ -32,7 +38,7 @@ public class LunchTime extends PacmanStateAdapter {
             return true;
         } else if (data.nextLvl()) {
             changeState(PacmanState.INIT_LEVEL);
-            context.newLevel();
+            //context.newLevel();
             return true;
         } else if (data.gameLost()) {
             changeState(PacmanState.ENDGAME);

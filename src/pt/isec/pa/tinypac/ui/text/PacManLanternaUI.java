@@ -152,7 +152,7 @@ public class PacManLanternaUI implements IGameEngineEvolve {
                 fsm.resume();
                 gameEngine.resume();
             }
-            case 2-> fsm.saveGame();
+            //case 2-> fsm.saveGame();
             case 3-> {
                 //fsm.leaveGame();
                 gameEngine.stop();

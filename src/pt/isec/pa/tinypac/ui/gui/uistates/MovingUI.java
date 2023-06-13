@@ -1,20 +1,13 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
-import com.googlecode.lanterna.TextColor;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
-import javafx.util.Duration;
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
-import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeElement;
@@ -23,7 +16,6 @@ import pt.isec.pa.tinypac.model.data.elements.ghosts.Blinky;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Clyde;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Inky;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
-import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
@@ -33,9 +25,7 @@ import java.util.ArrayList;
 public class MovingUI extends BorderPane {
     PacmanManager manager;
     GridPane grid;
-    private ImageView imageView;
-    private Image[] images;
-    private int index;
+
     public MovingUI(PacmanManager manager) {
         this.manager = manager;
 

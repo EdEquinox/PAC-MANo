@@ -17,9 +17,8 @@ public class EndGameState extends PacmanStateAdapter {
     }
 
     @Override
-    public boolean saveScore() {
-
+    public boolean saveScore(String username) {
+        data.saveScore(username);
         return true;
     }
-
 }

@@ -1,91 +1,78 @@
 package pt.isec.pa.tinypac.model.data;
 
-import pt.isec.pa.tinypac.model.data.elements.Coin;
-import pt.isec.pa.tinypac.model.data.elements.Pacman;
-import pt.isec.pa.tinypac.model.data.elements.Portal;
-import pt.isec.pa.tinypac.model.data.elements.Wall;
+import pt.isec.pa.tinypac.model.data.elements.*;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Blinky;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Clyde;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Inky;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Environment implements Serializable {
 
-    private static final int TIME_UP = 5;
-    private static final int TIME_UP_GHOST = 5;
     @Serial
     private static final long serialVersionUID = 1L;
-    private final int height, width;
+
+    //region game properties
+    private static final int TIME_UP = 5;
+    private static final int TIME_UP_GHOST = 5;
+    private int nLives = 1;
+    //endregion
+
+    //region maze properties
     private final Maze maze;
-    private boolean isDead;
-    private boolean isEmpty;
+    private int height;
+    private int width;
+    //endregion
+
+    // region flags
+    private boolean isDead = false;
+    private boolean isEmpty = false;
+    private boolean isSuper = false;
+
+    //endregion
+
+    //region counters
+    private int timeSuper = 0;
+    private int timeGhost = 0;
+    private int nCoins = 0;
+    private int numGhosts = 0;
+    private int score = 0;
+    //endregion
+
+    //region run properties
     private String username;
-
-    public void setCoin() {
-        isEmpty = false;
-    }
-
-    public boolean ghostsBusted() {
-        return true;
-    }
+    private String level = String.valueOf(19);
+    public final String FILE = "files/Level" + level + ".txt";
+    //endregion
 
     public record Position(int y, int x) implements Serializable{
     }
 
-    private int timeSuper = 0;
-    private int timeGhost = 0;
-    private int nLives = 1;
-    private String level = String.valueOf(01);
-    public final String FILE = "files/Level" + level + ".txt";
-    private int nCoins = 0;
-    private int numGhosts = 0;
-    private int score = 0;
-    private boolean isSuper = false;
-
+    //region contructors
     public Environment(int height, int width) {
         this.height = height;
         this.width = width;
         this.maze = new Maze(height, width);
     }
-
-    //maze helper
-    public void addElement(IMazeElement element, int y, int x) {
-        maze.set(y, x, element);
+    public Environment() {
+        this.height = 0;
+        this.width = 0;
+        this.maze = new Maze(0, 0);
     }
+    //endregion
 
+
+    //region getters
     public MazeElement getElement(int y, int x) {
         IMazeElement element = maze.get(y, x);
         if (element instanceof MazeElement mazeElement)
             return mazeElement;
         return null;
-    }
-
-    public Pacman getPacman() {
-        for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++)
-                if (maze.get(y, x) instanceof Pacman pacman)
-                    return pacman;
-        return null;
-    }
-
-    public <T extends IMazeElement> ArrayList<IMazeElement> getListElement(Class<T> type) {
-        ArrayList<IMazeElement> list = new ArrayList<>();
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (x != 0 || y != 0) {
-                    IMazeElement element = maze.get(y, x);
-                    if (element != null && element.getClass() == type) {
-                        list.add(element);
-                    }
-                }
-            }
-        }
-        return list;
-    }
-
+    } //get by position
     public <T extends IMazeElement> IMazeElement getElement(Class<T> type) {
         IMazeElement element;
         for (int y = 0; y < height; y++) {
@@ -99,22 +86,73 @@ public class Environment implements Serializable {
             }
         }
         return null;
-    }
-
-
+    } //get by type
+    public Pacman getPacman() {
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+                if (maze.get(y, x) instanceof Pacman pacman)
+                    return pacman;
+        return null;
+    }//get pacman
+    public <T extends IMazeElement> ArrayList<IMazeElement> getListElement(Class<T> type) {
+        ArrayList<IMazeElement> list = new ArrayList<>();
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (x != 0 || y != 0) {
+                    IMazeElement element = maze.get(y, x);
+                    if (element != null && element.getClass() == type) {
+                        list.add(element);
+                    }
+                }
+            }
+        }
+        return list;
+    }//get lista de elementos do tipo T
     public Position getPositionOf(IMazeElement element) {
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
                 if (maze.get(y, x) == element)
                     return new Position(y, x);
         return null;
-    }
+    }//get posição do elemento pedido
+    public char[][] getMaze() {
+        return maze.getMaze();
+    }// get maze
+    public int getHeight() {
+        return height;
+    }//get altura do maze
+    public int getWidth() {
+        return width;
+    }//get largura do maze
+    public String getFilename() {
+        return FILE;
+    }// get nome do ficheiro
+    public int getNumGhosts() {
+        return numGhosts;
+    }// get numero de fantasmas
+    public int getScore() {
+        return score;
+    } //get score
+    public int getTimeSuper() {
+        return timeSuper;
+    } //get tempo de super
+    private String getUsername() {
+        return username;
+    }//get nome do utilizador
+    public int getTimeGhost() {
+        return timeGhost;
+    }//get tempo de spawn dos fantasmas
+    public int getnLives() {
+        return nLives;
+    }//get vidas
+    //endregion
 
-    public boolean canMove(int y, int x, MazeElement.Directions directions) {
+    //region flags
+    public boolean canMove(int y, int x, MazeElement.Directions direction) {
         int newRow = y;
         int newCol = x;
 
-        switch (directions) {
+        switch (direction) {
             case UP -> newRow--;
             case DOWN -> newRow++;
             case LEFT -> newCol--;
@@ -128,132 +166,152 @@ public class Environment implements Serializable {
         } else if (this.getElement(newRow, newCol) instanceof Portal) {
             return false;
         } else return true;
+    }// elemento em x, y pode mover-se na direção direction
 
-    }
+    //endregion
 
-    //
-
-    public void countCoins(){
-        isEmpty = getElement(Coin.class) == null;
-    }
-    public void superChange() {
-        isSuper = !isSuper;
-    }
-    public boolean isDead() {
-        return isDead;
-    }
-    public void die(){
-        isDead = true;
-    }
+    //region setters
+    public void addElement(IMazeElement element, int y, int x) {
+        maze.set(y, x, element);
+    } //adiciona elemento a y,x
+    public void resetCoins() {
+        isEmpty = false;
+    } //dá reset ao contador de moedas
     public void revive() {
         if (isDead) {
             isDead = false;
         }
-    }
-
+    } //pacman revive
     public void addGhost() {
         numGhosts++;
-    }
-
-    public void scoreUp() {
-        score++;
-    }
+    }//adiciona fantasma ao contador
+    public void resetTimeGhost() {
+        this.timeGhost = 0;
+    }//dá reset ao tempo de super
     public void setUsername(String username){
         this.username = username;
-    }
+    } //nome de utilizador para guardar score
+    //endregion
 
-    public boolean timesUp() {
-        timeSuper++;
-        System.out.println("tempo super: " + this.timeSuper);
-        if (timeSuper > TIME_UP && isSuper) {
-            //superChange();
-            timeSuper = 0;
-            return true;
-        }
-        return false;
-    }
-
+    //region helpers
+    public void countCoins(){
+        isEmpty = getElement(Coin.class) == null;
+    }//conta as moedas
     public boolean timeGhost() {
         if (getPacman().getCurrentDirection() != MazeElement.Directions.NADA) {
             return timeGhost > TIME_UP_GHOST;
         }
         return false;
-    }
-
-    public char[][] getMaze() {
-        return maze.getMaze();
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public String getFilename() {
-        return FILE;
-    }
-
-    public int getNumGhosts() {
-        return numGhosts;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public boolean getSuper() {
-        return isSuper;
-    }
-
-    public int getTimeSuper() {
-        return timeSuper;
-    }
-
-
-    public boolean win() {
-        return nCoins == 0 && Integer.parseInt(level) > 20;
-    }
-
-    public boolean hpUP() {
-        nLives++;
-        return true;
-    }
-
-    public boolean bigLose() {
-        return nLives == 0;
-    }
-
-    public String nextLevel() {
-        if (nCoins == 0) {
-            int i = (Integer.parseInt(level));
-            System.out.println(i);
-            level = "0" + (i + 1);
-            System.out.println(level);
-            return level;
+    } //contagem para os fantasmas sairem da toca
+    public void count(File file) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNext()){
+            String[] columns = scanner.nextLine().split("");
+            this.height++;
+            this.width = Math.max(this.width, columns.length);
         }
-        return null;
-    }
+        scanner.close();
+    }//conta altura e largura
+    private IMazeElement caverna(Environment environment) {
+        if (environment.getNumGhosts()<4) {
+            switch (environment.getNumGhosts()){
+                case 0 -> {
+                    environment.addGhost();
+                    return new Blinky(environment);
+                }
+                case 1 -> {
+                    environment.addGhost();
+                    return new Clyde(environment);
+                }
+                case 2 -> {
+                    environment.addGhost();
+                    return new Inky(environment);
+                }
+                case 3 -> {
+                    environment.addGhost();
+                    return new Pinky(environment);
+                }
+            }
+        }
+        environment.addGhost();
+        return new Cave(environment);
+    }//popula a caverna
+    public Environment readFile(String filePath) {
+        Environment environment = null;
+        FileReader fr = null;
+        try {
+            File file = new File(filePath);
+            if (!file.exists()) return null;
+            fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            count(file);
+            int x,y=0;
+            environment = new Environment(height,width);
+            String line;
+            while (y < height && (line = br.readLine()) != null) {
+                char[] chars = line.toCharArray();
+                for (x = 0; x < chars.length; x++) {
+                    char c = chars[x];
+                    IMazeElement element = switch (c) {
+                        case Pacman.SYMBOL -> new Pacman(environment);
+                        case Wall.SYMBOL -> new Wall(environment);
+                        case Coin.SYMBOL -> new Coin(environment);
+                        case SuperCoin.SYMBOL -> new SuperCoin(environment);
+                        case Warp.SYMBOL -> new Warp(environment);
+                        case Cave.SYMBOL -> caverna(environment);
+                        case Portal.SYMBOL -> new Portal(environment);
+                        case Fruit.SYMBOL -> new Fruit(environment);
+                        case EmptyCell.SYMBOL -> new EmptyCell(environment);
+                        default -> throw new IllegalStateException("Unexpected value: " + c);
+                    };
+                    environment.addElement(element, y, x);
+                }
+                y++;
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Ficheiro não encontrado, a carregar o nivel 1");
+            readFile(FILE);
 
-    public int getTimeGhost() {
-        return timeGhost;
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            if (fr!=null){
+                try {
+                    fr.close();
+                } catch (IOException exception){
+                    exception.printStackTrace();
+                }
+            }
+        }
 
-    public void resetTimeGhost() {
-        timeGhost = 0;
-    }
+        return environment;
+    }//le o ficheiro
 
+    //endregion
+
+    //region pacman helpers
     public void loseLife() {
         nLives--;
-    }
+    }//pacman perde uma vida
+    public void die(){
+        isDead = true;
+    } //pacman morre
+    public void scoreUp() {
+        score++;
+    }//pacman ganha +1 de score
+    public void superChange() {
+        isSuper = !isSuper;
+    } //pacman muda para super
+    public void hpUP() {
+        nLives++;
+    }// pacman ganha uma vida
+    //endregion
 
-    public int getnLives() {
-        return nLives;
-    }
-
-    //region TRANSITIONS
+    //region transition helpers
+    //initleven
+    public void changeDirection(MazeElement.Directions direction){
+        getPacman().setCurrentDirection(direction);
+    }// muda direção
     public boolean evolve() {
         List<MazeElement> lst = new ArrayList<>();
         for (int y = 0; y < height; y++)
@@ -270,44 +328,56 @@ public class Environment implements Serializable {
         }
         countCoins();
         return true;
-    }
-
-    public void saveGame() {
-    }
-
+    }//evolve
+    //moving
+    public boolean gameWin() {
+        if ((Integer.parseInt(level)==20) && isEmpty){
+            return true;
+        }
+        return false;
+        //return nCoins == 0 && Integer.parseInt(level) > 20;
+    } //ganhou o jogo depois de nivel 20
+    public boolean gameLost() {
+        return getnLives() == 0;
+    }//perdeu o jogo
+    public boolean nextLvl() {
+        if (isEmpty) {
+            int i = (Integer.parseInt(level));
+            System.out.println(i);
+            this.level = String.valueOf(i + 1);
+            return true;
+        }
+        return false;
+    } //acabaram as moedas
+    public boolean isSuper() {
+        return isSuper;
+    }//pacman está super?
+    public boolean isDead() {
+        return isDead;
+    }//pacman está morto?
+    //lunch_time
+    public boolean ghostsBusted() {
+        return false;
+    }//os fantasmas foram todos apanhados?
+    public boolean timesUp() {
+        timeSuper++;
+        if (timeSuper > TIME_UP && isSuper) {
+            resetTimeGhost();
+            superChange();
+            return true;
+        }
+        return false;
+    } //acabou o tempo de super
+    //endgame
     public void saveScore(String username) {
-        String score = ""+getScore()+","+username;
+        String score = getScore()+","+username;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/scores.txt",true))){
             writer.write(score);
             writer.newLine();
         } catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    private String getUsername() {
-        return username;
-    }
-
-    //
-
-    //region TRANSITION CONDITIONS
-
-    public boolean eatSuperBall() {
-        return isSuper;
-    }
-
-    public boolean nextLvl() {
-        return isEmpty;
-    }
-
-    public boolean gameLost() {
-        return getnLives() == 0;
-    }
-
-    public boolean gameWin() {
-        return false;
-    }
+    }//guarda score para top5
     //endregion
 
     //region NOT NEEDED
@@ -334,4 +404,5 @@ public class Environment implements Serializable {
         return lst;
     }
     //endregion
+
 }

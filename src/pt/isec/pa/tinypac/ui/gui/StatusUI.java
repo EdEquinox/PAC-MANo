@@ -63,10 +63,10 @@ public class StatusUI extends HBox {
         }
         this.setVisible(true);
 
-        lblLives.setText("Vidas - "+manager.getNLives());
-        lblPoints.setText("Pontos - " + manager.getScore());
-        lblState.setText(manager.getState().toString());
-        lblTime.setText(manager.getTime());
+        lblLives.setText("Vidas: "+manager.getNLives());
+        lblPoints.setText("Pontos: " + manager.getScore());
+        lblState.setText("Estado:  "+manager.getState().toString());
+        if (manager.getState()==PacmanState.LUNCH_TIME)lblTime.setText("Tempo super: " + manager.getTime());
 
     }
 }

@@ -1,26 +1,24 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pt.isec.pa.tinypac.model.PacmanManager;
-import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.RootPane;
-import pt.isec.pa.tinypac.ui.gui.SaveScoreUI;
+import pt.isec.pa.tinypac.ui.gui.SaveScoreDialog;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
 
 public class EndGameUI extends BorderPane {
     PacmanManager manager;
     Button btnSave,btnExit;
+    Label lblScore;
     public EndGameUI(PacmanManager manager) {
         this.manager = manager;
 
@@ -42,12 +40,15 @@ public class EndGameUI extends BorderPane {
                 )
         );
 
+        lblScore = new Label();
         btnSave = new Button("SAVE");
         btnExit = new Button("EXIT");
+        lblScore.getStyleClass().add("lblscore");
+        lblScore.setAlignment(Pos.CENTER);
 
         this.getStylesheets().add("pt/isec/pa/tinypac/ui/gui/resources/styles.css");
 
-        VBox vBox = new VBox(btnSave,btnExit);
+        VBox vBox = new VBox(lblScore,btnSave,btnExit);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(15);
 
@@ -69,17 +70,26 @@ public class EndGameUI extends BorderPane {
         btnExit.setOnAction( event -> {
             Stage stage = (Stage) this.getScene().getWindow();
             RootPane root = new RootPane(new PacmanManager());
-            Scene scene = new Scene(root,1000,1000);
+            Scene scene = new Scene(root,800,600);
             stage.setScene(scene);
             stage.show();
         });
 
     }
 
+    private void update() {
+        if (manager.getState() != PacmanState.ENDGAME) {
+            this.setVisible(false);
+            return;
+        }
+        this.setVisible(true);
+        lblScore.setText("Score: "+manager.getScore());
+    }
+
     private void saveScore() {
 
         Stage popUp = new Stage();
-        Scene scene = new Scene(new SaveScoreUI(manager),400,100);
+        Scene scene = new Scene(new SaveScoreDialog(manager),400,100);
 
         popUp.initModality(Modality.APPLICATION_MODAL);
         popUp.setTitle("SAVE");
@@ -89,20 +99,4 @@ public class EndGameUI extends BorderPane {
         popUp.getIcons().addAll(ImageManager.getImage("pacman_right.png"));
         popUp.showAndWait();
     }
-
-    private void update() {
-        if (manager.getState() != PacmanState.ENDGAME) {
-            this.setVisible(false);
-            return;
-        }
-        this.setVisible(true);
-    }
-
-    private void btnConfig(Button btn){
-        btn.setMinWidth(200);
-        btn.setMinHeight(50);
-        btn.setStyle("-fx-background-color: #b38b0f; -fx-text-fill: white; -fx-font-size: 14px; " +
-                "-fx-pref-width: 120px; -fx-pref-height: 40px; -fx-background-radius: 20px; -fx-font-family: 'Comic Sans MS'; -fx-font-weight: bold");
-    }
-
 }

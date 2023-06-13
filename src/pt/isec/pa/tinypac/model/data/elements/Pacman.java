@@ -68,8 +68,8 @@ public class Pacman extends MazeElement {
     }
 
     public boolean superChange(Environment.Position myPos){
-        //Environment.Position myPos = environment.getPositionOf(this);
         if (environment.getElement(myPos.y(), myPos.x()) instanceof SuperCoin){
+            environment.resetTimeGhost();
             environment.superChange();
             return true;
         }
@@ -87,9 +87,8 @@ public class Pacman extends MazeElement {
     }
 
     public boolean die(Environment.Position myPos){
-        //Environment.Position myPos = environment.getPositionOf(this);
         if (environment.getElement(myPos.y(), myPos.x()) instanceof Ghost){
-            if (environment.getSuper()){
+            if (environment.isSuper()){
                 environment.scoreUp();
                 ArrayList<IMazeElement> blinky = environment.getListElement(Blinky.class);
                 ArrayList<IMazeElement> clyde = environment.getListElement(Clyde.class);

@@ -12,14 +12,14 @@ import javafx.stage.Stage;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
 
-public class SaveScoreUI extends BorderPane {
+public class SaveScoreDialog extends BorderPane {
 
     Button btnOk;
     TextField textField;
     Label label;
     PacmanManager manager;
 
-    public SaveScoreUI(PacmanManager manager) {
+    public SaveScoreDialog(PacmanManager manager) {
         this.manager = manager;
         createViews();
         registerHandlers();
