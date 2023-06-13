@@ -1,0 +1,19 @@
+.button {
+    -fx-background-color: rgb(217, 168, 23);
+    -fx-padding: 17px 40px;
+    -fx-border-radius: 10px;
+    -fx-spacing: 1.5px;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-min-width: 250;
+    -fx-min-height: 50;
+
+    box-shadow: rgb(217, 168, 23) 0px 10px 0px 0px;
+    /*color: hsl(0, 0%, 100%);*/
+}
+
+.button:hover {
+    /*box-shadow: rgb(108, 84, 12) 0px 7px 0px 0px;*/
+    -fx-background-color: rgb(108, 84, 12);
+    transition: -fx-background-color 2s ease;
+}

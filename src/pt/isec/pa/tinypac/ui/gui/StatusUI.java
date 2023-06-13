@@ -12,7 +12,7 @@ import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
 public class StatusUI extends HBox {
     PacmanManager manager;
-    Label lblPoints, lblLives, lblState;
+    Label lblPoints, lblLives, lblState, lblTime;
 
     public StatusUI(PacmanManager manager) {
         this.manager = manager;
@@ -37,15 +37,18 @@ public class StatusUI extends HBox {
         lblLives = new Label();
         lblPoints = new Label();
         lblState = new Label();
+        lblTime = new Label();
 
         lblLives.setStyle("-fx-text-fill: white");
         lblPoints.setStyle("-fx-text-fill: white");
         lblState.setStyle("-fx-text-fill: white");
+        lblTime.setStyle("-fx-text-fill: white");
+        lblTime.setPadding(new Insets(10));
         lblLives.setPadding(new Insets(10));
         lblPoints.setPadding(new Insets(10));
         lblState.setPadding(new Insets(10));
 
-        this.getChildren().addAll(lblLives,lblPoints,lblState);
+        this.getChildren().addAll(lblLives,lblPoints,lblState,lblTime);
     }
 
     private void registerHandlers() {
@@ -63,6 +66,7 @@ public class StatusUI extends HBox {
         lblLives.setText("Vidas - "+manager.getNLives());
         lblPoints.setText("Pontos - " + manager.getScore());
         lblState.setText(manager.getState().toString());
+        lblTime.setText(manager.getTime());
 
     }
 }

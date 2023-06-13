@@ -1,6 +1,7 @@
 package pt.isec.pa.tinypac.model.fsm;
 
 import pt.isec.pa.tinypac.gameengine.GameEngine;
+import pt.isec.pa.tinypac.gameengine.GameEngineState;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
 import pt.isec.pa.tinypac.model.data.Environment;
@@ -66,9 +67,9 @@ public class PacmanContext implements IGameEngineEvolve {
         state.saveGame();
         data.saveGame();
     }
-    public void saveScore(){
+    public void saveScore(String username){
+        data.saveScore(username);
         state.saveScore();
-        data.saveScore();
     }
 
     //endregion
@@ -203,6 +204,7 @@ public class PacmanContext implements IGameEngineEvolve {
     }
 
     public boolean newLevel() {
+        //gameEngine.stop();
         FILE = "Level20.txt";
         System.out.println("mudou de nome");
         this.data = readFile(FILE);
@@ -227,5 +229,14 @@ public class PacmanContext implements IGameEngineEvolve {
             e.printStackTrace();
             System.out.println("erro a gravar");
         }
+    }
+
+    public void died() {
+        //gameEngine.stop();
+    }
+
+    public void continueGE() {
+        if ( !gameEngine.getCurrentState().equals(GameEngineState.RUNNING))
+            gameEngine.resume();
     }
 }

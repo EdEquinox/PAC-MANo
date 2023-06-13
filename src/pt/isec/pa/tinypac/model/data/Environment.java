@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Environment implements Serializable {
 
-    private static final int TIME_UP = 20;
+    private static final int TIME_UP = 5;
     private static final int TIME_UP_GHOST = 5;
     @Serial
     private static final long serialVersionUID = 1L;
@@ -22,6 +22,7 @@ public class Environment implements Serializable {
     private final Maze maze;
     private boolean isDead;
     private boolean isEmpty;
+    private String username;
 
     public void setCoin() {
         isEmpty = false;
@@ -157,12 +158,15 @@ public class Environment implements Serializable {
     public void scoreUp() {
         score++;
     }
+    public void setUsername(String username){
+        this.username = username;
+    }
 
     public boolean timesUp() {
         timeSuper++;
         System.out.println("tempo super: " + this.timeSuper);
         if (timeSuper > TIME_UP && isSuper) {
-            superChange();
+            //superChange();
             timeSuper = 0;
             return true;
         }
@@ -271,14 +275,18 @@ public class Environment implements Serializable {
     public void saveGame() {
     }
 
-    public void saveScore() {
-        String score = ""+getScore()+","+"ze";
+    public void saveScore(String username) {
+        String score = ""+getScore()+","+username;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("files/scores.txt",true))){
             writer.write(score);
             writer.newLine();
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private String getUsername() {
+        return username;
     }
 
     //

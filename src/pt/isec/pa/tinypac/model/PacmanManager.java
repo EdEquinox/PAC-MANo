@@ -82,8 +82,12 @@ public class PacmanManager implements IGameEngineEvolve{
         pcs.firePropertyChange(null,null,null);
     }
 
-    public void saveScore() {
-        fsm.saveScore();
+    public void saveScore(String username) {
+        fsm.saveScore(username);
         pcs.firePropertyChange(null,null,null);
+    }
+
+    public String getTime() {
+        return String.valueOf(fsm.getTime());
     }
 }

@@ -45,17 +45,18 @@ public class RootPane extends BorderPane {
                )
        );
 
-       btnStart = new Button("START NEW GAME");
-       btnConfig(btnStart);
+       btnStart = new Button("COMEÇAR JOGO");
+       //btnConfig(btnStart);
        btnTop5 = new Button("TOP 5");
-       btnConfig(btnTop5);
-       btnExit = new Button("EXIT");
-       btnConfig(btnExit);
+       //btnConfig(btnTop5);
+       btnExit = new Button("SAIR");
+       //btnConfig(btnExit);
 
        VBox vBox = new VBox(btnStart,btnTop5,btnExit);
        vBox.setAlignment(Pos.CENTER);
        vBox.setSpacing(15);
 
+       this.getStylesheets().add("pt/isec/pa/tinypac/ui/gui/resources/styles.css");
        this.setCenter(vBox);
 
    }
@@ -89,7 +90,42 @@ public class RootPane extends BorderPane {
     }
 
     private void sair() {
-       Platform.exit();
+        lblGameLoad = new Label("Queres mesmo sair?");
+        btnYes = new Button("SIM");
+        btnNo = new Button("NÃO");
+
+        HBox hBox = new HBox(btnYes, btnNo);
+        VBox vBox = new VBox(lblGameLoad,hBox);
+        Stage popUp = new Stage();
+        Scene scene = new Scene(vBox,100,100);
+
+        vBox.setSpacing(20);
+        hBox.setSpacing(40);
+        hBox.setPadding(new Insets(10));
+        btnYes.setPadding(new Insets(5));
+        btnNo.setPadding(new Insets(5));
+        btnYes.setMinWidth(100);
+        btnNo.setMinWidth(100);
+
+        vBox.setAlignment(Pos.CENTER);
+        hBox.setAlignment(Pos.CENTER);
+
+        btnNo.setOnAction(actionEvent -> {
+            popUp.close();
+
+        });
+        btnYes.setOnAction(actionEvent -> {
+            Platform.exit();
+        });
+
+
+        //popUp.initModality(Modality.APPLICATION_MODAL);
+        popUp.setTitle("Load");
+        popUp.setScene(scene);
+        popUp.setMinWidth(300);
+        popUp.setMinHeight(200);
+        popUp.getIcons().addAll(ImageManager.getImage("pacman_right.png"));
+        popUp.show();
     }
 
     private void btnConfig(Button btn){
@@ -112,8 +148,8 @@ public class RootPane extends BorderPane {
     private void newOrLoad(File file) {
 
         lblGameLoad = new Label("Queres continuar o jogo anterior?");
-        btnYes = new Button("YES");
-        btnNo = new Button("NO");
+        btnYes = new Button("SIM");
+        btnNo = new Button("NÃO");
 
         HBox hBox = new HBox(btnYes, btnNo);
         VBox vBox = new VBox(lblGameLoad,hBox);

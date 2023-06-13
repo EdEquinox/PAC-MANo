@@ -1,21 +1,16 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pt.isec.pa.tinypac.model.PacmanManager;
-import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
-import pt.isec.pa.tinypac.ui.gui.GameUI;
-import pt.isec.pa.tinypac.ui.gui.MainJFX;
 import pt.isec.pa.tinypac.ui.gui.RootPane;
-import pt.isec.pa.tinypac.ui.gui.Top5UI;
+import pt.isec.pa.tinypac.ui.gui.SaveScoreUI;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
 
@@ -44,12 +39,10 @@ public class PauseUI extends BorderPane {
                 )
         );
 
-        btnResume = new Button("RESUME");
-        btnConfig(btnResume);
-        btnSave = new Button("SAVE");
-        btnConfig(btnSave);
-        btnExit = new Button("EXIT");
-        btnConfig(btnExit);
+        btnResume = new Button("VOLTAR");
+        btnSave = new Button("GUARDAR");
+        btnExit = new Button("SAIR");
+        this.getStylesheets().add("pt/isec/pa/tinypac/ui/gui/resources/styles.css");
 
         VBox vBox = new VBox(btnResume,btnSave,btnExit);
         vBox.setAlignment(Pos.CENTER);
@@ -73,7 +66,7 @@ public class PauseUI extends BorderPane {
         });
 
         btnExit.setOnAction( event -> {
-            manager.saveScore();
+            saveScore();
             Stage stage = (Stage) this.getScene().getWindow();
             RootPane root = new RootPane(new PacmanManager());
             Scene scene = new Scene(root,1000,1000);
@@ -87,18 +80,27 @@ public class PauseUI extends BorderPane {
 
     }
 
+    private void saveScore() {
+
+        Stage popUp = new Stage();
+        Scene scene = new Scene(new SaveScoreUI(manager),400,100);
+
+        popUp.initModality(Modality.APPLICATION_MODAL);
+        popUp.setTitle("SAVE");
+        popUp.setScene(scene);
+        popUp.setMinWidth(300);
+        popUp.setMinHeight(200);
+        popUp.getIcons().addAll(ImageManager.getImage("pacman_right.png"));
+        popUp.showAndWait();
+    }
+
     private void update() {
         if (manager.getState() != PacmanState.PAUSE) {
             this.setVisible(false);
             return;
         }
         this.setVisible(true);
-    }
 
-    private void btnConfig(Button btn){
-        btn.setMinWidth(200);
-        btn.setMinHeight(50);
-        btn.setStyle("-fx-background-color: #b38b0f; -fx-text-fill: white; -fx-font-size: 14px; " +
-                "-fx-pref-width: 120px; -fx-pref-height: 40px; -fx-background-radius: 20px; -fx-font-family: 'Comic Sans MS'; -fx-font-weight: bold");
+
     }
 }

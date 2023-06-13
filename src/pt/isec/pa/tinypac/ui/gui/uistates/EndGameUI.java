@@ -1,15 +1,20 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.RootPane;
+import pt.isec.pa.tinypac.ui.gui.SaveScoreUI;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
 
@@ -38,9 +43,9 @@ public class EndGameUI extends BorderPane {
         );
 
         btnSave = new Button("SAVE");
-        btnConfig(btnSave);
         btnExit = new Button("EXIT");
-        btnConfig(btnExit);
+
+        this.getStylesheets().add("pt/isec/pa/tinypac/ui/gui/resources/styles.css");
 
         VBox vBox = new VBox(btnSave,btnExit);
         vBox.setAlignment(Pos.CENTER);
@@ -56,7 +61,7 @@ public class EndGameUI extends BorderPane {
         manager.addPropertyChangeListener(evt -> Platform.runLater(this::update));
 
         btnSave.setOnAction(actionEvent -> {
-            manager.saveScore();
+            saveScore();
             ToastMessage.show(getScene().getWindow(),"Game Saved!");
             btnExit.fire();
         });
@@ -69,6 +74,20 @@ public class EndGameUI extends BorderPane {
             stage.show();
         });
 
+    }
+
+    private void saveScore() {
+
+        Stage popUp = new Stage();
+        Scene scene = new Scene(new SaveScoreUI(manager),400,100);
+
+        popUp.initModality(Modality.APPLICATION_MODAL);
+        popUp.setTitle("SAVE");
+        popUp.setScene(scene);
+        popUp.setMinWidth(300);
+        popUp.setMinHeight(200);
+        popUp.getIcons().addAll(ImageManager.getImage("pacman_right.png"));
+        popUp.showAndWait();
     }
 
     private void update() {

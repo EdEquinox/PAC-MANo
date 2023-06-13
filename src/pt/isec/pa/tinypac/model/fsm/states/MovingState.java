@@ -18,6 +18,7 @@ public class MovingState extends PacmanStateAdapter {
     
     @Override
     public boolean changeDirection() {
+        //context.continueGE();
         changeState(PacmanState.MOVING);
         return true;
     }
@@ -32,9 +33,11 @@ public class MovingState extends PacmanStateAdapter {
     public boolean evolve() {
         if (data.eatSuperBall()){
             changeState(PacmanState.LUNCH_TIME);
+            data.superChange();
             return true;
         } else if (data.isDead()){
             changeState(PacmanState.INIT_LEVEL);
+            context.died();
             return true;
         } else if (data.nextLvl()) {
             changeState(PacmanState.INIT_LEVEL);

@@ -15,9 +15,7 @@ import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Top5UI extends BorderPane {
 
@@ -36,9 +34,9 @@ public class Top5UI extends BorderPane {
 
     private void createViews() {
 
-        btnSee = new Button("Ver");
+        btnSee = new Button("VER");
         btnSee.setMinWidth(100);
-        btnBack  = new Button("Voltar");
+        btnBack  = new Button("VOLTAR");
         btnBack.setMinWidth(100);
         HBox hBox = new HBox(btnSee,btnBack);
         hBox.setAlignment(Pos.CENTER);
@@ -96,7 +94,13 @@ public class Top5UI extends BorderPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i<scores.size();i++){
+        scores.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return Character.compare(o2.charAt(0), o1.charAt(0));
+            }
+        });
+        for (int i = 0; i<5;i++){
             List<String> score = Arrays.asList(scores.get(i).split(","));
             TilePane newTilePane = getLine(450,score.get(0),score.get(1));
             vTop.getChildren().add(newTilePane);
