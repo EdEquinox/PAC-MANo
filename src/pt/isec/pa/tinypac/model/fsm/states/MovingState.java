@@ -36,6 +36,9 @@ public class MovingState extends PacmanStateAdapter {
             data.superChange();
             return true;
         } else if (data.isDead()){
+            if (data.gameLost()) {
+                changeState(PacmanState.ENDGAME);
+                return true;}
             changeState(PacmanState.INIT_LEVEL);
             context.died();
             return true;
@@ -44,6 +47,9 @@ public class MovingState extends PacmanStateAdapter {
             context.newLevel();
             return true;
         } else if (data.gameWin()) {
+            changeState(PacmanState.ENDGAME);
+            return true;
+        }else if (data.gameLost()) {
             changeState(PacmanState.ENDGAME);
             return true;
         }

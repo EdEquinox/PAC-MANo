@@ -1,7 +1,6 @@
 package pt.isec.pa.tinypac.model;
 
-import pt.isec.pa.tinypac.gameengine.IGameEngine;
-import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
+
 import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.fsm.IPacmanState;
@@ -14,10 +13,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-public class PacmanManager implements IGameEngineEvolve{
+public class PacmanManager{
 
     private PacmanContext fsm;
     PropertyChangeSupport pcs;
+    Top5 top5;
+    boolean start;
 
     public PacmanManager() {
         this.fsm = new PacmanContext();
@@ -37,10 +38,9 @@ public class PacmanManager implements IGameEngineEvolve{
         fsm.changeDirection(directions);
         pcs.firePropertyChange(null,null,null);
     }
-    @Override
-    public void evolve(IGameEngine gameEngine, long currentTime) {
+    public void evolve(long currentTime) {
         pcs.firePropertyChange(null,null,null);
-        fsm.evolve(gameEngine,currentTime);
+        fsm.evolve(currentTime);
     }
     public PacmanState getState(){
         return fsm.getState();

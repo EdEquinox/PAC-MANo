@@ -28,9 +28,6 @@ import java.util.ArrayList;
 public class LunchTimeUI extends BorderPane {
     PacmanManager manager;
     GridPane grid;
-    private ImageView imageView;
-    private Image[] images;
-    private int index;
     public LunchTimeUI(PacmanManager manager) {
         this.manager = manager;
 
@@ -42,9 +39,9 @@ public class LunchTimeUI extends BorderPane {
     private void createViews() {
         grid = new GridPane();
 
-        grid.setPadding(new Insets(10));
-        grid.setHgap(10);
-        grid.setVgap(10);
+        grid.setPadding(new Insets(2));
+        grid.setHgap(2);
+        grid.setVgap(2);
 
         grid.alignmentProperty().set(Pos.CENTER);
 
@@ -139,8 +136,8 @@ public class LunchTimeUI extends BorderPane {
                     }
                     default -> cell = new ImageView(ImageManager.getImage("empty.png"));
                 }
-                cell.setFitWidth(20);
-                cell.setFitHeight(20);
+                cell.setFitWidth(15);
+                cell.setFitHeight(15);
                 grid.add(cell,j,i);
                 GridPane.setColumnIndex(cell, j);
                 GridPane.setRowIndex(cell, i);

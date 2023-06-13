@@ -37,7 +37,7 @@ public class Environment implements Serializable {
 
     private int timeSuper = 0;
     private int timeGhost = 0;
-    private int nLives = 3;
+    private int nLives = 1;
     private String level = String.valueOf(01);
     public final String FILE = "files/Level" + level + ".txt";
     private int nCoins = 0;
@@ -302,7 +302,7 @@ public class Environment implements Serializable {
     }
 
     public boolean gameLost() {
-        return false;
+        return getnLives() == 0;
     }
 
     public boolean gameWin() {

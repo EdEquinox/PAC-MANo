@@ -48,9 +48,9 @@ public class MovingUI extends BorderPane {
 
         grid = new GridPane();
 
-        grid.setPadding(new Insets(10));
-        grid.setHgap(10);
-        grid.setVgap(10);
+        grid.setPadding(new Insets(2));
+        grid.setHgap(2);
+        grid.setVgap(2);
 
         grid.alignmentProperty().set(Pos.CENTER);
 
@@ -97,6 +97,7 @@ public class MovingUI extends BorderPane {
     }
 
     private void maze(){
+        grid.getChildren().clear();
         for(int i=0; i<manager.getMaze().length;i++){
             for(int j=0; j<manager.getMaze()[i].length;j++){
                 char a = manager.getMaze()[i][j];
@@ -113,6 +114,7 @@ public class MovingUI extends BorderPane {
                         cell = new ImageView(ImageManager.getImage("fruit.png"));
                     }
                     case Pacman.SYMBOL -> {
+                        cell = new ImageView(ImageManager.getImage("empty.png"));
                         ArrayList<IMazeElement> element = manager.getFsm().getListElement(Pacman.class);
                         Pacman pacman = (Pacman) element.get(0);
                         switch (pacman.getCurrentDirection()){
@@ -143,6 +145,7 @@ public class MovingUI extends BorderPane {
                         cell = new ImageView(ImageManager.getImage("super-coin.png"));
                     }
                     case Blinky.SYMBOL -> {
+                        cell = new ImageView(ImageManager.getImage("empty.png"));
                         ArrayList<IMazeElement> element = manager.getFsm().getListElement(Blinky.class);
                         Blinky blinky = (Blinky) element.get(0);
                         switch (blinky.getCurrentDirection()){
@@ -157,6 +160,7 @@ public class MovingUI extends BorderPane {
 
                     }
                     case Clyde.SYMBOL -> {
+                        cell = new ImageView(ImageManager.getImage("empty.png"));
                         ArrayList<IMazeElement> element = manager.getFsm().getListElement(Clyde.class);
                         Clyde clyde = (Clyde) element.get(0);
                         switch (clyde.getCurrentDirection()){
@@ -170,6 +174,7 @@ public class MovingUI extends BorderPane {
                         }
                     }
                     case Inky.SYMBOL -> {
+                        cell = new ImageView(ImageManager.getImage("empty.png"));
                         ArrayList<IMazeElement> element = manager.getFsm().getListElement(Inky.class);
                         Inky inky = (Inky) element.get(0);
                         switch (inky.getCurrentDirection()){
@@ -183,6 +188,7 @@ public class MovingUI extends BorderPane {
                         }
                     }
                     case Pinky.SYMBOL -> {
+                        cell = new ImageView(ImageManager.getImage("empty.png"));
                         ArrayList<IMazeElement> element = manager.getFsm().getListElement(Pinky.class);
                         Pinky pinky = (Pinky) element.get(0);
                         switch (pinky.getCurrentDirection()){
@@ -200,8 +206,8 @@ public class MovingUI extends BorderPane {
                     }
                     default -> cell = new ImageView(ImageManager.getImage("empty.png"));
                 }
-                cell.setFitWidth(20);
-                cell.setFitHeight(20);
+                cell.setFitWidth(15);
+                cell.setFitHeight(15);
                 grid.add(cell,j,i);
                 GridPane.setColumnIndex(cell, j);
                 GridPane.setRowIndex(cell, i);

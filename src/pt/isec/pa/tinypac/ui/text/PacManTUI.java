@@ -35,7 +35,7 @@ public class PacManTUI {
     private void begin() throws IOException {
         PacManLanternaUI pacManLanternaUI = new PacManLanternaUI(fsm);
         GameEngine gameEngine = new GameEngine();
-        gameEngine.registerClient(fsm);
+        //gameEngine.registerClient(fsm);
         gameEngine.registerClient(pacManLanternaUI);
         gameEngine.start(500);
         gameEngine.waitForTheEnd();

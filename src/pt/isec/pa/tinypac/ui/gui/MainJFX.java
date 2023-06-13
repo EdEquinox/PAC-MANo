@@ -20,12 +20,10 @@ public class MainJFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         RootPane root = new RootPane(manager);
-        Scene scene = new Scene(root,1000,1000);
+        Scene scene = new Scene(root,800,600);
         stage.setScene(scene);
         stage.getIcons().addAll(ImageManager.getImage("pacman_right.png"));
         stage.setTitle("Pacman");
-        stage.setMinWidth(700);
-        stage.setMinHeight(400);
         stage.show();
     }
 

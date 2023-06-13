@@ -14,10 +14,9 @@ public class GameUI extends BorderPane {
     PacmanManager manager;
     public GameUI(PacmanManager manager) {
         this.manager = manager;
-
         GameEngine gameEngine = new GameEngine();
-        gameEngine.registerClient(manager);
-        gameEngine.start(500);
+        gameEngine.registerClient((g,t)->manager.evolve(t));
+        gameEngine.start(300);
 
 
         createViews();

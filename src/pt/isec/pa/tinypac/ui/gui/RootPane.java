@@ -23,7 +23,6 @@ public class RootPane extends BorderPane {
     boolean start;
     Button btnStart, btnExit, btnYes,btnNo,btnTop5;
     Label lblGameLoad;
-    Label lblSure;
    public RootPane(PacmanManager manager) {
        this.manager = manager;
        start = false;
@@ -128,22 +127,6 @@ public class RootPane extends BorderPane {
         popUp.show();
     }
 
-    private void btnConfig(Button btn){
-        btn.setMinWidth(200);
-        btn.setMinHeight(50);
-        btn.setStyle("-fx-background-color: #b38b0f; -fx-text-fill: white; -fx-font-size: 14px; " +
-                "-fx-pref-width: 120px; -fx-pref-height: 40px; -fx-background-radius: 20px; -fx-font-family: 'Comic Sans MS'; -fx-font-weight: bold");
-    }
-
-    private File fileExists(File file){
-        try (FileInputStream fs = new FileInputStream(file);
-             ObjectInputStream ds = new ObjectInputStream(fs)){
-            newOrLoad(file);
-        } catch (Exception e) {
-            file = null;
-        }
-        return file;
-    }
 
     private void newOrLoad(File file) {
 

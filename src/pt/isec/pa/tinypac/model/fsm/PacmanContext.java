@@ -1,6 +1,7 @@
 package pt.isec.pa.tinypac.model.fsm;
 
-import pt.isec.pa.tinypac.gameengine.GameEngine;
+
+//so importa data
 import pt.isec.pa.tinypac.gameengine.GameEngineState;
 import pt.isec.pa.tinypac.gameengine.IGameEngine;
 import pt.isec.pa.tinypac.gameengine.IGameEngineEvolve;
@@ -17,7 +18,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class PacmanContext implements IGameEngineEvolve {
+public class PacmanContext {
     private IPacmanState state;
     IGameEngine gameEngine;
     private Environment data;
@@ -39,11 +40,8 @@ public class PacmanContext implements IGameEngineEvolve {
     }
 
     //region TRANSITIONS
-    @Override
-    public void evolve(IGameEngine gameEngine, long currentTime) {
+    public void evolve(long currentTime) {
         if (data == null) return;
-        if (this.gameEngine == null)
-            this.gameEngine = gameEngine;
         data.evolve();
         state.evolve();
     }
@@ -95,7 +93,7 @@ public class PacmanContext implements IGameEngineEvolve {
 
     //endregion
     //region FUNCTIONS
-    private Environment readFile(String filePath) {
+    private Environment readFile(String filePath) {             //mandar para o data
         Environment environment = null;
         FileReader fr = null;
         try {
@@ -239,4 +237,9 @@ public class PacmanContext implements IGameEngineEvolve {
         if ( !gameEngine.getCurrentState().equals(GameEngineState.RUNNING))
             gameEngine.resume();
     }
+
+    //mudanças de dados só em transiçoes
+    //context so chama state.qqcoisa()
+
+
 }
