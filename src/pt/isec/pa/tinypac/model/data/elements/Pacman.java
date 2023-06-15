@@ -6,23 +6,25 @@ import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Pacman extends MazeElement {
 
     public static final char SYMBOL = 'M';
     private Environment.Position initialPosition;
-
     private MazeElement.Directions currentDirection;
 
     public Pacman(Environment environment) {
         super(environment);
         this.currentDirection = Directions.NADA;
+        //Environment.Position pos = environment.getPositionOf(this);
+        //this.setInitialPosition(pos);
     }
 
     @Override
     public void evolve() {
         if (environment.getTimeGhost()==0){
-            this.initialPosition = environment.getPositionOf(this);
+            //this.initialPosition = environment.getPositionOf(this);
         }
         Environment.Position myPos = environment.getPositionOf(this);
         if (myPos==null) return;
@@ -191,5 +193,19 @@ public class Pacman extends MazeElement {
 
     public Environment.Position getInitialPosition() {
         return initialPosition;
+    }
+
+    public void setInitialPosition(Environment.Position initialPosition) {
+        this.initialPosition = initialPosition;
+    }
+
+    public void resetPosition() {
+        if (Objects.equals(environment.getCoins(), "0")) {
+            Environment.Position myPos = environment.getPositionOf(this);
+            environment.addElement(null, myPos.y(), myPos.x());
+            environment.addElement(this, initialPosition.y(), initialPosition.x());
+            System.out.println("ola");
+        }
+        System.out.println("ole");
     }
 }

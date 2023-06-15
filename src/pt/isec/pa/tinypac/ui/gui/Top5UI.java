@@ -10,7 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import pt.isec.pa.tinypac.model.PacmanManager;
-import pt.isec.pa.tinypac.model.Top5;
+import pt.isec.pa.tinypac.top5.Top5;
 
 import java.util.*;
 

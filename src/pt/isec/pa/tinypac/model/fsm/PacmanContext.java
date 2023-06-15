@@ -102,6 +102,10 @@ public class PacmanContext {
     public boolean checkEnv() {
         return data.checkEnv();
     }
+
+    public Pacman getPacman() {
+        return data.getPacman();
+    }
     //endregion
 
 

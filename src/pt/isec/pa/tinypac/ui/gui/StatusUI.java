@@ -70,8 +70,9 @@ public class StatusUI extends HBox {
         this.setVisible(true);
 
         lblLives.setText("Vidas: "+manager.getNLives());
-        lblPoints.setText("Pontos: " + manager.getScore());
-        lblState.setText("Estado:  "+manager.getState().toString());
+//        lblPoints.setText("Pontos: " + manager.getScore());
+        lblPoints.setText("Pontos: " + manager.getPacman().getInitialPosition());
+        lblState.setText("Estado:  "+manager.getPacman().getCurrentDirection().toString());
         lblLevel.setText("Nivel:  "+manager.getLevel());
         lblCoins.setText("Moedas:  "+manager.getCoins().toString());
         if (manager.getState()==PacmanState.LUNCH_TIME)lblTime.setText("Tempo super: " + manager.getTime());

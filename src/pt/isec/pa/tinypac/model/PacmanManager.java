@@ -3,6 +3,7 @@ package pt.isec.pa.tinypac.model;
 
 import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.data.MazeElement;
+import pt.isec.pa.tinypac.model.data.elements.Pacman;
 import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.GameUI;
@@ -67,7 +68,7 @@ public class PacmanManager{
     public Environment load(File file){
         try(FileInputStream fs = new FileInputStream(file);
             ObjectInputStream ds = new ObjectInputStream(fs);){
-
+            //todo gravar context
             Environment environment = (Environment) ds.readObject();
             return environment;
         }catch (Exception e){
@@ -129,9 +130,13 @@ public class PacmanManager{
     public String getCoins() {
         return fsm.getCoins();
     }
-//todo posso fazer isto?
+//todo posso fazer isto? sim
     public boolean checkEnv() {
         return fsm.checkEnv();
+    }
+
+    public Pacman getPacman() {
+        return fsm.getPacman();
     }
     //endregion
 }

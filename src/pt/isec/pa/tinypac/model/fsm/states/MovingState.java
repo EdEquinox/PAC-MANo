@@ -46,6 +46,9 @@ public class MovingState extends PacmanStateAdapter {
                 changeState(PacmanState.ENDGAME);
                 return true;
             }
+            data.getPacman().setCurrentDirection(MazeElement.Directions.NADA);
+            //data.getPacman().resetPosition(); //todo sempre que vai para init level, pacman vai para a posiçao inicial
+
             changeState(PacmanState.INIT_LEVEL);
             return true;
         }

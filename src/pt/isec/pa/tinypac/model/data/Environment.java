@@ -18,7 +18,7 @@ public class Environment implements Serializable {
 
     //region game properties
     private static final int TIME_UP = 50;
-    private static final int TIME_UP_GHOST = 1000;
+    private static final int TIME_UP_GHOST = 3;
     private int nLives = 1;
     //endregion
 
@@ -45,7 +45,7 @@ public class Environment implements Serializable {
 
     //region run properties
     private String username;
-    private int level = 1;
+    private int level = 2;
     public final String FILE = "files/Level" + level + ".txt";
 
     public boolean checkEnv() {
@@ -194,6 +194,7 @@ public class Environment implements Serializable {
         if (isDead) {
             isDead = false;
         }
+        //getPacman().resetPosition();
     } //pacman revive
     public void addGhost() {
         numGhosts++;

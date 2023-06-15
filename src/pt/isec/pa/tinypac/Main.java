@@ -23,11 +23,12 @@ public class Main {
         Application.launch(MainJFX.class,args);
     }
 
-    //TODO como é que paro o game engine porque quando mudo de nivel dá raia
-    //TODO pacman para no lunch
-    //TODO testes fazem se no context?
-    //todo o que por no javadoc
-    //todo singleton da mais pontos?
+    //TODO como é que paro o game engine porque quando mudo de nivel dá raia - mete o pacman no sitio inicial
+    //TODO pacman para no lunch - rever isto
+    //TODO testes fazem se no context? - sim
+    //todo o que por no javadoc - manager, transiçoes
+    //todo singleton da mais pontos? - nao mas convem explicar
     //TODO tests
     //TODO doc
+    //todo tem ficheiro e delete ficheiro no manager
 }

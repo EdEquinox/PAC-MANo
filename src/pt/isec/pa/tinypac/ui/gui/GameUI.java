@@ -55,5 +55,6 @@ public class GameUI extends BorderPane {
     }
 
     //TODO como é que paro o game engine porque quando mudo de nivel dá raia
+    //TODO O INIT STATE TEM QUE METER O CARLAO NO SITIO INICIAL
 
 }

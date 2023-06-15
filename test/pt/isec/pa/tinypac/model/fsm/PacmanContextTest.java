@@ -10,6 +10,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class PacmanContextTest {
 
     @Test
+    void changeDirection() {
+    }
+
+    @Test
+    void pause() {
+
+    }
+
+    @Test
+    void evolve() {
+    }
+
+    @Test
     public void testChangeState(){
         // Arrange
 
@@ -21,17 +34,9 @@ class PacmanContextTest {
         // Act
 
         fsm.changeDirection(MazeElement.Directions.RIGHT);
-        PacmanState state = fsm.getState();
 
         // Assert
 
-        assertEquals(PacmanState.MOVING, state);
+        assertEquals(PacmanState.MOVING, fsm.getState());
     }
-
-    //todo os meus testes estao nesta pasta why
-
-
-
-
-
 }
