@@ -27,6 +27,7 @@ public class Main {
     //TODO pacman para no lunch
     //TODO testes fazem se no context?
     //todo o que por no javadoc
+    //todo singleton da mais pontos?
     //TODO tests
     //TODO doc
 }
