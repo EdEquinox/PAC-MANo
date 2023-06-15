@@ -20,6 +20,7 @@ public class InitLevelState extends PacmanStateAdapter {
 
     @Override
     public boolean changeDirection(MazeElement.Directions directions) {
+        data.changeDirection(directions);
         changeState(PacmanState.MOVING);
         return true;
     }

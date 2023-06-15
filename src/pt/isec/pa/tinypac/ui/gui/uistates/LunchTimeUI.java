@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Paint;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
@@ -19,11 +21,14 @@ import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class LunchTimeUI extends BorderPane {
     PacmanManager manager;
     GridPane grid;
+    Media media;
+    MediaPlayer mediaPlayer;
     public LunchTimeUI(PacmanManager manager) {
         this.manager = manager;
 
@@ -53,6 +58,12 @@ public class LunchTimeUI extends BorderPane {
     private void registerHandlers() {
         manager.addPropertyChangeListener(evt -> Platform.runLater(this::update));
 
+        File audioFile = new File("src/pt/isec/pa/tinypac/ui/gui/resources/sounds/pacman.mp3");
+        media = new Media(audioFile.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.02);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
         setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.W){
                 manager.changeDirection(MazeElement.Directions.UP);
@@ -64,6 +75,7 @@ public class LunchTimeUI extends BorderPane {
                 manager.changeDirection(MazeElement.Directions.DOWN);
             }else if (event.getCode() == KeyCode.P) {
                 manager.pause();
+                mediaPlayer.stop();
             }
         });
     }
@@ -71,9 +83,11 @@ public class LunchTimeUI extends BorderPane {
     private void update() {
         if (manager.getState() != PacmanState.LUNCH_TIME) {
             this.setVisible(false);
+            mediaPlayer.stop();
             return;
         }
         maze();
+        mediaPlayer.play();
         this.requestFocus();
         this.setVisible(true);
     }

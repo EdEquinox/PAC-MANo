@@ -6,6 +6,7 @@ import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.*;
+import pt.isec.pa.tinypac.ui.gui.ErrorDialog;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -13,12 +14,17 @@ import java.util.ArrayList;
 public class PacmanContext {
     private IPacmanState state;
     private Environment data;
-    public String FILE = "files/Level19.txt";
 
     //region constructors
     //contrutor para ler de ficheiro
     public PacmanContext() {
-        data = new Environment().readFile(FILE);
+        data = new Environment();
+        String filePath = data.getFilename();
+        data = new Environment().readFile(filePath);
+        if (data==null){
+            System.out.println("#");
+            return;
+        }
         state = PacmanState.createState(PacmanState.INIT_LEVEL,this,data);
     }
 
@@ -83,6 +89,18 @@ public class PacmanContext {
     }
     public Environment getEnvironment() {
         return data;
+    }
+
+    public int getLevel() {
+        return data.getLevel();
+    }
+
+    public String getCoins() {
+        return data.getCoins();
+    }
+
+    public boolean checkEnv() {
+        return data.checkEnv();
     }
     //endregion
 

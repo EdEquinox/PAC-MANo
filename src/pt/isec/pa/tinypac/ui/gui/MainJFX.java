@@ -17,6 +17,7 @@ public class MainJFX extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
         RootPane root = new RootPane(manager);
         Scene scene = new Scene(root,800,600);
         stage.setScene(scene);

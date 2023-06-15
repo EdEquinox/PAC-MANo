@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
+import pt.isec.pa.tinypac.ui.gui.resources.CSSManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
 
@@ -37,7 +38,8 @@ public class PauseUI extends BorderPane {
         btnResume = new Button("VOLTAR");
         btnSave = new Button("GUARDAR");
         btnExit = new Button("SAIR");
-        this.getStylesheets().add("pt/isec/pa/tinypac/ui/gui/resources/styles.css");
+
+        CSSManager.applyCSS(this,"styles.css");
 
         VBox vBox = new VBox(btnResume,btnSave,btnExit);
         vBox.setAlignment(Pos.CENTER);

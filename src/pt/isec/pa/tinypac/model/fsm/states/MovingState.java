@@ -41,12 +41,12 @@ public class MovingState extends PacmanStateAdapter {
                 return true;}
             changeState(PacmanState.INIT_LEVEL);
             return true;
-        } else if (data.nextLvl()) {//acabou as moedas?
+        }else if (data.nextLvl()) {//acabou as moedas?
+            if (data.gameWin()){
+                changeState(PacmanState.ENDGAME);
+                return true;
+            }
             changeState(PacmanState.INIT_LEVEL);
-            return true;
-        } else if (data.gameWin()) {
-            System.out.println("ola");
-            changeState(PacmanState.ENDGAME);
             return true;
         }
         return false;

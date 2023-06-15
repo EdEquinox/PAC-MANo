@@ -12,6 +12,7 @@ import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.RootPane;
 import pt.isec.pa.tinypac.ui.gui.SaveScoreDialog;
+import pt.isec.pa.tinypac.ui.gui.resources.CSSManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
 
@@ -46,7 +47,7 @@ public class EndGameUI extends BorderPane {
         lblScore.getStyleClass().add("lblscore");
         lblScore.setAlignment(Pos.CENTER);
 
-        this.getStylesheets().add("pt/isec/pa/tinypac/ui/gui/resources/styles.css");
+        CSSManager.applyCSS(this,"styles.css");
 
         VBox vBox = new VBox(lblScore,btnSave,btnExit);
         vBox.setAlignment(Pos.CENTER);

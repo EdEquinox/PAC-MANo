@@ -13,4 +13,9 @@ public class Main {
         manager = new PacmanManager();
         Application.launch(MainJFX.class,args);
     }
+
+    //TODO como é que paro o game engine porque quando mudo de nivel dá raia
+    //TODO pacman para no lunch
+    //TODO tests
+    //TODO doc
 }

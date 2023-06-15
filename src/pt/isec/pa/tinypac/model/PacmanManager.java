@@ -17,8 +17,6 @@ public class PacmanManager{
     public static final String PROP_UIUPDATE = "_ui_";
     PacmanContext fsm;
     PropertyChangeSupport pcs;
-    Top5 top5;
-    boolean start;
 
     //region contructors
     public PacmanManager() {
@@ -122,6 +120,18 @@ public class PacmanManager{
 
     public String getTime() {
         return String.valueOf(fsm.getTime());
+    }
+
+    public int getLevel() {
+        return fsm.getLevel();
+    }
+
+    public String getCoins() {
+        return fsm.getCoins();
+    }
+//todo posso fazer isto?
+    public boolean checkEnv() {
+        return fsm.checkEnv();
     }
     //endregion
 }

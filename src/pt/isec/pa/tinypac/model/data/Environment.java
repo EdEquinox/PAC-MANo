@@ -17,8 +17,8 @@ public class Environment implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //region game properties
-    private static final int TIME_UP = 5;
-    private static final int TIME_UP_GHOST = 5;
+    private static final int TIME_UP = 50;
+    private static final int TIME_UP_GHOST = 1000;
     private int nLives = 1;
     //endregion
 
@@ -45,8 +45,15 @@ public class Environment implements Serializable {
 
     //region run properties
     private String username;
-    private String level = String.valueOf(19);
+    private int level = 1;
     public final String FILE = "files/Level" + level + ".txt";
+
+    public boolean checkEnv() {
+        if (getListElement(Pacman.class).size()!=1) return true;
+        return false;
+    }
+
+
     //endregion
 
     public record Position(int y, int x) implements Serializable{
@@ -145,6 +152,12 @@ public class Environment implements Serializable {
     public int getnLives() {
         return nLives;
     }//get vidas
+    public int getLevel() {
+        return level;
+    } //retorna o nivel
+    public String getCoins() {
+        return String.valueOf(nCoins);
+    }
     //endregion
 
     //region flags
@@ -185,8 +198,8 @@ public class Environment implements Serializable {
     public void addGhost() {
         numGhosts++;
     }//adiciona fantasma ao contador
-    public void resetTimeGhost() {
-        this.timeGhost = 0;
+    public void resetTime() {
+        this.timeSuper = 0;
     }//dá reset ao tempo de super
     public void setUsername(String username){
         this.username = username;
@@ -194,8 +207,13 @@ public class Environment implements Serializable {
     //endregion
 
     //region helpers
-    public void countCoins(){
-        isEmpty = getElement(Coin.class) == null;
+    public boolean countCoins(){
+        ArrayList <IMazeElement> list = getListElement(Coin.class);
+        nCoins = list.size();
+        if (nCoins == 0){
+            isEmpty = true;
+            return false;
+        } return true;
     }//conta as moedas
     public boolean timeGhost() {
         if (getPacman().getCurrentDirection() != MazeElement.Directions.NADA) {
@@ -326,25 +344,22 @@ public class Environment implements Serializable {
         if (getPacman().getCurrentDirection() != MazeElement.Directions.NADA) {
             timeGhost++;
         }
-        countCoins();
+        //countCoins();
+
         return true;
     }//evolve
     //moving
     public boolean gameWin() {
-        if ((Integer.parseInt(level)==20) && isEmpty){
-            return true;
-        }
-        return false;
-        //return nCoins == 0 && Integer.parseInt(level) > 20;
+        return level > 20;
     } //ganhou o jogo depois de nivel 20
     public boolean gameLost() {
         return getnLives() == 0;
     }//perdeu o jogo
     public boolean nextLvl() {
-        if (isEmpty) {
-            int i = (Integer.parseInt(level));
-            System.out.println(i);
-            this.level = String.valueOf(i + 1);
+        if (!countCoins()) {
+            int i = level;
+            this.level = (i + 1);
+            readFile(FILE);
             return true;
         }
         return false;
@@ -362,7 +377,7 @@ public class Environment implements Serializable {
     public boolean timesUp() {
         timeSuper++;
         if (timeSuper > TIME_UP && isSuper) {
-            resetTimeGhost();
+            resetTime();
             superChange();
             return true;
         }

@@ -31,6 +31,7 @@ public class LunchTime extends PacmanStateAdapter {
     public boolean evolve() {
         data.evolve();
         if (data.timesUp()){
+            data.resetTime();
             changeState(PacmanState.MOVING);
             return true;
         } else if (data.ghostsBusted()){

@@ -1,30 +1,29 @@
 package pt.isec.pa.tinypac.ui.gui;
 
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import pt.isec.pa.tinypac.model.PacmanManager;
-import pt.isec.pa.tinypac.model.data.Environment;
+import pt.isec.pa.tinypac.ui.gui.resources.CSSManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
+import javax.sound.sampled.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.IOException;
+
 
 public class RootPane extends BorderPane {
 
     PacmanManager manager;
-    boolean start;
     Button btnStart, btnExit,btnTop5;
+    Media media;
+    MediaPlayer mediaPlayer;
+
    public RootPane(PacmanManager manager) {
        this.manager = manager;
-       start = false;
        createViews();
        registerHandlers();
        update();
@@ -51,18 +50,28 @@ public class RootPane extends BorderPane {
        vBox.setAlignment(Pos.CENTER);
        vBox.setSpacing(15);
 
-       this.getStylesheets().add("pt/isec/pa/tinypac/ui/gui/resources/styles.css");
+       CSSManager.applyCSS(this,"styles.css");
        this.setCenter(vBox);
 
    }
 
-   private void registerHandlers() {
+    private void registerHandlers() {
+        manager.addPropertyChangeListener(evt -> Platform.runLater(this::update));
 
-       manager.addPropertyChangeListener(evt -> Platform.runLater(this::update));
+        File audioFile = new File("src/pt/isec/pa/tinypac/ui/gui/resources/sounds/intro.mp3");
+        media = new Media(audioFile.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.04);
+        mediaPlayer.play();
 
        btnStart.setOnAction(actionEvent -> {
+           mediaPlayer.stop();
            File file = new File("files/game.bin");
            if (!file.exists()){
+               if (manager.checkEnv()){
+                   new ErrorDialog();
+                   this.getScene().getWindow().hide();
+               }
                this.setCenter(new GameUI(manager));
            }
            else {

@@ -12,7 +12,7 @@ import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
 public class StatusUI extends HBox {
     PacmanManager manager;
-    Label lblPoints, lblLives, lblState, lblTime;
+    Label lblPoints, lblLives, lblState, lblTime, lblLevel,lblCoins;
 
     public StatusUI(PacmanManager manager) {
         this.manager = manager;
@@ -38,17 +38,23 @@ public class StatusUI extends HBox {
         lblPoints = new Label();
         lblState = new Label();
         lblTime = new Label();
+        lblLevel = new Label();
+        lblCoins = new Label();
 
         lblLives.setStyle("-fx-text-fill: white");
         lblPoints.setStyle("-fx-text-fill: white");
         lblState.setStyle("-fx-text-fill: white");
         lblTime.setStyle("-fx-text-fill: white");
+        lblLevel.setStyle("-fx-text-fill: white");
+        lblCoins.setStyle("-fx-text-fill: white");
+        lblCoins.setPadding(new Insets(10));
+        lblLevel.setPadding(new Insets(10));
         lblTime.setPadding(new Insets(10));
         lblLives.setPadding(new Insets(10));
         lblPoints.setPadding(new Insets(10));
         lblState.setPadding(new Insets(10));
 
-        this.getChildren().addAll(lblLives,lblPoints,lblState,lblTime);
+        this.getChildren().addAll(lblLives,lblPoints,lblState,lblTime,lblLevel,lblCoins);
     }
 
     private void registerHandlers() {
@@ -66,6 +72,8 @@ public class StatusUI extends HBox {
         lblLives.setText("Vidas: "+manager.getNLives());
         lblPoints.setText("Pontos: " + manager.getScore());
         lblState.setText("Estado:  "+manager.getState().toString());
+        lblLevel.setText("Nivel:  "+manager.getLevel());
+        lblCoins.setText("Moedas:  "+manager.getCoins().toString());
         if (manager.getState()==PacmanState.LUNCH_TIME)lblTime.setText("Tempo super: " + manager.getTime());
 
     }
