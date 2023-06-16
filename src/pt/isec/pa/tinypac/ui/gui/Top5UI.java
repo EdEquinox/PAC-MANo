@@ -1,15 +1,15 @@
 package pt.isec.pa.tinypac.ui.gui;
 
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.top5.Top5;
 
 import java.util.*;
@@ -41,9 +41,10 @@ public class Top5UI extends BorderPane {
                 "Pontos",
                 "Nome"
         );
-        tilePane.setStyle("-fx-text-alignment: center; -fx-font-size: 30px;-fx-padding: 20px 20px;\n" +
-                "    -fx-spacing: 1.5px;\n" +
-                "    -fx-font-weight: bold;");
+        tilePane.setStyle("""
+                -fx-text-alignment: center; -fx-font-size: 30px;-fx-padding: 20px 20px;
+                    -fx-spacing: 1.5px;
+                    -fx-font-weight: bold;""");
         tilePane.getChildren().get(0).setStyle("-fx-text-fill: FFFFFF");
         tilePane.getChildren().get(1).setStyle("-fx-text-fill: FFFFFF");
 
@@ -66,18 +67,19 @@ public class Top5UI extends BorderPane {
 
     private void registerHandlers() {
 
-        btnBack.setOnAction(actionEvent -> {
-            this.setVisible(false);
-            Stage stage = (Stage) this.getScene().getWindow();
-            RootPane root = new RootPane(new PacmanManager());
-            Scene scene = new Scene(root,800,600);
-            stage.setScene(scene);
-            stage.show();
-        });
+        btnBack.setOnAction(actionEvent -> Platform.runLater(()->{
+            try {
+                Class<? extends Application> appClass = MainJFX.class;
+                Application application = appClass.getDeclaredConstructor().newInstance();
+                application.init();
+                application.start((Stage) this.getScene().getWindow());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
     private void update() {
-
         List<String> scores = top5.scores();
         for (int i = 0; i<5;i++){
             List<String> score = Arrays.asList(scores.get(i).split(","));
@@ -86,6 +88,7 @@ public class Top5UI extends BorderPane {
         }
     }
 
+    //preenche o TilePane
     private TilePane getLine(double width, String... strings) {
         TilePane tilePane = new TilePane();
         for (int i = 0; i <strings.length; i++) {
@@ -96,7 +99,5 @@ public class Top5UI extends BorderPane {
         tilePane.setPrefTileWidth(width/strings.length);
         return tilePane;
     }
-
-
 
 }

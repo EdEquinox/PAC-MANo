@@ -23,7 +23,7 @@ public class Environment implements Serializable {
     //endregion
 
     //region maze properties
-    private final Maze maze;
+    private Maze maze;
     private int height;
     private int width;
     //endregion
@@ -45,14 +45,8 @@ public class Environment implements Serializable {
 
     //region run properties
     private String username;
-    private int level = 2;
-    public final String FILE = "files/Level" + level + ".txt";
-
-    public boolean checkEnv() {
-        if (getListElement(Pacman.class).size()!=1) return true;
-        return false;
-    }
-
+    private int level = 1;
+    public String FILE = "files/Level" + level + ".txt";
 
     //endregion
 
@@ -60,15 +54,59 @@ public class Environment implements Serializable {
     }
 
     //region contructors
-    public Environment(int height, int width) {
-        this.height = height;
-        this.width = width;
-        this.maze = new Maze(height, width);
-    }
+
     public Environment() {
-        this.height = 0;
-        this.width = 0;
-        this.maze = new Maze(0, 0);
+        this.maze = readFileMaze(FILE);
+    }
+
+    private Maze readFileMaze(String filepath) {
+        Maze nMaze = null;
+        FileReader fr = null;
+        try {
+            File file = new File(filepath);
+            //if (!file.exists()) readFileMaze("Level1.txt");
+            fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            count(file);
+            int x,y=0;
+            nMaze = new Maze(height,width);
+            String line;
+            while (y < height && (line = br.readLine()) != null) {
+                char[] chars = line.toCharArray();
+                for (x = 0; x < chars.length; x++) {
+                    char c = chars[x];
+                    IMazeElement element = switch (c) {
+                        case Pacman.SYMBOL -> new Pacman(this);
+                        case Wall.SYMBOL -> new Wall(this);
+                        case Coin.SYMBOL -> new Coin(this);
+                        case SuperCoin.SYMBOL -> new SuperCoin(this);
+                        case Warp.SYMBOL -> new Warp(this);
+                        case Cave.SYMBOL -> caverna(this);
+                        case Portal.SYMBOL -> new Portal(this);
+                        case Fruit.SYMBOL -> new Fruit(this);
+                        case EmptyCell.SYMBOL -> new EmptyCell(this);
+                        default -> throw new IllegalStateException("Unexpected value: " + c);
+                    };
+                    nMaze.set(y, x,element);
+                }
+                y++;
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Ficheiro não encontrado, a carregar o nivel 1");
+            readFileMaze("files/Level1.txt");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            if (fr!=null){
+                try {
+                    fr.close();
+                } catch (IOException exception){
+                    exception.printStackTrace();
+                }
+            }
+        }
+        return nMaze;
     }
     //endregion
 
@@ -94,6 +132,10 @@ public class Environment implements Serializable {
         }
         return null;
     } //get by type
+    public boolean checkEnv() {
+        if (getListElement(Pacman.class).size()!=1) return true;
+        return false;
+    }//get se o env é valido
     public Pacman getPacman() {
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
@@ -131,9 +173,6 @@ public class Environment implements Serializable {
     public int getWidth() {
         return width;
     }//get largura do maze
-    public String getFilename() {
-        return FILE;
-    }// get nome do ficheiro
     public int getNumGhosts() {
         return numGhosts;
     }// get numero de fantasmas
@@ -143,9 +182,6 @@ public class Environment implements Serializable {
     public int getTimeSuper() {
         return timeSuper;
     } //get tempo de super
-    private String getUsername() {
-        return username;
-    }//get nome do utilizador
     public int getTimeGhost() {
         return timeGhost;
     }//get tempo de spawn dos fantasmas
@@ -190,6 +226,15 @@ public class Environment implements Serializable {
     public void resetCoins() {
         isEmpty = false;
     } //dá reset ao contador de moedas
+
+    public void resetTimeGhosts() {
+        timeGhost = 0;
+    }
+
+    public void setLives(int i) {
+        nLives = i;
+    }
+
     public void revive() {
         if (isDead) {
             isDead = false;
@@ -255,57 +300,6 @@ public class Environment implements Serializable {
         environment.addGhost();
         return new Cave(environment);
     }//popula a caverna
-    public Environment readFile(String filePath) {
-        Environment environment = null;
-        FileReader fr = null;
-        try {
-            File file = new File(filePath);
-            if (!file.exists()) return null;
-            fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-            count(file);
-            int x,y=0;
-            environment = new Environment(height,width);
-            String line;
-            while (y < height && (line = br.readLine()) != null) {
-                char[] chars = line.toCharArray();
-                for (x = 0; x < chars.length; x++) {
-                    char c = chars[x];
-                    IMazeElement element = switch (c) {
-                        case Pacman.SYMBOL -> new Pacman(environment);
-                        case Wall.SYMBOL -> new Wall(environment);
-                        case Coin.SYMBOL -> new Coin(environment);
-                        case SuperCoin.SYMBOL -> new SuperCoin(environment);
-                        case Warp.SYMBOL -> new Warp(environment);
-                        case Cave.SYMBOL -> caverna(environment);
-                        case Portal.SYMBOL -> new Portal(environment);
-                        case Fruit.SYMBOL -> new Fruit(environment);
-                        case EmptyCell.SYMBOL -> new EmptyCell(environment);
-                        default -> throw new IllegalStateException("Unexpected value: " + c);
-                    };
-                    environment.addElement(element, y, x);
-                }
-                y++;
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Ficheiro não encontrado, a carregar o nivel 1");
-            readFile(FILE);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if (fr!=null){
-                try {
-                    fr.close();
-                } catch (IOException exception){
-                    exception.printStackTrace();
-                }
-            }
-        }
-
-        return environment;
-    }//le o ficheiro
-
     //endregion
 
     //region pacman helpers
@@ -345,8 +339,6 @@ public class Environment implements Serializable {
         if (getPacman().getCurrentDirection() != MazeElement.Directions.NADA) {
             timeGhost++;
         }
-        //countCoins();
-
         return true;
     }//evolve
     //moving
@@ -360,7 +352,10 @@ public class Environment implements Serializable {
         if (!countCoins()) {
             int i = level;
             this.level = (i + 1);
-            readFile(FILE);
+            FILE = "files/Level" + level + ".txt";
+            this.timeGhost = 0;
+            if (level<21)
+                this.maze = readFileMaze(FILE);
             return true;
         }
         return false;
@@ -394,31 +389,6 @@ public class Environment implements Serializable {
             e.printStackTrace();
         }
     }//guarda score para top5
-    //endregion
-
-    //region NOT NEEDED
-    public List<Position> getAdjacentEmptyCells(int yo, int xo) {
-        List<Position> lst = new ArrayList<>();
-        for (int y = Math.max(0, yo - 1); y <= Math.min(height - 1, yo + 1); y++)
-            for (int x = Math.max(0, xo - 1); x <= Math.min(width - 1, xo + 1); x++)
-                if ((y != yo || x != xo) && maze.get(y, x) == null)
-                    lst.add(new Position(y, x));
-        return lst;
-    }
-    public <T extends IMazeElement> List<Position> getElementNeighbors(int y, int x, Class<T> type) {
-        List<Position> lst = new ArrayList<>();
-        for (int yd = -1; yd <= 1; yd++) {
-            for (int xd = -1; xd <= 1; xd++) {
-                if (yd != 0 || xd != 0) {
-                    var organism = maze.get(y + yd, x + xd);
-                    if (type.isInstance(organism)) {
-                        lst.add(new Position(y + yd, x + xd));
-                    }
-                }
-            }
-        }
-        return lst;
-    }
     //endregion
 
 }

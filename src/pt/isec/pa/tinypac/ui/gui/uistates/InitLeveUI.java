@@ -3,23 +3,18 @@ package pt.isec.pa.tinypac.ui.gui.uistates;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import pt.isec.pa.tinypac.model.PacmanManager;
-import pt.isec.pa.tinypac.model.data.Environment;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.*;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Blinky;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Clyde;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Inky;
 import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
-import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
@@ -88,46 +83,21 @@ public class InitLeveUI extends BorderPane{
                 char a = manager.getMaze()[i][j];
                 ImageView cell;
                 switch (a){
-                    case Cave.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage(""));
-                    }
+                    case Cave.SYMBOL -> cell = new ImageView(ImageManager.getImage(""));
                     case Coin.SYMBOL -> {
                         Image image = ImageManager.getImage("coin.png");
                         cell = new ImageView(image);
                     }
-                    case Fruit.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("fruit.png"));
-                    }
-                    case Pacman.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("pacman_right.png"));
-                    }
-                    case SuperCoin.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("super-coin.png"));
-                    }
-                    case Portal.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("portal.png"));
-                    }
-                    case Wall.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("wall.png"));
-                    }
-                    case Warp.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("warp.png"));
-                    }
-                    case Blinky.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("red_right.png"));
-                    }
-                    case Clyde.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("blue_right.png"));
-                    }
-                    case Inky.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("yellow_left.png"));
-                    }
-                    case Pinky.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("pink_left.png"));
-                    }
-                    case EmptyCell.SYMBOL -> {
-                        cell = new ImageView(ImageManager.getImage("empty.png"));
-                    }
+                    case Fruit.SYMBOL -> cell = new ImageView(ImageManager.getImage("fruit.png"));
+                    case Pacman.SYMBOL -> cell = new ImageView(ImageManager.getImage("pacman_right.png"));
+                    case SuperCoin.SYMBOL -> cell = new ImageView(ImageManager.getImage("super-coin.png"));
+                    case Portal.SYMBOL -> cell = new ImageView(ImageManager.getImage("portal.png"));
+                    case Wall.SYMBOL -> cell = new ImageView(ImageManager.getImage("wall.png"));
+                    case Warp.SYMBOL -> cell = new ImageView(ImageManager.getImage("warp.png"));
+                    case Blinky.SYMBOL -> cell = new ImageView(ImageManager.getImage("red_right.png"));
+                    case Clyde.SYMBOL -> cell = new ImageView(ImageManager.getImage("blue_right.png"));
+                    case Inky.SYMBOL -> cell = new ImageView(ImageManager.getImage("yellow_left.png"));
+                    case Pinky.SYMBOL -> cell = new ImageView(ImageManager.getImage("pink_left.png"));
                     default -> cell = new ImageView(ImageManager.getImage("empty.png"));
                 }
                 cell.setFitWidth(15);

@@ -47,43 +47,9 @@ public class MovingState extends PacmanStateAdapter {
                 return true;
             }
             data.getPacman().setCurrentDirection(MazeElement.Directions.NADA);
-            //data.getPacman().resetPosition(); //todo sempre que vai para init level, pacman vai para a posiçao inicial
-
             changeState(PacmanState.INIT_LEVEL);
             return true;
         }
         return false;
     }
-
-    //deprecated
-    /*@Override
-    public boolean died() {
-        changeState(PacmanState.INIT_LEVEL);
-        return true;
-    }
-
-    @Override
-    public boolean nextLevel() {
-        changeState(PacmanState.INIT_LEVEL);
-        return true;
-    }
-    @Override
-    public boolean gg() {
-        changeState(PacmanState.ENDGAME);
-        return true;
-    }
-
-    @Override
-    public boolean ggwp() {
-        changeState(PacmanState.ENDGAME);
-        return true;
-    }
-
-    @Override
-    public boolean eatBigBall() {
-        changeState(PacmanState.LUNCH_TIME);
-        return true;
-    }*/
-    //
-
 }

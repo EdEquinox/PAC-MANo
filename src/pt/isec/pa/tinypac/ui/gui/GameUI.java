@@ -2,14 +2,9 @@ package pt.isec.pa.tinypac.ui.gui;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import pt.isec.pa.tinypac.gameengine.GameEngine;
 import pt.isec.pa.tinypac.model.PacmanManager;
-import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.uistates.*;
-
-import java.io.File;
 
 public class GameUI extends BorderPane {
     StackPane estadosSobrepostos;
@@ -25,8 +20,6 @@ public class GameUI extends BorderPane {
         createViews();
         registerHandlers();
         update();
-
-        //gameEngine.waitForTheEnd();
     }
 
     private void createViews() {
@@ -44,17 +37,9 @@ public class GameUI extends BorderPane {
         this.setTop(new StatusUI(manager));
     }
 
-    private void registerHandlers() {
+    private void registerHandlers() {}
 
-    }
+    private void update() {}
 
-    private void update() {
-
-        //if (manager.getState()== PacmanState.INIT_LEVEL) gameEngine.stop();
-
-    }
-
-    //TODO como é que paro o game engine porque quando mudo de nivel dá raia
-    //TODO O INIT STATE TEM QUE METER O CARLAO NO SITIO INICIAL
 
 }

@@ -3,13 +3,12 @@ package pt.isec.pa.tinypac.model.fsm;
 
 //so importa data
 import pt.isec.pa.tinypac.model.data.Environment;
-import pt.isec.pa.tinypac.model.data.IMazeElement;
 import pt.isec.pa.tinypac.model.data.MazeElement;
 import pt.isec.pa.tinypac.model.data.elements.*;
-import pt.isec.pa.tinypac.ui.gui.ErrorDialog;
-
-import java.io.*;
-import java.util.ArrayList;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Blinky;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Clyde;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Inky;
+import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
 
 public class PacmanContext {
     private IPacmanState state;
@@ -19,12 +18,6 @@ public class PacmanContext {
     //contrutor para ler de ficheiro
     public PacmanContext() {
         data = new Environment();
-        String filePath = data.getFilename();
-        data = new Environment().readFile(filePath);
-        if (data==null){
-            System.out.println("#");
-            return;
-        }
         state = PacmanState.createState(PacmanState.INIT_LEVEL,this,data);
     }
 
@@ -81,11 +74,20 @@ public class PacmanContext {
     public Pacman.Directions getDirection(){
         return data.getPacman().getCurrentDirection();
     }
+    public Pacman.Directions getDirectionPinky(){
+        return ((Pinky)data.getElement(Pinky.class)).getCurrentDirection();
+    }
+    public Pacman.Directions getDirectionInky(){
+        return ((Inky)data.getElement(Inky.class)).getCurrentDirection();
+    }
+    public Pacman.Directions getDirectionBlinky(){
+        return ((Blinky)data.getElement(Blinky.class)).getCurrentDirection();
+    }
+    public Pacman.Directions getDirectionClyde(){
+        return ((Clyde)data.getElement(Clyde.class)).getCurrentDirection();
+    }
     public int getTime() {
         return data.getTimeSuper();
-    }
-    public <T extends IMazeElement> ArrayList<IMazeElement> getListElement(Class<T> type){
-        return data.getListElement(type);
     }
     public Environment getEnvironment() {
         return data;
@@ -105,6 +107,10 @@ public class PacmanContext {
 
     public Pacman getPacman() {
         return data.getPacman();
+    }
+
+    public String getTimeGhost() {
+        return String.valueOf(data.getTimeGhost());
     }
     //endregion
 

@@ -16,8 +16,8 @@ import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 public class LeaveGameDialog extends BorderPane {
 
 
-    private Label lblGameLoad;
-    private Button btnYes,btnNo;
+    Label lblGameLoad;
+    Button btnYes,btnNo;
     HBox hBox;
     VBox vBox;
     Stage popUp;
@@ -62,19 +62,12 @@ public class LeaveGameDialog extends BorderPane {
 
     private void registerHandlers() {
 
-        btnNo.setOnAction(actionEvent -> {
-            popUp.close();
-
-        });
-        btnYes.setOnAction(actionEvent -> {
-            Platform.exit();
-        });
+        btnNo.setOnAction(actionEvent -> popUp.close());
+        btnYes.setOnAction(actionEvent -> Platform.exit());
 
     }
 
-    private void update() {
-
-    }
+    private void update() {}
 
 
 }

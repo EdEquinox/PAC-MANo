@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -16,8 +15,7 @@ import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 public class ErrorDialog extends BorderPane {
 
     Label lblError;
-    private Button btnOk;
-    HBox hBox;
+    Button btnOk;
     VBox vBox;
     Stage popUp;
     Scene scene;
@@ -54,13 +52,9 @@ public class ErrorDialog extends BorderPane {
     }
 
     private void registerHandlers() {
-        btnOk.setOnAction(actionEvent -> {
-            Platform.exit();
-        });
+        btnOk.setOnAction(actionEvent -> Platform.exit());
     }
 
-    private void update() {
-
-    }
+    private void update() {}
 
 }

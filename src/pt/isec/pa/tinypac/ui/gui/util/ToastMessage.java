@@ -41,7 +41,7 @@ public class ToastMessage {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(()->{popup.hide();});
+                Platform.runLater(popup::hide);
             }
         };
         timer.schedule(task,3000);

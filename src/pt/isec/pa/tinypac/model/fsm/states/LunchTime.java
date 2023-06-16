@@ -38,10 +38,8 @@ public class LunchTime extends PacmanStateAdapter {
             changeState(PacmanState.MOVING);
             return true;
         } else if (data.nextLvl()) {
-            //data.getPacman().resetPosition(); //todo sempre que vai para init level, pacman vai para a posiçao inicial
             data.getPacman().setCurrentDirection(MazeElement.Directions.NADA);
             changeState(PacmanState.INIT_LEVEL);
-            //context.newLevel();
             return true;
         } else if (data.gameLost()) {
             changeState(PacmanState.ENDGAME);

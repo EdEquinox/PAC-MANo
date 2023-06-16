@@ -12,8 +12,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
+import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
 
-import java.io.File;
 import java.util.function.Consumer;
 
 public class ContinueGameDialog extends BorderPane {
@@ -26,9 +26,9 @@ public class ContinueGameDialog extends BorderPane {
     Stage popUp;
     Scene scene;
     PacmanManager manager;
-    File file;
+    String file;
 
-    public ContinueGameDialog(PacmanManager manager, File file, Consumer<Boolean> continueGameCallback) {
+    public ContinueGameDialog(PacmanManager manager, String file, Consumer<Boolean> continueGameCallback) {
         this.manager = manager;
         this.file = file;
         this.continueGameCallback = continueGameCallback;
@@ -42,7 +42,7 @@ public class ContinueGameDialog extends BorderPane {
         btnYes = new Button("NÃO");
         btnNo = new Button("SIM");
 
-        hBox = new HBox(btnYes, btnNo);
+        hBox = new HBox(btnNo, btnYes);
         vBox = new VBox(lblGameLoad,hBox);
         popUp = new Stage();
         scene = new Scene(vBox,100,100);
@@ -78,6 +78,7 @@ public class ContinueGameDialog extends BorderPane {
                 continueGameCallback.accept(true);
             }
             else {
+                ToastMessage.show(getScene().getWindow(), "ERRO AO CARREGAR");
                 continueGameCallback.accept(false);
             }
             popUp.close();

@@ -6,13 +6,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import pt.isec.pa.tinypac.model.PacmanManager;
-import pt.isec.pa.tinypac.model.fsm.PacmanContext;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 
+import java.util.Objects;
+
 public class StatusUI extends HBox {
     PacmanManager manager;
-    Label lblPoints, lblLives, lblState, lblTime, lblLevel,lblCoins;
+    Label lblPoints, lblLives, lblState, lblTime, lblLevel,lblCoins,lblGhosts;
 
     public StatusUI(PacmanManager manager) {
         this.manager = manager;
@@ -27,7 +28,7 @@ public class StatusUI extends HBox {
         setPadding(new Insets(10));
         setBackground(
                 new Background(
-                        new BackgroundImage(ImageManager.getImage("background.png"),
+                        new BackgroundImage(Objects.requireNonNull(ImageManager.getImage("background.png")),
                                 BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT,
                                 BackgroundPosition.CENTER,
                                 new BackgroundSize(1,1,true,true,false,false))
@@ -40,6 +41,7 @@ public class StatusUI extends HBox {
         lblTime = new Label();
         lblLevel = new Label();
         lblCoins = new Label();
+        lblGhosts = new Label();
 
         lblLives.setStyle("-fx-text-fill: white");
         lblPoints.setStyle("-fx-text-fill: white");
@@ -47,6 +49,8 @@ public class StatusUI extends HBox {
         lblTime.setStyle("-fx-text-fill: white");
         lblLevel.setStyle("-fx-text-fill: white");
         lblCoins.setStyle("-fx-text-fill: white");
+        lblGhosts.setStyle("-fx-text-fill: white");
+        lblGhosts.setPadding(new Insets(10));
         lblCoins.setPadding(new Insets(10));
         lblLevel.setPadding(new Insets(10));
         lblTime.setPadding(new Insets(10));
@@ -54,7 +58,7 @@ public class StatusUI extends HBox {
         lblPoints.setPadding(new Insets(10));
         lblState.setPadding(new Insets(10));
 
-        this.getChildren().addAll(lblLives,lblPoints,lblState,lblTime,lblLevel,lblCoins);
+        this.getChildren().addAll(lblLives,lblPoints,lblState,lblTime,lblLevel,lblCoins, lblGhosts);
     }
 
     private void registerHandlers() {
@@ -70,11 +74,11 @@ public class StatusUI extends HBox {
         this.setVisible(true);
 
         lblLives.setText("Vidas: "+manager.getNLives());
-//        lblPoints.setText("Pontos: " + manager.getScore());
-        lblPoints.setText("Pontos: " + manager.getPacman().getInitialPosition());
-        lblState.setText("Estado:  "+manager.getPacman().getCurrentDirection().toString());
+        lblGhosts.setText("Tempo ghosts: " + manager.getTimeGhost());
+        lblPoints.setText("Pontos: " + manager.getScore());
+        lblState.setText("Estado:  "+manager.getState());
         lblLevel.setText("Nivel:  "+manager.getLevel());
-        lblCoins.setText("Moedas:  "+manager.getCoins().toString());
+        lblCoins.setText("Moedas:  "+ manager.getCoins());
         if (manager.getState()==PacmanState.LUNCH_TIME)lblTime.setText("Tempo super: " + manager.getTime());
 
     }

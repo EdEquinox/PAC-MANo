@@ -10,6 +10,8 @@ import pt.isec.pa.tinypac.ui.gui.resources.CSSManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
 
+import java.util.Objects;
+
 public class PauseUI extends BorderPane {
     PacmanManager manager;
     Button btnSave,btnResume,btnExit;
@@ -27,7 +29,7 @@ public class PauseUI extends BorderPane {
         this.setBackground(
                 new Background(
                         new BackgroundImage(
-                                ImageManager.getImage("background.png"),
+                                Objects.requireNonNull(ImageManager.getImage("background.png")),
                                 BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT,
                                 BackgroundPosition.CENTER,
                                 new BackgroundSize(1,1,true,true,false,false)
@@ -53,18 +55,14 @@ public class PauseUI extends BorderPane {
 
         manager.addPropertyChangeListener(evt -> Platform.runLater(this::update));
 
-        btnResume.setOnAction(actionEvent -> {
-            manager.resume();
-        });
+        btnResume.setOnAction(actionEvent -> manager.resume());
 
         btnSave.setOnAction(actionEvent -> {
             manager.save();
             ToastMessage.show(getScene().getWindow(),"Game Saved!");
         });
 
-        btnExit.setOnAction( event -> {
-            manager.leaveGame();
-        });
+        btnExit.setOnAction( event -> manager.leaveGame());
 
     }
 

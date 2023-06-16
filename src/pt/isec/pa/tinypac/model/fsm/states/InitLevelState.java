@@ -11,6 +11,7 @@ public class InitLevelState extends PacmanStateAdapter {
         super(context, data);
         data.revive();
         data.resetCoins();
+        data.resetTimeGhosts();
     }
 
     @Override

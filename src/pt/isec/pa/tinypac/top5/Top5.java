@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class Top5 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Collections.sort(scores,new StringComparator());
+        scores.sort(new StringComparator());
         return scores;
     }
 

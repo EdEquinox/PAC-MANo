@@ -1,5 +1,6 @@
 package pt.isec.pa.tinypac.ui.gui.uistates;
 
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,11 +11,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pt.isec.pa.tinypac.model.PacmanManager;
 import pt.isec.pa.tinypac.model.fsm.PacmanState;
-import pt.isec.pa.tinypac.ui.gui.RootPane;
+import pt.isec.pa.tinypac.ui.gui.MainJFX;
 import pt.isec.pa.tinypac.ui.gui.SaveScoreDialog;
 import pt.isec.pa.tinypac.ui.gui.resources.CSSManager;
 import pt.isec.pa.tinypac.ui.gui.resources.ImageManager;
 import pt.isec.pa.tinypac.ui.gui.util.ToastMessage;
+
+import java.util.Objects;
 
 public class EndGameUI extends BorderPane {
     PacmanManager manager;
@@ -33,7 +36,7 @@ public class EndGameUI extends BorderPane {
         this.setBackground(
                 new Background(
                         new BackgroundImage(
-                                ImageManager.getImage("background.png"),
+                                Objects.requireNonNull(ImageManager.getImage("background.png")),
                                 BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT,
                                 BackgroundPosition.CENTER,
                                 new BackgroundSize(1,1,true,true,false,false)
@@ -68,13 +71,16 @@ public class EndGameUI extends BorderPane {
             btnExit.fire();
         });
 
-        btnExit.setOnAction( event -> {
-            Stage stage = (Stage) this.getScene().getWindow();
-            RootPane root = new RootPane(new PacmanManager());
-            Scene scene = new Scene(root,800,600);
-            stage.setScene(scene);
-            stage.show();
-        });
+        btnExit.setOnAction( actionEvent -> Platform.runLater(()->{
+            try {
+                Class<? extends Application> appClass = MainJFX.class;
+                Application application = appClass.getDeclaredConstructor().newInstance();
+                application.init();
+                application.start((Stage) this.getScene().getWindow());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }));
 
     }
 

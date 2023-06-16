@@ -9,23 +9,23 @@ public class SoundManager {
 
     private static MediaPlayer mp;
 
-    public static boolean play(String filename) {
+    public static MediaPlayer play(String filename) {
         try {
             var url = SoundManager.class.getResource("sounds/" + filename);
-            if (url == null) return false;
+            if (url == null) return null;
             String path = url.toExternalForm();
             Media music = new Media(path);
-            if (mp != null && mp.getStatus() == MediaPlayer.Status.PLAYING)
+            if ((mp != null && mp.getStatus() == MediaPlayer.Status.PLAYING))
                 mp.stop();
             mp = new MediaPlayer(music);
+            mp.setVolume(0.2);
+            mp.setCycleCount(MediaPlayer.INDEFINITE);
             mp.setStartTime(Duration.ZERO);
             mp.setStopTime(music.getDuration());
             mp.setAutoPlay(true);
         } catch (Exception e) {
-            return false;
+            return null;
         }
-        return true;
+        return mp;
     }
-
-
 }
