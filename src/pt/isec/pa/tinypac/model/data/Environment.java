@@ -30,7 +30,6 @@ public class Environment implements Serializable {
 
     // region flags
     private boolean isDead = false;
-    private boolean isEmpty = false;
     private boolean isSuper = false;
 
     //endregion
@@ -43,8 +42,6 @@ public class Environment implements Serializable {
     private int score = 0;
     //endregion
 
-    //region run properties
-    private String username;
     private int level = 1;
     public String FILE = "files/Level" + level + ".txt";
 
@@ -133,8 +130,7 @@ public class Environment implements Serializable {
         return null;
     } //get by type
     public boolean checkEnv() {
-        if (getListElement(Pacman.class).size()!=1) return true;
-        return false;
+        return getListElement(Pacman.class).size() != 1;
     }//get se o env é valido
     public Pacman getPacman() {
         for (int y = 0; y < height; y++)
@@ -212,9 +208,7 @@ public class Environment implements Serializable {
             return false;
         } else if (this.getElement(newRow, newCol) instanceof Wall) {
             return false;
-        } else if (this.getElement(newRow, newCol) instanceof Portal) {
-            return false;
-        } else return true;
+        } else return !(this.getElement(newRow, newCol) instanceof Portal);
     }// elemento em x, y pode mover-se na direção direction
 
     //endregion
@@ -224,7 +218,6 @@ public class Environment implements Serializable {
         maze.set(y, x, element);
     } //adiciona elemento a y,x
     public void resetCoins() {
-        isEmpty = false;
     } //dá reset ao contador de moedas
 
     public void resetTimeGhosts() {
@@ -247,19 +240,13 @@ public class Environment implements Serializable {
     public void resetTime() {
         this.timeSuper = 0;
     }//dá reset ao tempo de super
-    public void setUsername(String username){
-        this.username = username;
-    } //nome de utilizador para guardar score
     //endregion
 
     //region helpers
     public boolean countCoins(){
         ArrayList <IMazeElement> list = getListElement(Coin.class);
         nCoins = list.size();
-        if (nCoins == 0){
-            isEmpty = true;
-            return false;
-        } return true;
+        return nCoins != 0;
     }//conta as moedas
     public boolean timeGhost() {
         if (getPacman().getCurrentDirection() != MazeElement.Directions.NADA) {

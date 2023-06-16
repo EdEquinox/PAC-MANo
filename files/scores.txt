@@ -1,13 +1,1 @@
-4,ola
-2,ole
-3,asd
-60,sad
-5,sdt
-90,yhtgf
-14,jose
-8,ola
-4,sda
-3,loureçoi
-11,asdsa
-108,jose
-16,ola
+

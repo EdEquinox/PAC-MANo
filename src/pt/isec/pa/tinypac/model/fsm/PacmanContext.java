@@ -12,7 +12,7 @@ import pt.isec.pa.tinypac.model.data.elements.ghosts.Pinky;
 
 public class PacmanContext {
     private IPacmanState state;
-    private Environment data;
+    private final Environment data;
 
     //region constructors
     //contrutor para ler de ficheiro

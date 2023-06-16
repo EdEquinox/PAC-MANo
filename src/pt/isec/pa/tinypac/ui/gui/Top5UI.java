@@ -37,7 +37,6 @@ public class Top5UI extends BorderPane {
         vTop = new VBox();
 
         tilePane = getLine(
-                450,
                 "Pontos",
                 "Nome"
         );
@@ -83,20 +82,20 @@ public class Top5UI extends BorderPane {
         List<String> scores = top5.scores();
         for (int i = 0; i<5;i++){
             List<String> score = Arrays.asList(scores.get(i).split(","));
-            TilePane newTilePane = getLine(450,score.get(0),score.get(1));
+            TilePane newTilePane = getLine(score.get(0),score.get(1));
             vTop.getChildren().add(newTilePane);
         }
     }
 
     //preenche o TilePane
-    private TilePane getLine(double width, String... strings) {
+    private TilePane getLine(String... strings) {
         TilePane tilePane = new TilePane();
-        for (int i = 0; i <strings.length; i++) {
-            Label label = new Label(strings[i]);
+        for (String string : strings) {
+            Label label = new Label(string);
             tilePane.getChildren().add(label);
         }
-        tilePane.setPrefWidth(width);
-        tilePane.setPrefTileWidth(width/strings.length);
+        tilePane.setPrefWidth(450);
+        tilePane.setPrefTileWidth((double) 450 /strings.length);
         return tilePane;
     }
 
