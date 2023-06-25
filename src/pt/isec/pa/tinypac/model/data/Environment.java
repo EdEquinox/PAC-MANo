@@ -130,7 +130,8 @@ public class Environment implements Serializable {
         return null;
     } //get by type
     public boolean checkEnv() {
-        return getListElement(Pacman.class).size() != 1;
+        return getListElement(Pacman.class).size() != 1
+                || getListElement(Coin.class).size() < 1;
     }//get se o env é valido
     public Pacman getPacman() {
         for (int y = 0; y < height; y++)

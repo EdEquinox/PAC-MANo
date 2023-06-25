@@ -21,11 +21,16 @@ public class Pacman extends MazeElement {
 
     @Override
     public void evolve() {
+
         if (environment.getTimeGhost()==0){
             this.initialPosition = environment.getPositionOf(this);
         }
         Environment.Position myPos = environment.getPositionOf(this);
         if (myPos==null) return;
+        superChange(myPos);
+        scoreUp(myPos);
+        hpUp(myPos);
+        die(myPos);
         switch (currentDirection){
             case RIGHT -> {
                 if (environment.canMove(myPos.y(), myPos.x(), Directions.RIGHT)){
@@ -94,18 +99,22 @@ public class Pacman extends MazeElement {
                 ArrayList<IMazeElement> pinky = environment.getListElement(Pinky.class);
                 ArrayList<IMazeElement> listCave = environment.getListElement(Cave.class);
                 if (environment.getPositionOf(blinky.get(0)) == myPos){
+                    System.out.println("ola");
                     Environment.Position cavePos = environment.getPositionOf(listCave.get(1));
                     environment.addElement(null, myPos.y(), myPos.x());
                     environment.addElement(blinky.get(0), cavePos.y(), cavePos.x());
                 } else if(environment.getPositionOf(clyde.get(0)) == myPos){
+                    System.out.println("ola");
                     Environment.Position cavePos = environment.getPositionOf(listCave.get(1));
                     environment.addElement(null, myPos.y(), myPos.x());
                     environment.addElement(clyde.get(0), cavePos.y(), cavePos.x());
                 } else if (environment.getPositionOf(inky.get(0)) == myPos) {
+                    System.out.println("ola");
                     Environment.Position cavePos = environment.getPositionOf(listCave.get(1));
                     environment.addElement(null, myPos.y(), myPos.x());
                     environment.addElement(inky.get(0), cavePos.y(), cavePos.x());
                 } else if (environment.getPositionOf(pinky.get(0)) == myPos) {
+                    System.out.println("ola");
                     Environment.Position cavePos = environment.getPositionOf(listCave.get(1));
                     environment.addElement(null, myPos.y(), myPos.x());
                     environment.addElement(pinky.get(0), cavePos.y(), cavePos.x());
