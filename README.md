@@ -2,6 +2,14 @@
 
 PAC-MANo is a Pac-Man game implemented in Java using JavaFX.
 
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Introduction
 
 PAC-MANo is a classic arcade game where the player controls Pac-Man, a yellow character, and navigates through a maze, eating pellets and avoiding ghosts. The goal is to eat all the pellets in the maze without being caught by the ghosts.
